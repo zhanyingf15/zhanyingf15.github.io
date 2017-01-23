@@ -145,6 +145,15 @@
     
         <ul class="sidebar-buttons">
         
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
     </ul>
     
         <ul class="sidebar-buttons">
@@ -210,10 +219,10 @@
 <p><a href="http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin" target="_blank" rel="external">webpack UglifyJsPlugin 配置API</a></p>
 <p>修改webpack.config.js配置</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    <span class="attr">compress</span>: &#123;</div><div class="line">        <span class="attr">warnings</span>: <span class="literal">false</span>,</div><div class="line">        <span class="attr">properties</span> :<span class="literal">false</span>,</div><div class="line">        <span class="attr">booleans</span>:<span class="literal">false</span>,</div><div class="line">        <span class="attr">drop_console</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mangle</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">output</span>:&#123;</div><div class="line">        <span class="attr">keep_quoted_props</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">sourceMap</span>:<span class="literal">false</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
-<p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
+<div class="alert "><p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
 <p>output.keep_quoted_props:true必须配置，防止将{‘default’:xxx}改成{default:xxx}</p>
 <p>mangle:false最好配置，有时会造成IE8无法找到某个方法</p>
-
+</div>
                     
                         
                     
@@ -369,15 +378,13 @@
         
             <h4 id="about-card-name">忘语</h4>
         
-            <h5 id="about-card-bio"><p>热爱生活,享受code</p>
-</h5>
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
         
         
             <h5 id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>coder</p>
-
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
             </h5>
         
         
