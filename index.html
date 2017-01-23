@@ -218,7 +218,7 @@
 <p><a href="http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin" target="_blank" rel="external">webpack UglifyJsPlugin 配置API</a></p>
 <p>修改webpack.config.js配置</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    <span class="attr">compress</span>: &#123;</div><div class="line">        <span class="attr">warnings</span>: <span class="literal">false</span>,</div><div class="line">        <span class="attr">properties</span> :<span class="literal">false</span>,</div><div class="line">        <span class="attr">booleans</span>:<span class="literal">false</span>,</div><div class="line">        <span class="attr">drop_console</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mangle</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">output</span>:&#123;</div><div class="line">        <span class="attr">keep_quoted_props</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">sourceMap</span>:<span class="literal">false</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
-<div class="alert danger"><p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
+<div class="alert danger no-icon"><p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
 <p>output.keep_quoted_props:true必须配置，防止将{‘default’:xxx}改成{default:xxx}</p>
 <p>mangle:false最好配置，有时会造成IE8无法找到某个方法</p>
 </div>
@@ -313,16 +313,18 @@
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+                    <h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;% alert [classes] %&#125;content&#123;% endalert %&#125;</div></pre></td></tr></table></figure>
+<p>classes：info、success、warning、danger、[no-icon]</p>
+<div class="alert info"><p>content</p>
+</div>
+<h2 id="文本高亮"><a href="#文本高亮" class="headerlink" title="文本高亮"></a>文本高亮</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;% hl_text [(classes | hexa code | rgb color | rgba color)] %&#125; </div><div class="line">content</div><div class="line">&#123;% endhl_text %&#125;</div></pre></td></tr></table></figure>
+<span class="highlight-text green">content</span>
 
+<span class="highlight-text" style="background-color:#FF0000;">content</span>
+content
+<h2 id="tabbed-code-block"><a href="#tabbed-code-block" class="headerlink" title="tabbed code block"></a>tabbed code block</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% tabbed_codeblock [name] [link] %&#125;</div><div class="line">      &lt;!-- tab [lang] --&gt;</div><div class="line">          source code</div><div class="line">      &lt;!-- endtab --&gt;</div><div class="line">  &#123;% endtabbed_codeblock %&#125;</div></pre></td></tr></table></figure>
+<figure class="codeblock codeblock--tabbed"><figcaption><a href="http://example.com" target="_blank" rel="external">example</a><ul class="tabs"><li class="tab active">js</li><li class="tab">css</li></ul></figcaption><div class="tabs-content"><figure class="highlight js" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> test = <span class="string">'test'</span>;</span><br></pre></td></tr></tbody></table></figure><figure class="highlight css" style="display: none;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.btn</span> {</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></div></figure>
                     
                         
                     
