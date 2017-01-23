@@ -185,7 +185,7 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
@@ -207,27 +207,13 @@
 
             </div>
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <h2 id="1、通过ref获取组件或DOM"><a href="#1、通过ref获取组件或DOM" class="headerlink" title="1、通过ref获取组件或DOM"></a>1、通过ref获取组件或DOM</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">    	&lt;canvas </div><div class="line">    		width="190px"</div><div class="line">    		height="170px"</div><div class="line">    		ref=&#123;(e)=&gt;this.canvas = c&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="2、redux一些注意"><a href="#2、redux一些注意" class="headerlink" title="2、redux一些注意"></a>2、redux一些注意</h2><ul>
-<li><p>redux更新store是异步的，如store的一个属性start：true,通过action修改start:false，然后调用另一个方法获取start，这个start值可能还是true.</p>
-</li>
-<li><p>更新store最好能够细化到更新哪一个属性，比如更新info下面的一个name属性，最好直接更新name，避免“先取info对象-&gt;修改name-&gt;更新info”这种情况(不绝对，某些时候使用这种方式更方便直观)，下面提供一种更新某个对象下某个属性值得方法，如更新a{b{c:’’}}的c属性,key格式可以是’a.b.c’</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">diagnoseReducer</span>(<span class="params">state = initState, action</span>) </span>&#123;</div><div class="line">    <span class="keyword">switch</span> (action.type) &#123;</div><div class="line">        <span class="keyword">case</span> UPDATE_FIELD:</div><div class="line">            <span class="keyword">let</span> &#123;key,value&#125; = action.args;</div><div class="line">            <span class="keyword">if</span>(key===<span class="literal">undefined</span>||key===<span class="literal">null</span>)<span class="keyword">throw</span> <span class="string">'参数不符合&#123;key:"",value:""&#125;格式或key未定义'</span>;</div><div class="line">            <span class="keyword">let</span> keys = key.split(<span class="regexp">/\./</span>),</div><div class="line">                len = keys.length,</div><div class="line">                obj = state;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;len<span class="number">-1</span>;i++)&#123;</div><div class="line">                obj = obj[keys[i]];</div><div class="line">                <span class="keyword">if</span>(obj==<span class="literal">undefined</span>)<span class="keyword">throw</span> <span class="string">`字段'<span class="subst">$&#123;keys[i]&#125;</span>'不存在，UPDATE_FIELD错误`</span>;</div><div class="line">            &#125;</div><div class="line">            obj[keys[len<span class="number">-1</span>]] = value;</div><div class="line">            <span class="keyword">return</span> &#123;...state&#125;;</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            <span class="keyword">return</span> state;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>组件继承时，如果组件需要connect到redux，只能connect到具体的某个子组件上，不能connect到父组件上，父组件可以访问到子组件connect到的数据和方法</p>
-</li>
-</ul>
-
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>一些react相关的笔记大杂烩，持续更新中……</p>
                     
+                        <a href="/2017/01/22/react笔记/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
                         
-                    
-                    
-                        <p>
-                            <a href="/2017/01/22/react笔记/#post-footer" class="postShorten-excerpt_link link">
-                                注释和共享
-                            </a>
-                        </p>
                     
                 </div>
             

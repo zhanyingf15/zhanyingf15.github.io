@@ -11,16 +11,16 @@
     
     
     
-    <meta name="description" content="1、通过ref获取组件或DOM12345678910render()&amp;#123;  return &amp;#123;    &amp;lt;div&amp;gt;    	&amp;lt;canvas     		width=&quot;190px&quot;    		height=&quot;170px&quot;    		ref=&amp;#123;(e)=&amp;gt;this.canvas = c&amp;#125;/&amp;gt;    &amp;lt;/div&amp;gt;  &amp;#125;&amp;">
+    <meta name="description" content="一些react相关的笔记大杂烩，持续更新中……">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="react笔记">
 <meta property="og:url" content="http://yoursite.com/2017/01/22/react笔记/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="1、通过ref获取组件或DOM12345678910render()&amp;#123;  return &amp;#123;    &amp;lt;div&amp;gt;    	&amp;lt;canvas     		width=&quot;190px&quot;    		height=&quot;170px&quot;    		ref=&amp;#123;(e)=&amp;gt;this.canvas = c&amp;#125;/&amp;gt;    &amp;lt;/div&amp;gt;  &amp;#125;&amp;">
-<meta property="og:updated_time" content="2017-01-22T09:26:26.255Z">
+<meta property="og:description" content="一些react相关的笔记大杂烩，持续更新中……">
+<meta property="og:updated_time" content="2017-01-23T08:17:06.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react笔记">
-<meta name="twitter:description" content="1、通过ref获取组件或DOM12345678910render()&amp;#123;  return &amp;#123;    &amp;lt;div&amp;gt;    	&amp;lt;canvas     		width=&quot;190px&quot;    		height=&quot;170px&quot;    		ref=&amp;#123;(e)=&amp;gt;this.canvas = c&amp;#125;/&amp;gt;    &amp;lt;/div&amp;gt;  &amp;#125;&amp;">
+<meta name="twitter:description" content="一些react相关的笔记大杂烩，持续更新中……">
     
     
         
@@ -206,7 +206,9 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <h2 id="1、通过ref获取组件或DOM"><a href="#1、通过ref获取组件或DOM" class="headerlink" title="1、通过ref获取组件或DOM"></a>1、通过ref获取组件或DOM</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">    	&lt;canvas </div><div class="line">    		width="190px"</div><div class="line">    		height="170px"</div><div class="line">    		ref=&#123;(e)=&gt;this.canvas = c&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <p>一些react相关的笔记大杂烩，持续更新中……</p>
+<a id="more"></a>
+<h2 id="1、通过ref获取组件或DOM"><a href="#1、通过ref获取组件或DOM" class="headerlink" title="1、通过ref获取组件或DOM"></a>1、通过ref获取组件或DOM</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">    	&lt;canvas </div><div class="line">    		width="190px"</div><div class="line">    		height="170px"</div><div class="line">    		ref=&#123;(e)=&gt;this.canvas = c&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="2、redux一些注意"><a href="#2、redux一些注意" class="headerlink" title="2、redux一些注意"></a>2、redux一些注意</h2><ul>
 <li><p>redux更新store是异步的，如store的一个属性start：true,通过action修改start:false，然后调用另一个方法获取start，这个start值可能还是true.</p>
 </li>
