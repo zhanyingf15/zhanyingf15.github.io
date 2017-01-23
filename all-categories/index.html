@@ -6,17 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="忘语的个人博客">
-    <title>Etiqueta: webpack - 忘语的个人博客</title>
+    <title>all-categories - 忘语的个人博客</title>
     <meta name="author" content="忘语">
     
     
     
     <meta property="og:type" content="blog">
-<meta property="og:title" content="忘语的个人博客">
-<meta property="og:url" content="http://yoursite.com/tags/webpack/index.html">
+<meta property="og:title" content="all-categories">
+<meta property="og:url" content="http://yoursite.com/all-categories/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:updated_time" content="2017-01-23T06:04:56.637Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="忘语的个人博客">
+<meta name="twitter:title" content="all-categories">
     
     
         
@@ -183,75 +184,31 @@
                         hasCoverMetaIn
                         ">
                 
-    
+<div id="categories-archives" class="main-content-wrap">
+    <form id="filter-form" action="##">
+        <input name="category" type="text" class="form-control input--xlarge"
+               placeholder="Buscar categoría" autofocus="autofocus">
+    </form>
+    <h5 class="archive-result text-color-base text-xlarge"
+        data-message-zero="no se encontraron categorías"
+        data-message-one="1 categoría encontrada"
+        data-message-other="{n} categorias encontradas"></h5>
 
-<section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">
-                            webpack UglifyJsPlugin 打包js兼容IE8的一些问题
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-23T09:10:05+08:00">
-	
-		    23 1月 2017
-    	
-    </time>
-    
-        <span>en </span>
+        <section class="boxes">
         
-    <a class="category-link" href="/categories/前端/">前端</a>
-
-
-    
+            
+                <div><a href="#posts-list-前端" class="category-anchor" data-category="前端" data-parent-categories="">前端</a></div>
+            
+        
+    </section>
+    <section class="boxes">
+        
+            
+                    <div id="posts-list-前端" class="archive box" data-category="前端" data-parent-categories=""><h4 class="archive-title text-xlarge"><a class="link-unstyled" href="/categories/前端/">前端 (1)</a></h4><ul class="archive-posts"><li class="archive-post"><a class="archive-post-title" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">webpack UglifyJsPlugin 打包js兼容IE8的一些问题</a><span class="archive-post-date"> - 23 1月 2017</span></li></ul></div>
+            
+        
+    </section>
 </div>
-
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入es3ify-loader解决{default:value}和obj.default这种IE8不支持的格式，将其转换成{“default”:value}和obj[“default”]的格式，在使用webpack UglifyJsPlugin插件对代码进行压缩后发现，代码又出现了{default:value}和obj.default,通过查阅API发现是插件的问题。</p>
-<p>参考API：<br><a href="https://github.com/mishoo/UglifyJS2#usage" target="_blank" rel="external">UglifyJS2 API</a></p>
-<p><a href="http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin" target="_blank" rel="external">webpack UglifyJsPlugin 配置API</a></p>
-<p>修改webpack.config.js配置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    <span class="attr">compress</span>: &#123;</div><div class="line">        <span class="attr">warnings</span>: <span class="literal">false</span>,</div><div class="line">        <span class="attr">properties</span> :<span class="literal">false</span>,</div><div class="line">        <span class="attr">booleans</span>:<span class="literal">false</span>,</div><div class="line">        <span class="attr">drop_console</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">mangle</span>:<span class="literal">false</span>,</div><div class="line">    <span class="attr">output</span>:&#123;</div><div class="line">        <span class="attr">keep_quoted_props</span>:<span class="literal">true</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">sourceMap</span>:<span class="literal">false</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
-<p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
-<p>output.keep_quoted_props:true必须配置，防止将{‘default’:xxx}改成{default:xxx}</p>
-<p>mangle:false最好配置，有时会造成IE8无法找到某个方法</p>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/#post-footer" class="postShorten-excerpt_link link">
-                                Comentar y compartir
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    <div class="pagination-bar">
-    <ul class="pagination">
-        
-        
-        <li class="pagination-number">página 1 de 1</li>
-    </ul>
-</div>
-
-</section>
-
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
