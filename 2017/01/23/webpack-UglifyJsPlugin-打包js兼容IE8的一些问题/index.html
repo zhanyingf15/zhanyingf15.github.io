@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>webpack UglifyJsPlugin 打包js兼容IE8的一些问题 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入UglifyJsPlugin```插件对代码进行压缩后发现，代码又出现了```&amp;#123;default:value&amp;#125;和obj.default```,通过查阅API发现是插件的问题。12345678910111213141516171819202122参考API：[UglifyJS2 API">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack UglifyJsPlugin 打包js兼容IE8的一些问题">
+<meta property="og:url" content="http://yoursite.com/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入UglifyJsPlugin```插件对代码进行压缩后发现，代码又出现了```&amp;#123;default:value&amp;#125;和obj.default```,通过查阅API发现是插件的问题。12345678910111213141516171819202122参考API：[UglifyJS2 API">
+<meta property="og:updated_time" content="2017-01-23T01:20:57.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack UglifyJsPlugin 打包js兼容IE8的一些问题">
+<meta name="twitter:description" content="react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入UglifyJsPlugin```插件对代码进行压缩后发现，代码又出现了```&amp;#123;default:value&amp;#125;和obj.default```,通过查阅API发现是插件的问题。12345678910111213141516171819202122参考API：[UglifyJS2 API">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-webpack-UglifyJsPlugin-打包js兼容IE8的一些问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" class="article-date">
+  <time datetime="2017-01-23T01:10:05.000Z" itemprop="datePublished">2017-01-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack UglifyJsPlugin 打包js兼容IE8的一些问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入<figure class="highlight plain"><figcaption><span>UglifyJsPlugin```插件对代码进行压缩后发现，代码又出现了```&#123;default:value&#125;和obj.default```,通过查阅API发现是插件的问题。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">参考API：</div><div class="line">[UglifyJS2 API](https://github.com/mishoo/UglifyJS2#usage)</div><div class="line"></div><div class="line">[webpack UglifyJsPlugin 配置API](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin)</div><div class="line"></div><div class="line">修改```webpack.config.js```配置</div><div class="line"></div><div class="line">``` javascript</div><div class="line">new webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    compress: &#123;</div><div class="line">        warnings: false,</div><div class="line">        properties :false,</div><div class="line">        booleans:false,</div><div class="line">        drop_console:true</div><div class="line">    &#125;,</div><div class="line">    mangle:false,</div><div class="line">    output:&#123;</div><div class="line">        keep_quoted_props:true</div><div class="line">    &#125;,</div><div class="line">    sourceMap:false</div><div class="line"> &#125;)</div></pre></td></tr></table></figure></p>
+<p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
+<p>output.keep_quoted_props:true必须配置，防止将{‘default’:xxx}改成{default:xxx}</p>
+<p>mangle:false最好配置，有时会造成IE8无法找到某个方法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" data-id="ciy9es87j0003asmqbd0zbbsl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/22/react笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">react笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-笔记/">react 笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/react-笔记/" style="font-size: 10px;">react 笔记</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">webpack UglifyJsPlugin 打包js兼容IE8的一些问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/22/react笔记/">react笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/20/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

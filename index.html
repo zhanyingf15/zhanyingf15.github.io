@@ -61,6 +61,48 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-webpack-UglifyJsPlugin-打包js兼容IE8的一些问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" class="article-date">
+  <time datetime="2017-01-23T01:10:05.000Z" itemprop="datePublished">2017-01-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">webpack UglifyJsPlugin 打包js兼容IE8的一些问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入<figure class="highlight plain"><figcaption><span>UglifyJsPlugin```插件对代码进行压缩后发现，代码又出现了```&#123;default:value&#125;和obj.default```,通过查阅API发现是插件的问题。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">参考API：</div><div class="line">[UglifyJS2 API](https://github.com/mishoo/UglifyJS2#usage)</div><div class="line"></div><div class="line">[webpack UglifyJsPlugin 配置API](http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin)</div><div class="line"></div><div class="line">修改```webpack.config.js```配置</div><div class="line"></div><div class="line">``` javascript</div><div class="line">new webpack.optimize.UglifyJsPlugin(&#123;</div><div class="line">    compress: &#123;</div><div class="line">        warnings: false,</div><div class="line">        properties :false,</div><div class="line">        booleans:false,</div><div class="line">        drop_console:true</div><div class="line">    &#125;,</div><div class="line">    mangle:false,</div><div class="line">    output:&#123;</div><div class="line">        keep_quoted_props:true</div><div class="line">    &#125;,</div><div class="line">    sourceMap:false</div><div class="line"> &#125;)</div></pre></td></tr></table></figure></p>
+<p>compress.properties:false 必须配置，防止将xxx[‘default’]改成xxx.default造成IE8报错</p>
+<p>output.keep_quoted_props:true必须配置，防止将{‘default’:xxx}改成{default:xxx}</p>
+<p>mangle:false最好配置，有时会造成IE8无法找到某个方法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" data-id="ciy9es87j0003asmqbd0zbbsl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-react笔记" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/01/22/react笔记/" class="article-date">
@@ -97,7 +139,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/22/react笔记/" data-id="ciy8ggss50001vwmq2t0e2e5z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/01/22/react笔记/" data-id="ciy9es8740000asmqwialb9mh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/react-笔记/">react 笔记</a></li></ul>
@@ -144,7 +186,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/01/20/hello-world/" data-id="ciy8ggsry0000vwmqvrjv6fyl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/01/20/hello-world/" data-id="ciy9es87b0001asmq5h1e2e6a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -166,7 +208,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-笔记/">react 笔记</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-笔记/">react 笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
     </div>
   </div>
 
@@ -176,7 +218,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/react-笔记/" style="font-size: 10px;">react 笔记</a>
+      <a href="/tags/react-笔记/" style="font-size: 10px;">react 笔记</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a>
     </div>
   </div>
 
@@ -196,6 +238,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">webpack UglifyJsPlugin 打包js兼容IE8的一些问题</a>
+          </li>
         
           <li>
             <a href="/2017/01/22/react笔记/">react笔记</a>
