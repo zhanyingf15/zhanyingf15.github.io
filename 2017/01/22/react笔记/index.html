@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/01/22/react笔记/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="一些react相关的笔记大杂烩，持续更新中……">
-<meta property="og:updated_time" content="2017-01-23T08:30:08.189Z">
+<meta property="og:updated_time" content="2017-01-23T08:36:14.210Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="react笔记">
 <meta name="twitter:description" content="一些react相关的笔记大杂烩，持续更新中……">
@@ -206,8 +206,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>一些react相关的笔记大杂烩，持续更新中……</p>
-<a id="more"></a>
+            <!-- excerpt -->
 <h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、通过ref获取组件或DOM"><span class="toc-text">1、通过ref获取组件或DOM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、redux一些注意"><span class="toc-text">2、redux一些注意</span></a></li></ol>
 <h2 id="1、通过ref获取组件或DOM"><a href="#1、通过ref获取组件或DOM" class="headerlink" title="1、通过ref获取组件或DOM"></a>1、通过ref获取组件或DOM</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">render()&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    &lt;div&gt;</div><div class="line">    	&lt;canvas </div><div class="line">    		width="190px"</div><div class="line">    		height="170px"</div><div class="line">    		ref=&#123;(e)=&gt;this.canvas = c&#125;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h2 id="2、redux一些注意"><a href="#2、redux一些注意" class="headerlink" title="2、redux一些注意"></a>2、redux一些注意</h2><ul>
@@ -219,7 +218,6 @@
 <li><p>组件继承时，如果组件需要connect到redux，只能connect到具体的某个子组件上，不能connect到父组件上，父组件可以访问到子组件connect到的数据和方法</p>
 </li>
 </ul>
-
             
         </div>
     </div>
