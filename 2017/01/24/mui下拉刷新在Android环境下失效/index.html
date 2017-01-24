@@ -6,23 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="忘语的个人博客">
-    <title>angularjs 模板编译,$scope和controller绑定 - 忘语的个人博客</title>
+    <title>mui下拉刷新在Android环境下失效 - 忘语的个人博客</title>
     <meta name="author" content="忘语">
     
     
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="一个简单的自定义toast，练习下angularjs 模板编译,$scope和controller绑定">
+    <meta name="description" content="阳光下做人，风雨中做事">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="angularjs 模板编译,$scope和controller绑定">
-<meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/index.html">
+<meta property="og:title" content="mui下拉刷新在Android环境下失效">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="一个简单的自定义toast，练习下angularjs 模板编译,$scope和controller绑定">
-<meta property="og:updated_time" content="2017-01-24T05:58:08.664Z">
+<meta property="og:description" content="阳光下做人，风雨中做事">
+<meta property="og:updated_time" content="2017-01-24T06:08:26.020Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="angularjs 模板编译,$scope和controller绑定">
-<meta name="twitter:description" content="一个简单的自定义toast，练习下angularjs 模板编译,$scope和controller绑定">
+<meta name="twitter:title" content="mui下拉刷新在Android环境下失效">
+<meta name="twitter:description" content="阳光下做人，风雨中做事">
     
     
         
@@ -176,21 +176,15 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            angularjs 模板编译,$scope和controller绑定
+            mui下拉刷新在Android环境下失效
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T10:11:26+08:00">
+    <time itemprop="datePublished" datetime="2017-01-24T14:08:25+08:00">
 	
 		    1月 24, 2017
     	
     </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/前端/">前端</a>
-
-
     
 </div>
 
@@ -198,35 +192,18 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>一个简单的自定义toast，练习下angularjs 模板编译,$scope和controller绑定</p>
-<a id="more"></a>
-<figure class="codeblock codeblock--tabbed"><figcaption><a href="https://docs.angularjs.org/api/ng/service/$compile" target="_blank" rel="external">$compile API</a><ul class="tabs"><li class="tab active">js</li><li class="tab">css</li><li class="tab">html</li></ul></figcaption><div class="tabs-content"><figure class="highlight js" style="display: block;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dialogModule = angular.module(<span class="string">'dialogModule'</span>,[<span class="string">''</span>]);</span><br><span class="line">dialogModule.factory(<span class="string">"dialog"</span>,[<span class="string">'$timeout'</span>,<span class="string">'$templateCache'</span>,<span class="string">'$compile'</span>,<span class="string">'$rootScope'</span>,<span class="string">'$controller'</span>,</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params">$timeout,$templateCache,$compile,$rootScope,$controller</span>)</span>{</span><br><span class="line">        <span class="keyword">var</span> dialog = {</span><br><span class="line">            toast:<span class="function"><span class="keyword">function</span>(<span class="params">msg,delay</span>)</span>{</span><br><span class="line">                delay = delay || <span class="number">1000</span>;</span><br><span class="line">                <span class="keyword">var</span> template = $templateCache.get(<span class="string">"toastDialogTemplate"</span>);<span class="comment">//获取模板</span></span><br><span class="line">                <span class="keyword">var</span> scope = $rootScope.$<span class="keyword">new</span>();<span class="comment">//创建作用域</span></span><br><span class="line">                scope.message = msg;</span><br><span class="line">                <span class="comment">//自定义控制器，第一个参数为控制器构造函数，第二个参数为注入对象</span></span><br><span class="line">                <span class="keyword">var</span> controllerInstance = $controller(<span class="function"><span class="keyword">function</span>(<span class="params">$scope,$element</span>)</span>{</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">"进入自定义控制器"</span>);</span><br><span class="line">                    $scope.message = $scope.message+<span class="string">",123"</span></span><br><span class="line">                }, {</span><br><span class="line">                    $scope: scope,<span class="comment">//注入$scope</span></span><br><span class="line">                    $element: template<span class="comment">//注入模板，如有需要还可以向控制器构造方法注入其它参数</span></span><br><span class="line">                });</span><br><span class="line">                template = $compile(template)(scope);<span class="comment">//编译模板</span></span><br><span class="line">                angular.element(<span class="string">"body"</span>).append(template);<span class="comment">//添加模板到DOM</span></span><br><span class="line">                $timeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>{</span><br><span class="line">                    template.remove();</span><br><span class="line">                },delay);</span><br><span class="line">            }</span><br><span class="line">    };</span><br><span class="line">    <span class="keyword">return</span> dialog;</span><br><span class="line">}]);</span><br></pre></td></tr></tbody></table></figure><figure class="highlight" style="display: none;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/*toast*/</span><br><span class="line">  .toast-dialog{</span><br><span class="line">      position: fixed;</span><br><span class="line">      top:30%;</span><br><span class="line">      left: 45%;</span><br><span class="line">      z-index: 20000;;</span><br><span class="line">      padding:5px 15px;</span><br><span class="line">      text-align: center;</span><br><span class="line">      border-radius:10px;</span><br><span class="line">      background:#000000;</span><br><span class="line">      background:rgba(0,0,0,.7);</span><br><span class="line">      filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);</span><br><span class="line">      filter:alpha(opacity=70);</span><br><span class="line">      color:#FFFFFF;</span><br><span class="line">  }</span><br></pre></td></tr></tbody></table></figure><figure class="highlight html" style="display: none;"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">id</span>=<span class="string">"toastDialogTemplate"</span> <span class="attr">type</span>=<span class="string">"text/ng-template"</span>&gt;</span><span class="javascript"></span><br><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">"toast-dialog"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure></div></figure>
-<ul>
-<li>创建一个toast方法</li>
-<li>获取html模板，模板的代码最好放在index.html上，在页面初始化的时候就存在，方便获取</li>
-<li>调用$rootScope.$new()创建一个作用域，该方法返回一个对象，可以像操作普通js对象一样给该对象添加成员变量，在模板中可以访问到添加的变量</li>
-<li>调用$controller(func,obj)创建控制器，第一个参数为一个方法，第二个参数为一个对象，该对象的成员变量会注入控制器的构造方法中</li>
-<li>$compile(template)(scope)编译模板，返回一段html代码，将html放入dom中，toast显示。</li>
-</ul>
-
+            
             
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">标签</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/angular/">angular</a>
-
-            </div>
         
         <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui下拉刷新在Android环境下失效/"  data-tooltip="mui下拉刷新在Android环境下失效">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/"  data-tooltip="mui的一些问题">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -234,7 +211,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" data-tooltip="webpack UglifyJsPlugin 打包js兼容IE8的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/angularjs-模板编译/" data-tooltip="angularjs 模板编译,$scope和controller绑定">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -249,17 +226,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -284,12 +261,12 @@
         
             
                 <!--
-<div id="ds-thread" class="ds-thread" data-thread-key="2017/01/24/angularjs-模板编译/"
-     data-title="angularjs 模板编译,$scope和controller绑定" data-url="https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/01/24/mui下拉刷新在Android环境下失效/"
+     data-title="mui下拉刷新在Android环境下失效" data-url="https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
 </div>
 -->
 <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2017/01/24/angularjs-模板编译/" data-title="angularjs 模板编译,$scope和controller绑定" data-url="https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/"></div>
+	<div class="ds-thread" data-thread-key="2017/01/24/mui下拉刷新在Android环境下失效/" data-title="mui下拉刷新在Android环境下失效" data-url="https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -325,7 +302,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui下拉刷新在Android环境下失效/"  data-tooltip="mui下拉刷新在Android环境下失效">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/"  data-tooltip="mui的一些问题">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -333,7 +310,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" data-tooltip="webpack UglifyJsPlugin 打包js兼容IE8的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/angularjs-模板编译/" data-tooltip="angularjs 模板编译,$scope和controller绑定">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -348,17 +325,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -384,17 +361,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/angularjs-模板编译/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/mui下拉刷新在Android环境下失效/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>
