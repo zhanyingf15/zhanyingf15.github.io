@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>MUI一些有用的类,处理过的元素和方法 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="记录一些mui使用过程中遇到的一些有用的东西">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="MUI一些有用的类,处理过的元素和方法">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="记录一些mui使用过程中遇到的一些有用的东西">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/1.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/2.png">
+<meta property="og:updated_time" content="2017-01-24T07:39:33.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MUI一些有用的类,处理过的元素和方法">
+<meta name="twitter:description" content="记录一些mui使用过程中遇到的一些有用的东西">
+<meta name="twitter:image" content="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/1.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            MUI一些有用的类,处理过的元素和方法
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-01-24T15:23:51+08:00">
+	
+		    1月 24, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#文字截断用…代替-mui-ellipsis"><span class="toc-text">文字截断用…代替(mui-ellipsis)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文字显示两行，两行显示不完用…代替-mui-ellipsis-2"><span class="toc-text">文字显示两行，两行显示不完用…代替(mui-ellipsis-2)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p元素文字灰度处理"><span class="toc-text">p元素文字灰度处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在非5-环境或非微信环境隐藏元素-mui-plus-visible、mui-wechat-visible"><span class="toc-text">在非5+环境或非微信环境隐藏元素(mui-plus-visible、mui-wechat-visible)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文本靠右-mui-text-right"><span class="toc-text">文本靠右(mui-text-right)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mui-fullscreen-让元素绝对定位覆盖全屏"><span class="toc-text">mui-fullscreen 让元素绝对定位覆盖全屏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mui-hidden-简单实现display-hidden"><span class="toc-text">mui-hidden 简单实现display:hidden</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建遮罩层"><span class="toc-text">创建遮罩层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在5-环境，mui-js会自动在body上添加mui-plus类，Android环境-包括谷歌浏览器模拟环境-会添加mui-android类"><span class="toc-text">在5+环境，mui.js会自动在body上添加mui-plus类，Android环境(包括谷歌浏览器模拟环境)会添加mui-android类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加载提示框"><span class="toc-text">加载提示框</span></a></li></ol>
+<h3 id="文字截断用…代替-mui-ellipsis"><a href="#文字截断用…代替-mui-ellipsis" class="headerlink" title="文字截断用…代替(mui-ellipsis)"></a>文字截断用…代替(mui-ellipsis)</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.mui-ellipsis</span> &#123;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">    <span class="attribute">white-space</span>: nowrap;</div><div class="line">    <span class="attribute">text-overflow</span>: ellipsis;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="文字显示两行，两行显示不完用…代替-mui-ellipsis-2"><a href="#文字显示两行，两行显示不完用…代替-mui-ellipsis-2" class="headerlink" title="文字显示两行，两行显示不完用…代替(mui-ellipsis-2)"></a>文字显示两行，两行显示不完用…代替(mui-ellipsis-2)</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.mui-ellipsis-2</span> &#123;</div><div class="line"><span class="attribute">display</span>: -webkit-box;</div><div class="line"><span class="attribute">overflow</span>: hidden;</div><div class="line"><span class="attribute">white-space</span>: normal<span class="meta">!important</span>;</div><div class="line"><span class="attribute">text-overflow</span>: ellipsis;</div><div class="line"><span class="attribute">word-wrap</span>: break-word;</div><div class="line"><span class="attribute">-webkit-line-clamp</span>: <span class="number">2</span>;</div><div class="line"><span class="attribute">-webkit-box-orient</span>: vertical;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/2017/01/24/MUI一些有用的类-处理过的元素和方法/1.png" alt=""></p>
+<h3 id="p元素文字灰度处理"><a href="#p元素文字灰度处理" class="headerlink" title="p元素文字灰度处理"></a>p元素文字灰度处理</h3><p><img src="/2017/01/24/MUI一些有用的类-处理过的元素和方法/2.png" alt=""></p>
+<h3 id="在非5-环境或非微信环境隐藏元素-mui-plus-visible、mui-wechat-visible"><a href="#在非5-环境或非微信环境隐藏元素-mui-plus-visible、mui-wechat-visible" class="headerlink" title="在非5+环境或非微信环境隐藏元素(mui-plus-visible、mui-wechat-visible)"></a>在非5+环境或非微信环境隐藏元素(mui-plus-visible、mui-wechat-visible)</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.mui-plus-visible</span>, <span class="selector-class">.mui-wechat-visible</span> &#123;</div><div class="line">    <span class="attribute">display</span>: none <span class="meta">!important</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="文本靠右-mui-text-right"><a href="#文本靠右-mui-text-right" class="headerlink" title="文本靠右(mui-text-right)"></a>文本靠右(mui-text-right)</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.mui-text-right</span> &#123;</div><div class="line">     <span class="attribute">text-align</span>: right<span class="meta">!important</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="mui-fullscreen-让元素绝对定位覆盖全屏"><a href="#mui-fullscreen-让元素绝对定位覆盖全屏" class="headerlink" title="mui-fullscreen 让元素绝对定位覆盖全屏"></a>mui-fullscreen 让元素绝对定位覆盖全屏</h3><h3 id="mui-hidden-简单实现display-hidden"><a href="#mui-hidden-简单实现display-hidden" class="headerlink" title="mui-hidden 简单实现display:hidden"></a>mui-hidden 简单实现display:hidden</h3><h3 id="创建遮罩层"><a href="#创建遮罩层" class="headerlink" title="创建遮罩层"></a>创建遮罩层</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var mask = mui.createMask(function() &#123;&#125;); //callback为用户点击蒙版时自动执行的回调；</div></pre></td></tr></table></figure>
+<h3 id="在5-环境，mui-js会自动在body上添加mui-plus类，Android环境-包括谷歌浏览器模拟环境-会添加mui-android类"><a href="#在5-环境，mui-js会自动在body上添加mui-plus类，Android环境-包括谷歌浏览器模拟环境-会添加mui-android类" class="headerlink" title="在5+环境，mui.js会自动在body上添加mui-plus类，Android环境(包括谷歌浏览器模拟环境)会添加mui-android类"></a>在5+环境，mui.js会自动在body上添加mui-plus类，Android环境(包括谷歌浏览器模拟环境)会添加mui-android类</h3><h3 id="加载提示框"><a href="#加载提示框" class="headerlink" title="加载提示框"></a>加载提示框</h3><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class="mui-loading"&gt;</div><div class="line">	&lt;div class="mui-spinner"&gt;&lt;/div&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/mui/">mui</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/" data-tooltip="bootstrap-datetime-picker在IE8下不支持的解决方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/01/24/MUI一些有用的类-处理过的元素和方法/"
+     data-title="MUI一些有用的类,处理过的元素和方法" data-url="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/01/24/MUI一些有用的类-处理过的元素和方法/" data-title="MUI一些有用的类,处理过的元素和方法" data-url="https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/" data-tooltip="bootstrap-datetime-picker在IE8下不支持的解决方法">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
