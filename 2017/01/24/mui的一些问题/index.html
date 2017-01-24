@@ -19,10 +19,17 @@
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="收集一些mui开发过程中遇到的问题和坑">
-<meta property="og:updated_time" content="2017-01-24T06:40:04.145Z">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/1.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/2.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/3.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/4.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/5.png">
+<meta property="og:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/6.png">
+<meta property="og:updated_time" content="2017-01-24T06:42:16.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mui的一些问题">
 <meta name="twitter:description" content="收集一些mui开发过程中遇到的问题和坑">
+<meta name="twitter:image" content="https://zhanyingf15.github.io/2017/01/24/mui的一些问题/1.png">
     
     
         
@@ -204,19 +211,20 @@
 <p>解决方法如下：</p>
 <ol>
 <li>在引入mui前添加全局变量 <script>var h5pullDown = true;</script></li>
-<li>修改两处源码（<span class="highlight-text red">ps：图中红框h5pullDown改成window.h5pullDown，避免环境中没有这个变量报错</span>）
-
+<li>修改两处源码（<span class="highlight-text red">ps：图中红框h5pullDown改成window.h5pullDown，避免环境中没有这个变量报错</span>）<img src="/2017/01/24/mui的一些问题/1.png" alt="1.png" title="">
+<img src="/2017/01/24/mui的一些问题/2.png" alt="2.png" title="">
 </li>
 </ol>
 <h2 id="2、选项卡-下拉刷新使用默认风格提示符的问题"><a href="#2、选项卡-下拉刷新使用默认风格提示符的问题" class="headerlink" title="2、选项卡+下拉刷新使用默认风格提示符的问题"></a>2、选项卡+下拉刷新使用默认风格提示符的问题</h2><p>官方demo的选项卡+下拉刷新采用mui.pullToRefresh.js+mui.pullToRefresh.material.js两个js插件来制作，感觉像是官方写的，但是为啥接口参数非常相似但又不同，非常坑</p>
 <p>使用插件的下拉刷新初始化写法(来自官方demo)</p>
-
+<img src="/2017/01/24/mui的一些问题/3.png" alt="3.png" title="">
 <p>默认风格不使用插件的下拉刷新初始化写法(改写的demo，用了vue)</p>
-
+<img src="/2017/01/24/mui的一些问题/4.png" alt="4.png" title="">
 <p>对比红框处的部分，太相似了很容易着道啊，不知道怎么想的。</p>
 <p>选项卡下修改成默认风格的下拉刷新要重置下样式</p>
-
+<img src="/2017/01/24/mui的一些问题/5.png" alt="5.png" title="">
 <p>改后的效果图</p>
+<img src="/2017/01/24/mui的一些问题/6.png" alt="6.png" title="">
             
         </div>
     </div>
