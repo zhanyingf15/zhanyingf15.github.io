@@ -1,0 +1,905 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>elasticsearh文档整理-查询 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
+[TOC]
+
+elasticsearch版本：2.4.5
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="elasticsearh文档整理-查询">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
+[TOC]
+
+elasticsearch版本：2.4.5
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
+<meta property="og:updated_time" content="2017-08-18T10:01:18.767Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearh文档整理-查询">
+<meta name="twitter:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
+[TOC]
+
+elasticsearch版本：2.4.5
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            elasticsearh文档整理-查询
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-06-16T18:03:11+08:00">
+	
+		    6月 16, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!--excerpt-->
+<h4 id="Index-API"><a href="#Index-API" class="headerlink" title="Index API"></a>Index API</h4><p>将结构化的json文档添加到指定的索引下，如果索引不存在，将自动创建<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用Map</span></div><div class="line">Map&lt;String, Object&gt; json = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</div><div class="line">json.put(<span class="string">"user"</span>,<span class="string">"kimchy"</span>);</div><div class="line">IndexResponse response = client.prepareIndex(index,type).setRefresh(<span class="keyword">true</span>).setSource(params).get();</div></pre></td></tr></table></figure></p>
+<p>setFresh(true)使添加的文档能立即被搜索到，在添加文档后需要立即能被检索到时很有用，如果是很重的索引操作，不应该设置为true，默认false。</p>
+<h4 id="Get-API"><a href="#Get-API" class="headerlink" title="Get API"></a>Get API</h4><p>通过文档id获取结构化的json文档</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GetResponse response = client.prepareGet(index, type, id).get();</div></pre></td></tr></table></figure>
+<h4 id="Multi-Get-API"><a href="#Multi-Get-API" class="headerlink" title="Multi Get API"></a>Multi Get API</h4><p>通过多个id获取多个文档，可以是不同索引和类型<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">MultiGetResponse multiGetItemResponses = client.prepareMultiGet()</div><div class="line">    .add(<span class="string">"twitter"</span>, <span class="string">"tweet"</span>, <span class="string">"1"</span>)           <span class="comment">//指定单个id</span></div><div class="line">    .add(<span class="string">"twitter"</span>, <span class="string">"tweet"</span>, <span class="string">"2"</span>, <span class="string">"3"</span>, <span class="string">"4"</span>)   <span class="comment">//指定多个id</span></div><div class="line">    .add(<span class="string">"another"</span>, <span class="string">"type"</span>, <span class="string">"foo"</span>)          <span class="comment">//指定其它索引</span></div><div class="line">    .get();</div><div class="line"></div><div class="line"><span class="keyword">for</span> (MultiGetItemResponse itemResponse : multiGetItemResponses) &#123; <span class="comment">//遍历结果</span></div><div class="line">    GetResponse response = itemResponse.getResponse();</div><div class="line">    <span class="keyword">if</span> (response.isExists()) &#123;                      <span class="comment">//判断文档是否存在</span></div><div class="line">        String json = response.getSourceAsString(); </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Delete-API"><a href="#Delete-API" class="headerlink" title="Delete API"></a>Delete API</h4><p>通过文档id删除索引下的文档</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DeleteResponse response = client.prepareDelete(index, type, id).setRefresh(<span class="keyword">true</span>).get();</div></pre></td></tr></table></figure>
+<h4 id="Update-API"><a href="#Update-API" class="headerlink" title="Update API"></a>Update API</h4><p>文档修改，实质是先删除再添加，指定的json文档时，可以指定部分内容，es会进行浅合并。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Map params = <span class="keyword">new</span> HashMap();</div><div class="line">UpdateResponse response = client.prepareUpdate(index,type,id).setRefresh(<span class="keyword">true</span>).setDoc(params).get();</div></pre></td></tr></table></figure></p>
+<p>如果指定的id不存在，会抛出以下错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Exception in thread &quot;main&quot; [radiott][[radiott][2]] DocumentMissingException[[artiststt][213]: document missing]</div></pre></td></tr></table></figure></p>
+<p>在进行修改操作时，需要判断记录是否存在，或者使用upsert，当文档不存在时，会使用indexRequest添加文档<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UpdateResponse response = client.prepareUpdate(index,type,id).setRefresh(<span class="keyword">true</span>).setDoc(params).setDocAsUpsert(<span class="keyword">false</span>).get();</div></pre></td></tr></table></figure></p>
+<p>setDocAsUpsert(true)是当文档不存在时，使用指定的文档(即params)添加。<br>同样还有setUpsert(Map upsertParam)及不同参方法，当文档不存在时使用upsertParam作为文档添加</p>
+<h3 id="批量操作"><a href="#批量操作" class="headerlink" title="批量操作"></a>批量操作</h3><h4 id="Bulk-API"><a href="#Bulk-API" class="headerlink" title="Bulk API"></a>Bulk API</h4><p>合并多个IndexRequest、UpdateRequest、DeleteRequest为一个请求<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">BulkRequestBuilder bulkRequest = client.prepareBulk();</div><div class="line">UpdateRequestBuilder updateBuilder = client.prepareUpdate(index, type, id).setSource(xxx).xxx;</div><div class="line">DeleteRequestBuilder deleteBuilder = client.prepareDelete(index, type, id).xxx;</div><div class="line">...</div><div class="line">bulkRequest.add(updateBuilder);</div><div class="line">bulkRequest.add(deleteBuilder);</div><div class="line">BulkResponse bulkResponse = bulkRequest.get();</div><div class="line"><span class="keyword">if</span> (bulkResponse.hasFailures()) &#123;</div><div class="line">    <span class="comment">// 遍历每一个bulk response</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Bulk-Processor"><a href="#Bulk-Processor" class="headerlink" title="Bulk Processor"></a>Bulk Processor</h4><p>BulkProcessor提供了一个简单的接口能够根据请求的数量或数据的大小或时间间隔自动处理批量操作。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">BulkProcessor bulkProcessor = BulkProcessor.builder(</div><div class="line">    client,  <span class="comment">//设置客户端</span></div><div class="line">    <span class="keyword">new</span> BulkProcessor.Listener() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">beforeBulk</span><span class="params">(<span class="keyword">long</span> executionId,BulkRequest request)</span> </span>&#123; </div><div class="line">            ... <span class="comment">//批量处理前回调</span></div><div class="line">        &#125; </div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterBulk</span><span class="params">(<span class="keyword">long</span> executionId,BulkRequest request,BulkResponse response)</span> </span>&#123; </div><div class="line">            ... <span class="comment">//批量处理成功回调，但其中某一个操作可能会失败，可以用response.hasFailures()监测</span></div><div class="line">        &#125; </div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterBulk</span><span class="params">(<span class="keyword">long</span> executionId,BulkRequest request,Throwable failure)</span> </span>&#123; </div><div class="line">            ... <span class="comment">//批量处理失败回调</span></div><div class="line">        &#125; </div><div class="line">    &#125;)</div><div class="line">    .setBulkActions(<span class="number">10000</span>)  <span class="comment">//条件一：达到10000个请求处理触发批量处理</span></div><div class="line">    .setBulkSize(<span class="keyword">new</span> ByteSizeValue(<span class="number">1</span>, ByteSizeUnit.GB))  <span class="comment">//条件二，数据达到1G处理触发批量处理</span></div><div class="line">    .setFlushInterval(TimeValue.timeValueSeconds(<span class="number">5</span>))  <span class="comment">//条件三，每间隔5分钟触发批量处理</span></div><div class="line">    .setConcurrentRequests(<span class="number">10</span>)   <span class="comment">//设置10个批发处理线程</span></div><div class="line">    .setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(<span class="number">100</span>), <span class="number">3</span>)) <span class="comment">//补偿策略，对每一个失败的请求项重试三次，BackoffPolicy.noBackoff()禁用补偿策略</span></div><div class="line">    .build();</div><div class="line">    <span class="comment">//添加请求</span></div><div class="line">    bulkProcessor.add(<span class="keyword">new</span> IndexRequest(<span class="string">"twitter"</span>, <span class="string">"tweet"</span>, <span class="string">"1"</span>).source(<span class="comment">/* your doc here */</span>));</div><div class="line">    bulkProcessor.add(<span class="keyword">new</span> DeleteRequest(<span class="string">"twitter"</span>, <span class="string">"tweet"</span>, <span class="string">"2"</span>));</div><div class="line">    </div><div class="line">    bulkProcessor.awaitClose(<span class="number">10</span>, TimeUnit.MINUTES);<span class="comment">//阻塞，等待批量操作完成后关闭。</span></div></pre></td></tr></table></figure></p>
+<p>上面注释中三个条件任意达到一个触发批量处理。</p>
+<p>默认情况下，批量请求数1000，数据量阈值5M，无时间间隔，1个批量处理线程，补偿策略(重试8次，延时50ms)</p>
+<h3 id="Search-API"><a href="#Search-API" class="headerlink" title="Search API"></a>Search API</h3><p>search api执行一个查询操作并返回符合查询条件的命中数，可以跨多个索引和多个类型。<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-search.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-search.html</a></p>
+<p>一个简单的例子<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">SearchResponse response = client.prepareSearch(<span class="string">"index1"</span>, <span class="string">"index2"</span>)          <span class="comment">//设置索引</span></div><div class="line">        .setTypes(<span class="string">"type1"</span>, <span class="string">"type2"</span>)                                         <span class="comment">//设置类型</span></div><div class="line">        .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)                     <span class="comment">//设置查询方式</span></div><div class="line">        .setQuery(QueryBuilders.termQuery(<span class="string">"multi"</span>, <span class="string">"test"</span>))                 <span class="comment">// 查询条件</span></div><div class="line">        .setPostFilter(QueryBuilders.rangeQuery(<span class="string">"age"</span>).from(<span class="number">12</span>).to(<span class="number">18</span>))     <span class="comment">// 过滤</span></div><div class="line">        .setFrom(<span class="number">0</span>).setSize(<span class="number">60</span>).setExplain(<span class="keyword">true</span>)                            <span class="comment">//分页</span></div><div class="line">        .execute()</div><div class="line">        .actionGet();</div></pre></td></tr></table></figure></p>
+<p>上面的所有参数都是可选的。一个极简的查询如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SearchResponse response = client.prepareSearch().execute().actionGet();<span class="comment">//全部使用默认选项，查询集群中的所有数据</span></div></pre></td></tr></table></figure></p>
+<h4 id="使用Java-scrolls"><a href="#使用Java-scrolls" class="headerlink" title="使用Java scrolls"></a>使用Java scrolls</h4><p>search查询请求返回的是一个单页的数据结果集，scroll API常用来通过查询请求获取大数据量的结果集。在传统的关系型数据库中我们通常使用cursor来处理类似需求。</p>
+<p>scroll并不是用来处理用户的实时查询，而是用来处理大量的数据操作。例如：使用不同的配置为一个索引的内容建立一个新的索引。</p>
+<blockquote>
+<p>注意：在scroll的初始请求中，将返回当前索引状态的结果集，类似于索引的一个快照，后续改变文档的操作如添加删除修改都不影响接下来的scroll查询。</p>
+</blockquote>
+<p>在使用scroll中，初始查询需要指定scroll的查询参数(即快照时间)，告诉elasticsearch快照的有效时间。在处理大量数据时，这个值不需要很大，只需要保证处理前一批数据时间足够就行，每一次scroll查询都会刷新快照的失效时间。</p>
+<p>一般情况下，在查询操作中，后台会对索引进行合并操作优化，将多个小的片段合并成一个大的片段，然后删除小的片段。这种优化策略同样适用于scroll的初始查询，但是快照(快照就是一个最终合并的大的片段)一旦建立，在快照的有效时间内将会阻止旧片段的删除。这也是scroll初始查询一旦完成，无论怎样修改文档都不会影响scroll后续查询的原因。</p>
+<blockquote>
+<p>注意：保持旧的片段(即快照)有效,意味着需要更多的文件句柄，必须确保elasticsearch节点配置了足够的文件句柄。<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/setup-configuration.html#file-descriptors" target="_blank" rel="external">相关配置</a></p>
+</blockquote>
+<p>使用示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//初始化查询操作</span></div><div class="line">SearchResponse scrollResp = client.prepareSearch(test)</div><div class="line">        .addSort(SortParseElement.DOC_FIELD_NAME, SortOrder.ASC)</div><div class="line">        .setScroll(<span class="keyword">new</span> TimeValue(<span class="number">60000</span>))</div><div class="line">        .setQuery(QueryBuilders.termQuery(<span class="string">"multi"</span>, <span class="string">"test"</span>))</div><div class="line">        .setSize(<span class="number">100</span>)           <span class="comment">//size 100是指每个分片返回的最大数量</span></div><div class="line">        .execute().actionGet(); </div><div class="line"><span class="comment">//循环处理，直到查询完所有数据</span></div><div class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</div><div class="line">    <span class="keyword">for</span> (SearchHit hit : scrollResp.getHits().getHits()) &#123;</div><div class="line">        <span class="comment">//处理数据</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">//使用上一个查询返回的scrollId继续查询</span></div><div class="line">    scrollResp = client.prepareSearchScroll(scrollResp.getScrollId()).setScroll(<span class="keyword">new</span> TimeValue(<span class="number">60000</span>)).execute().actionGet();</div><div class="line">    <span class="comment">//查询完成，退出循环</span></div><div class="line">    <span class="keyword">if</span> (scrollResp.getHits().getHits().length == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：setSize(100)并不是指最终返回100条数据，而是指每个分片返回的最大数量是100.假如一个操作涉及到多个索引多个分片，最终返回的数量可能会超出你的预期(实际返回的数量是：0 ~ 分片数量*size)</p>
+</blockquote>
+<h4 id="Multisearch-API"><a href="#Multisearch-API" class="headerlink" title="Multisearch API"></a>Multisearch API</h4><p>将多个查询请求合并成一个查询请求<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">SearchRequestBuilder srb1 = client.prepareSearch().setQuery(QueryBuilders.queryStringQuery(<span class="string">"elasticsearch"</span>)).setSize(<span class="number">1</span>);</div><div class="line">SearchRequestBuilder srb2 = client.prepareSearch().setQuery(QueryBuilders.matchQuery(<span class="string">"name"</span>,<span class="string">"kimchy"</span>)).setSize(<span class="number">1</span>);</div><div class="line">MultiSearchResponse sr = client.prepareMultiSearch().add(srb1).add(srb2).execute().actionGet();</div><div class="line"></div><div class="line"><span class="keyword">long</span> nbHits = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span> (MultiSearchResponse.Item item : sr.getResponses()) &#123;</div><div class="line">    SearchResponse response = item.getResponse();</div><div class="line">    nbHits += response.getHits().getTotalHits();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="Terminate-After"><a href="#Terminate-After" class="headerlink" title="Terminate After"></a>Terminate After</h4><p>在每个分片上收集大量文档，根据收集的数量可以提前关闭搜索操作，如果设置提前关闭，我们可以调用<code>SearchRespnse</code>对象的 <code>isTerminatedEarly</code>方法判断操作是否提前结束。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SearchResponse sr = client.prepareSearch(INDEX)</div><div class="line">    .setTerminateAfter(<span class="number">1000</span>)    <span class="comment">//在收集了1000个文档后结束操作</span></div><div class="line">    .get();</div><div class="line"></div><div class="line"><span class="keyword">if</span> (sr.isTerminatedEarly()) &#123;</div><div class="line">    <span class="comment">// 操作提前结束</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Count-API"><a href="#Count-API" class="headerlink" title="Count API"></a>Count API</h3><p>已废弃，使用search api代替并设置size为0；</p>
+<h3 id="Query-DSL"><a href="#Query-DSL" class="headerlink" title="Query DSL"></a>Query DSL</h3><p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl.html" target="_blank" rel="external">官方文档</a></p>
+<p>elasticsearch 提供了全功能的Java query dsl，同REST query dsl保持一致。构建查询的工厂类是<code>QueryBuilders</code>，一旦查询器构建好后，配合search api一起使用。</p>
+<p>使用QueryBuilders工厂构建好查询器<code>QueryBuilder</code>实例后，可以直接调用<code>toString()</code>方法打印出结构化的json格式字符串<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">QueryBuilder builder = QueryBuilders.termQuery(<span class="string">"name"</span>,<span class="string">"test"</span>);</div><div class="line">System.out.println(builder.toString());</div></pre></td></tr></table></figure></p>
+<p>打印结果<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"term"</span> : &#123;</div><div class="line">    <span class="string">"name"</span> : <span class="string">"test"</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>QueryBuilder</code>实例可以使用在任何接受query查询的api中，如<code>count</code>和<code>seaarch</code>。</p>
+<p>测试的时候查询都需要包含以下结构体中,使用POST请求。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><em>使用GET请求查询时，head插件直接忽略了我的查询条件，直接返回索引类型下的所有数据</em></p>
+<hr>
+<h4 id="Match-All-Query"><a href="#Match-All-Query" class="headerlink" title="Match All Query"></a>Match All Query</h4></blockquote>
+<p>最简单的查询，会查询所有文档，每个文档的<code>_score</code>为<code>1.0</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; <span class="string">"match_all"</span>: &#123;&#125; &#125;</div><div class="line"><span class="comment">//使用boost参数修改_score。</span></div><div class="line">&#123; <span class="string">"match_all"</span>: &#123; <span class="string">"boost"</span> : <span class="number">1.2</span> &#125;&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = matchAllQuery();</div></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="Full-text-queries"><a href="#Full-text-queries" class="headerlink" title="Full text queries"></a>Full text queries</h4><p>高等级的全文本查询，常用来在全文本字段上如邮件的正文内容执行全文本查询</p>
+<h5 id="Match-Query"><a href="#Match-Query" class="headerlink" title="Match Query"></a>Match Query</h5><p>match家族的查询支持文本\数字和日期类型数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"match"</span> : &#123;</div><div class="line">        <span class="string">"message"</span> : <span class="string">"this is a test"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>match查询包含三种类型：boolean,phrase和phrase_prefix。</p>
+<p><strong>boolean</strong><br>默认的match查询类型，意思是分析进程根据提供的文本构建一个boolean查询，可以设置<code>operator</code>参数(<code>or</code>或<code>and</code>，默认<code>or</code>)控制boolean字句。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"match"</span> : &#123;</div><div class="line">        <span class="string">"message"</span> : &#123;</div><div class="line">            <span class="string">"query"</span> : <span class="string">"this is a test"</span>,</div><div class="line">            <span class="string">"operator"</span> : <span class="string">"and"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>phrase</strong><br><code>match_phrase</code>查询通过分析提供的文本创建phrase查询<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"match_phrase"</span> : &#123;</div><div class="line">        <span class="string">"message"</span> : <span class="string">"this is a test"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//或</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"match"</span> : &#123;</div><div class="line">        <span class="string">"message"</span> : &#123;</div><div class="line">            <span class="string">"query"</span> : <span class="string">"this is a test"</span>,</div><div class="line">            <span class="string">"type"</span> : <span class="string">"phrase"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>phrase_prefix</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"match_phrase_prefix"</span> : &#123;</div><div class="line">        <span class="string">"message"</span> : <span class="string">"quick brown f"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>java使用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = matchQuery(<span class="string">"name"</span>,<span class="string">"kimchy elasticsearch"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Multi-Match-Query"><a href="#Multi-Match-Query" class="headerlink" title="Multi Match Query"></a>Multi Match Query</h5><p>同match query，允许在不同字段上进行查询,字段名支持占位符<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"multi_match"</span> : &#123;</div><div class="line">    <span class="string">"query"</span>:    <span class="string">"this is a test"</span>,   <span class="comment">//查询字符串</span></div><div class="line">    <span class="string">"fields"</span>: [ <span class="string">"subject"</span>, <span class="string">"message"</span> ]  <span class="comment">//检索字段</span></div><div class="line">    <span class="comment">//"fields": [ "title", "*_name" ]     //支持占位符,在title,first_name和last_name上检索</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = multiMatchQuery(<span class="string">"kimchy elasticsearch"</span>,<span class="string">"user"</span>, <span class="string">"message"</span> );</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Common-Terms-Query"><a href="#Common-Terms-Query" class="headerlink" title="Common Terms Query"></a>Common Terms Query</h5><p>更多参数具体参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-common-terms-query.html" target="_blank" rel="external">官方文档</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"common"</span>: &#123;</div><div class="line">    <span class="string">"body"</span>: &#123;</div><div class="line">      <span class="string">"query"</span>: <span class="string">"this is bonsai cool"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = commonTermsQuery(<span class="string">"name"</span>,<span class="string">"kimchy"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Query-String-Query"><a href="#Query-String-Query" class="headerlink" title="Query String Query"></a>Query String Query</h5><p>专门的字符串查询.<br>默认示例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"query_string"</span> : &#123;</div><div class="line">        <span class="string">"query"</span> : <span class="string">"test"</span>,   <span class="comment">//查询内容</span></div><div class="line">        <span class="string">"default_field"</span> : <span class="string">"name"</span>        <span class="comment">//查询字段</span></div><div class="line">        <span class="comment">//"fields" : ["content", "name"]    //支持多个字段,字段名同样支持*占位.</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>query字段支持<code>?</code>和<code>*</code>占位,前者代表任意一个字符,后者代表多个任意字符.</li>
+<li><p>可以将字段名和查询内容写在一起,”query”:”name:test”.如果是占位查询,需要转义,”query”:”name:\\*test”</p>
+</li>
+<li><p>支持模糊查询,不同于关系型数据库的模糊查询,这里指的是允许错误额输入内容模糊查询,如搜索computer,输入时打错了computor,只要在查询的时候输入computor~     , 同样可以搜索到computer,默认允许的错误字符数是2,可以通过computor~3,就能允许错误三个字符.</p>
+</li>
+</ul>
+<p>其它的一些参数如下:</p>
+<ul>
+<li>default_operator:操作符,默认<code>OR</code>.如查询字符串是”cat dog”,两个短语以空格分开,如果为<code>OR</code>,只要字段包含cat或dog之一就可以匹配否则,字段内必须同时包含cat和dog才可以匹配.</li>
+<li>minimum_should_match:最小匹配词条,假如query:”cat dog mouse”,配置项为2,那么只有字段中至少包含这三个中的任意两个才能匹配成功,这个配置项仅对default_operator为<code>OR</code>时生效.</li>
+</ul>
+<p>更多参数参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-query-string-query.html#query-dsl-query-string-query" target="_blank" rel="external">官方文档</a></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = queryStringQuery(<span class="string">"+kimchy -elasticsearch"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Simple-Query-String-Query"><a href="#Simple-Query-String-Query" class="headerlink" title="Simple Query String Query"></a>Simple Query String Query</h5><p>基本同 Query String Query<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"simple_query_string"</span> : &#123;</div><div class="line">        <span class="string">"fields"</span> : [<span class="string">"content"</span>, <span class="string">"name.*^5"</span>],</div><div class="line">        <span class="string">"query"</span> : <span class="string">"foo bar baz"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = simpleQueryStringQuery(<span class="string">"+kimchy -elasticsearch"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="Term-level-queries"><a href="#Term-level-queries" class="headerlink" title="Term level queries"></a>Term level queries</h4><p>不同于full text queries会在查询执行前分析查询字符串,term-level queries要求在倒排索引上有精确的term . 这些查询常常使用在结构化的数据上如数字,日期,非全文本的字符串(如name,gender)和枚举等,而不是==全文本==字段(如邮箱正文)上.</p>
+<h5 id="Term-Query"><a href="#Term-Query" class="headerlink" title="Term Query"></a>Term Query</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"term"</span> : &#123; <span class="string">"user"</span> : <span class="string">"Kimchy"</span> &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以设置<code>boost</code>参数指定当前term查询比其他查询有更高的关联分数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"bool"</span>: &#123;</div><div class="line">      <span class="string">"should"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="string">"term"</span>: &#123;</div><div class="line">            <span class="string">"status"</span>: &#123;</div><div class="line">              <span class="string">"value"</span>: <span class="string">"urgent"</span>,</div><div class="line">              <span class="string">"boost"</span>: <span class="number">2.0</span> </div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="string">"term"</span>: &#123;</div><div class="line">            <span class="string">"status"</span>: <span class="string">"normal"</span> </div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在上面的例子中,设置status字段中值为urgent的查询字句boost值为2,意思是urgent的重要性是normal的两倍(boost的默认值是1.0)  </p>
+<p><strong>==为什么term query匹配不到任何文档?==</strong>  </p>
+<p>字符串字段可以被<code>analyzed</code>(视为全文本字段,如邮件正文)或者<code>not_analyzed</code>(视为精确的值如邮件地址),精确的值(如数字日期或<code>not_analyzed</code>字符串)在在倒排索引的字段中被明确指定.  </p>
+<p>默认情况下,字符串字段都被<code>analyzed</code>, 即字符串值在存储时第一步被传输到分析器分解成terms列表,再添加到倒排索引中.例如,字符串 “Quick Brown Fox!”被分解成 “ [quick, brown, fox]”三个term. 文本分析处理使在大字段文本中可以搜索单个单词. </p>
+<p>term query在倒排索引的字段中搜索精确值,这在<code>not_analyzed</code>字段,日期字段,数字字段中搜索精确值非常有用, 如果要搜索全文本字段,使用match query替代.  </p>
+<p>示例如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">PUT my_index</div><div class="line">&#123;</div><div class="line">  <span class="string">"mappings"</span>: &#123;</div><div class="line">    <span class="string">"my_type"</span>: &#123;</div><div class="line">      <span class="string">"properties"</span>: &#123;</div><div class="line">        <span class="string">"full_text"</span>: &#123;</div><div class="line">          <span class="string">"type"</span>:  <span class="string">"string"</span> </div><div class="line">        &#125;,</div><div class="line">        <span class="string">"exact_value"</span>: &#123;</div><div class="line">          <span class="string">"type"</span>:  <span class="string">"string"</span>,</div><div class="line">          <span class="string">"index"</span>: <span class="string">"not_analyzed"</span> </div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">PUT my_index/my_type/<span class="number">1</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"full_text"</span>:   <span class="string">"Quick Foxes!"</span>, </div><div class="line">  <span class="string">"exact_value"</span>: <span class="string">"Quick Foxes!"</span>  </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//数据如下:</span></div><div class="line">PUT my_index/my_type/<span class="number">1</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"full_text"</span>:   <span class="string">"Quick Foxes!"</span>, </div><div class="line">  <span class="string">"exact_value"</span>: <span class="string">"Quick Foxes!"</span>  </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行四个查询<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询1</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"term"</span>: &#123;</div><div class="line">      <span class="string">"exact_value"</span>: <span class="string">"Quick Foxes!"</span> </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//查询2</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"term"</span>: &#123;</div><div class="line">      <span class="string">"full_text"</span>: <span class="string">"Quick Foxes!"</span> </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//查询3</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"term"</span>: &#123;</div><div class="line">      <span class="string">"full_text"</span>: <span class="string">"foxes"</span> </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//查询4</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"match"</span>: &#123;</div><div class="line">      <span class="string">"full_text"</span>: <span class="string">"Quick Foxes!"</span> </div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一个查询能够匹配到,因为存在精确的term “Quick Foxes!”<br>第二个查询不能匹配到,因为full_text字段只存在quick和foxes两个term,不存在 “Quick Foxes!”的term.<br>第三个查询能够匹配到,full_text字段存在foxes的term.<br>第四个查询能够匹配到,match查询首先分析查询字符串,会在full_text字段查找quick或foxes或quick foxes的term.  </p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = termQuery(<span class="string">"name"</span>,<span class="string">"kimchy"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Terms-Query"><a href="#Terms-Query" class="headerlink" title="Terms Query"></a>Terms Query</h5><p>基本同term query,可以指定多个term<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"constant_score"</span> : &#123;</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"terms"</span> : &#123; <span class="string">"user"</span> : [<span class="string">"kimchy"</span>, <span class="string">"elasticsearch"</span>]&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Terms lookup mechanismedit 参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-terms-query.html#query-dsl-terms-lookup" target="_blank" rel="external">官方文档</a></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = termsQuery(<span class="string">"tags"</span>, <span class="string">"blue"</span>, <span class="string">"pill"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Range-Query"><a href="#Range-Query" class="headerlink" title="Range Query"></a>Range Query</h5><p>查询指定范围内的term.如果是字符串字段,使用<code>TermRangeQuery</code>,如果是数字或日期字段,使用<code>NumericRangeQuery</code>.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"range"</span> : &#123;</div><div class="line">        <span class="string">"age"</span> : &#123;</div><div class="line">            <span class="string">"gte"</span> : <span class="number">10</span>,</div><div class="line">            <span class="string">"lte"</span> : <span class="number">20</span>,</div><div class="line">            <span class="string">"boost"</span> : <span class="number">2.0</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>支持的参数如下:</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gte</td>
+<td>&gt;=</td>
+</tr>
+<tr>
+<td>gt</td>
+<td>&gt;</td>
+</tr>
+<tr>
+<td>lte</td>
+<td>&lt;=</td>
+</tr>
+<tr>
+<td>lt</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>boost</td>
+<td>查询的boost值,默认1.0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>日期范围</strong>  </p>
+<p>日期示例, 格式参考 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/common-options.html#date-math" target="_blank" rel="external">date math</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"range"</span> : &#123;</div><div class="line">        <span class="string">"date"</span> : &#123;</div><div class="line">            <span class="string">"gte"</span> : <span class="string">"now-1d/d"</span>,</div><div class="line">            <span class="string">"lt"</span> :  <span class="string">"now/d"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>日期计算和取整</strong>  </p>
+<p>当使用date math取整日期到最近的日,月,小时等等,被取整的日期取决于范围的结束是否被包括或是不包括</p>
+<ul>
+<li>向上取整:向上取整到取整域的最后一毫秒</li>
+<li>向下取整:向下取整到取整域的第一毫秒</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gt</td>
+<td>`2014-11-18</td>
+<td></td>
+<td>/M<code>---&gt;</code>2014-11-30T23:59:59.999`</td>
+</tr>
+<tr>
+<td>gte</td>
+<td>`2014-11-18</td>
+<td></td>
+<td>/M<code>---&gt;</code>2014-11-01`</td>
+</tr>
+<tr>
+<td>lt</td>
+<td>`2014-11-18</td>
+<td></td>
+<td>/M<code>---&gt;</code>2014-11-01`</td>
+</tr>
+<tr>
+<td>lte</td>
+<td>`2014-11-18</td>
+<td></td>
+<td>/M<code>---&gt;</code>2014-11-30T23:59:59.999`</td>
+</tr>
+</tbody>
+</table>
+<p><strong>格式化日期</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"range"</span> : &#123;</div><div class="line">        <span class="string">"born"</span> : &#123;</div><div class="line">            <span class="string">"gte"</span>: <span class="string">"01/01/2012"</span>,</div><div class="line">            <span class="string">"lte"</span>: <span class="string">"2013"</span>,</div><div class="line">            <span class="string">"format"</span>: <span class="string">"dd/MM/yyyy||yyyy"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = rangeQuery(<span class="string">"price"</span>)   </div><div class="line">    .from(<span class="number">5</span>)                            </div><div class="line">    .to(<span class="number">10</span>)                             </div><div class="line">    .includeLower(<span class="keyword">true</span>)      <span class="comment">//包含下界          </span></div><div class="line">    .includeUpper(<span class="keyword">false</span>);   <span class="comment">//不包含上界</span></div></pre></td></tr></table></figure></p>
+<p>默认情况下是包含下界不包含上界</p>
+<hr>
+<h5 id="Exists-Query"><a href="#Exists-Query" class="headerlink" title="Exists Query"></a>Exists Query</h5><p>判断字段中是否至少有一个非null的值<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"exists"</span> : &#123; <span class="string">"field"</span> : <span class="string">"user"</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如返回文档中字段name中值为null的文档<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"bool"</span>: &#123;</div><div class="line">      <span class="string">"must_not"</span>: &#123;</div><div class="line">        <span class="string">"exists"</span>: &#123;</div><div class="line">          <span class="string">"field"</span>: <span class="string">"name"</span></div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = existsQuery(<span class="string">"name"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Prefix-Query"><a href="#Prefix-Query" class="headerlink" title="Prefix Query"></a>Prefix Query</h5><p>查询指定字段中的term包含指定前缀的文档, 适用在<code>not_analyzed</code>的字段中,如果使用在<code>analyzed</code>字段中,分词后的term如果包含指定前缀,也同样会被查询出来.  </p>
+<p>假如包含以下数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;</div><div class="line">        <span class="string">"_index"</span>: <span class="string">"radiott"</span>,</div><div class="line">        <span class="string">"_type"</span>: <span class="string">"artiststt"</span>,</div><div class="line">        <span class="string">"_id"</span>: <span class="string">"AVx7JhglJRLJihedvp1b"</span>,</div><div class="line">        <span class="string">"_score"</span>: <span class="number">1</span>,</div><div class="line">        <span class="string">"_source"</span>: &#123;</div><div class="line">            <span class="string">"name"</span>: <span class="string">"abtest333"</span>,</div><div class="line">            <span class="string">"id"</span>: <span class="string">"3"</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        <span class="string">"_index"</span>: <span class="string">"radiott"</span>,</div><div class="line">        <span class="string">"_type"</span>: <span class="string">"artiststt"</span>,</div><div class="line">        <span class="string">"_id"</span>: <span class="string">"AVw0PAb_xJt8Zgd-WGNi"</span>,</div><div class="line">        <span class="string">"_score"</span>: <span class="number">1</span>,</div><div class="line">        <span class="string">"_source"</span>: &#123;</div><div class="line">            <span class="string">"id"</span>: <span class="string">"2"</span>,</div><div class="line">            <span class="string">"name"</span>: <span class="string">"test222"</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        <span class="string">"_index"</span>: <span class="string">"radiott"</span>,</div><div class="line">        <span class="string">"_type"</span>: <span class="string">"artiststt"</span>,</div><div class="line">        <span class="string">"_id"</span>: <span class="string">"AVy_JHcHj7fNaw5JbLcn"</span>,</div><div class="line">        <span class="string">"_score"</span>: <span class="number">1</span>,</div><div class="line">        <span class="string">"_source"</span>: &#123;</div><div class="line">            <span class="string">"name"</span>: <span class="string">"some test"</span>,</div><div class="line">            <span class="string">"id"</span>: <span class="string">"7"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>执行查询<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"prefix"</span>: &#123;</div><div class="line">      <span class="string">"name"</span>: <span class="string">"te"</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果中test222和some test都会被查询出来</p>
+<p>java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = prefixQuery(<span class="string">"name"</span>,<span class="string">"heine"</span>     );</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Wildcard-Query"><a href="#Wildcard-Query" class="headerlink" title="Wildcard Query"></a>Wildcard Query</h5><p>通配符查询.查询指定字段符合通配表达式的文档,支持的通配符如下:</p>
+<ul>
+<li><code>*</code>:匹配任何字符串,包括空字符串</li>
+<li><code>?</code>:匹配任何单个字符.  </li>
+</ul>
+<p>通配查询比较慢,它会比较很多的term,为了避免过慢的查询,通配表达式不应该以<code>*</code>和<code>?</code>开头.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"wildcard"</span> : &#123; <span class="string">"user"</span> : <span class="string">"ki*y"</span> &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//添加boost参数</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"wildcard"</span> : &#123; <span class="string">"user"</span> : &#123; <span class="string">"value"</span> : <span class="string">"ki*y"</span>, <span class="string">"boost"</span> : <span class="number">2.0</span> &#125; &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//或</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"wildcard"</span> : &#123; <span class="string">"user"</span> : &#123; <span class="string">"wildcard"</span> : <span class="string">"ki*y"</span>, <span class="string">"boost"</span> : <span class="number">2.0</span> &#125; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = wildcardQuery(<span class="string">"user"</span>, <span class="string">"k?mc*"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Regexp-Query"><a href="#Regexp-Query" class="headerlink" title="Regexp Query"></a>Regexp Query</h5><p>使用正则表达式查询term,支持的正则语法参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-regexp-query.html#regexp-syntax" target="_blank" rel="external">官方文档</a> . elasticsearch会对分词器生成的每一个term进行正则比较,而不是字段的原始文本 . </p>
+<blockquote>
+<p>注意:正则查询的性能取决于正则表达式本身 , 使用<code>*</code>会比较缓慢,如果有可能 , 在正则表达式前尽量添加足够长的前缀 . <code>.*?+</code>这样的正则表达式会严重影响性能 . </p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"regexp"</span>:&#123;</div><div class="line">        <span class="string">"name.first"</span>: <span class="string">"s.*y"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//或</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"regexp"</span>:&#123;</div><div class="line">        <span class="string">"name.first"</span>:&#123;</div><div class="line">            <span class="string">"value"</span>:<span class="string">"s.*y"</span>,</div><div class="line">            <span class="string">"boost"</span>:<span class="number">1.2</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//或</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"regexp"</span>:&#123;</div><div class="line">        <span class="string">"name.first"</span>: &#123;</div><div class="line">            <span class="string">"value"</span>: <span class="string">"s.*y"</span>,</div><div class="line">            <span class="string">"flags"</span> : <span class="string">"INTERSECTION|COMPLEMENT|EMPTY"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>默认的flags是<code>ALL</code> , 其它字段意思参考<a href="http://lucene.apache.org/core/4_9_0/core/org/apache/lucene/util/automaton/RegExp.html" target="_blank" rel="external">Lucene documentation </a>  </p>
+<p>更多关于正则查询的说明参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-regexp-query.html" target="_blank" rel="external">官方文档</a> . </p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = regexpQuery(<span class="string">"name.first"</span>,<span class="string">"s.*y"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Fuzzy-Query"><a href="#Fuzzy-Query" class="headerlink" title="Fuzzy Query"></a>Fuzzy Query</h5><p>模糊查询应用于String,number和date类型字段,使用方式类似于Levenshtein编辑距离 . </p>
+<blockquote>
+<p>注意 : 这和关系型数据库的模糊查询是不一样的</p>
+</blockquote>
+<ul>
+<li>String类型字段</li>
+</ul>
+<p>在最大编辑距离内尽可能多的生成term去匹配term字典然后找出在索引中实际存在的term,最大编辑距离由<code>fuzziness</code>参数指定.<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"fuzzy"</span> : &#123; <span class="string">"name"</span> : <span class="string">"tesd"</span> &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//或</span></div><div class="line">&#123;</div><div class="line">    <span class="string">"fuzzy"</span> : &#123;</div><div class="line">        <span class="string">"name"</span> : &#123;</div><div class="line">            <span class="string">"value"</span> :         <span class="string">"tesd"</span>,</div><div class="line">            <span class="string">"boost"</span> :         <span class="number">1.0</span>,</div><div class="line">            <span class="string">"fuzziness"</span> :     <span class="number">2</span>,</div><div class="line">            <span class="string">"prefix_length"</span> : <span class="number">0</span>,</div><div class="line">            <span class="string">"max_expansions"</span>: <span class="number">100</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>产生的结果可能如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line">    &#123;</div><div class="line">        <span class="string">"_index"</span>: <span class="string">"radiott"</span>,</div><div class="line">        <span class="string">"_type"</span>: <span class="string">"artiststt"</span>,</div><div class="line">        <span class="string">"_id"</span>: <span class="string">"AVy_JHcHj7fNaw5JbLcn"</span>,</div><div class="line">        <span class="string">"_score"</span>: <span class="number">0.8784157</span>,</div><div class="line">        <span class="string">"_source"</span>: &#123;</div><div class="line">            <span class="string">"name"</span>: <span class="string">"some test"</span>,</div><div class="line">            <span class="string">"id"</span>: <span class="string">"7"</span></div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        <span class="string">"_index"</span>: <span class="string">"radiott"</span>,</div><div class="line">        <span class="string">"_type"</span>: <span class="string">"artiststt"</span>,</div><div class="line">        <span class="string">"_id"</span>: <span class="string">"AVyvrqDa6x0lhJNLATQv"</span>,</div><div class="line">        <span class="string">"_score"</span>: <span class="number">0.8465736</span>,</div><div class="line">        <span class="string">"_source"</span>: &#123;</div><div class="line">            <span class="string">"name"</span>: <span class="string">"there is a test"</span>,</div><div class="line">            <span class="string">"id"</span>: <span class="string">"8"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>上例中输入tesd , 能查询到term为test的文档 , 它允许用户输错指定数量的字符 . </p>
+<p>支持参数如下</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fuzziness</td>
+<td>最大编辑距离,默认<code>AUTO</code>,具体参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/common-options.html#fuzziness" target="_blank" rel="external">fuzziness说明</a></td>
+</tr>
+<tr>
+<td>prefix_length</td>
+<td>不会被模糊化的初始字符串长度,默认0,能够减少必须检查的terms数量</td>
+</tr>
+<tr>
+<td>max_expansions</td>
+<td>模糊查询扩大terms的最大数量,默认50</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意:如果prefix_length指定为0并且max_expansions指定为一个很大的数会很耗费性能</p>
+</blockquote>
+<ul>
+<li>日期和数字类型字段</li>
+</ul>
+<p>使用指定的值执行Range查询,范围是<code>+/-</code> , filedValue-fuzziness &lt;= filedValue &lt;= fuzziness+filedValue<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"fuzzy"</span> : &#123;</div><div class="line">        <span class="string">"price"</span> : &#123;</div><div class="line">            <span class="string">"value"</span> : <span class="number">12</span>,</div><div class="line">            <span class="string">"fuzziness"</span> : <span class="number">2</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最终查询的范围是10-14 . 日期字段支持 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/common-options.html#time-units" target="_blank" rel="external">time value</a><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"fuzzy"</span> : &#123;</div><div class="line">        <span class="string">"created"</span> : &#123;</div><div class="line">            <span class="string">"value"</span> : <span class="string">"2010-02-05T12:05:07"</span>,</div><div class="line">            <span class="string">"fuzziness"</span> : <span class="string">"1d"</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>模糊查询支持更多的值,详情参考 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/common-options.html#fuzziness" target="_blank" rel="external"> the section called “Fuzzinessedit” </a></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = fuzzyQuery(<span class="string">"name"</span>,<span class="string">"kimzhy"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Type-Query"><a href="#Type-Query" class="headerlink" title="Type Query"></a>Type Query</h5><p>查询索引中符合指定类型的文档<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"type"</span> : &#123;</div><div class="line">        <span class="string">"value"</span> : <span class="string">"my_type"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = typeQuery(<span class="string">"my_type"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Ids-Query"><a href="#Ids-Query" class="headerlink" title="Ids Query"></a>Ids Query</h5><p>根据id查询,匹配_uid字段<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"ids"</span> : &#123;</div><div class="line">        <span class="string">"type"</span> : <span class="string">"my_type"</span>,</div><div class="line">        <span class="string">"values"</span> : [<span class="string">"1"</span>, <span class="string">"4"</span>, <span class="string">"100"</span>]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = idsQuery(<span class="string">"my_type"</span>, <span class="string">"type2"</span>).addIds(<span class="string">"1"</span>, <span class="string">"4"</span>, <span class="string">"100"</span>);</div><div class="line"></div><div class="line">QueryBuilder qb = idsQuery().addIds(<span class="string">"1"</span>, <span class="string">"4"</span>, <span class="string">"100"</span>);   <span class="comment">//type是可选的</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="Compound-queries"><a href="#Compound-queries" class="headerlink" title="Compound queries"></a>Compound queries</h4><p>符合查询可以包裹其它符合查询或者叶子查询 , 也可以组合它们的结果 , 改变它们的行为，或者从查询环境切换到过滤环境。</p>
+<h5 id="Constant-Score-Query"><a href="#Constant-Score-Query" class="headerlink" title="Constant Score Query"></a>Constant Score Query</h5><p>一个包裹其它查询的查询，执行在过滤环境中，所有匹配的文档都给一个相同的_score分数，默认1，也可以设置boost值作为 _score分数，并简单返回。常用于计算相关度，可参考一个<a href="http://blog.csdn.net/dm_vincent/article/details/42157577" target="_blank" rel="external">博客例子</a>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"constant_score"</span> : &#123;</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123; <span class="string">"user"</span> : <span class="string">"kimchy"</span>&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"boost"</span> : <span class="number">1.2</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = constantScoreQuery(</div><div class="line">        termQuery(<span class="string">"name"</span>,<span class="string">"kimchy"</span>)      </div><div class="line">    )</div><div class="line">    .boost(<span class="number">2.0f</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Bool-Query"><a href="#Bool-Query" class="headerlink" title="Bool Query"></a>Bool Query</h5><p>常用于组合多个叶子查询或多个符合查询字句，有<code>must</code>，<code>should</code>，<code>must_not</code>，<code>filter</code>子句。其中must_not和filter子句执行在过滤环境中。Bool Query使用boolean条件组合其它查询，由一个或者多个boolean子句组成，每个子句都有一个资源类型</p>
+<p>资源类型如下：</p>
+<ul>
+<li>must ：必须有匹配的文档，类似关系数据库的AND</li>
+<li>filter ： 必须有匹配的文档，不同于must，查询分数将被忽略</li>
+<li>should ： 可以有匹配的文档，类似关系数据库的OR。   在一个没有must或filter的boolean字句中，必须有至少一个should字句匹配文档，可以通过设置<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-minimum-should-match.html" target="_blank" rel="external">minimum_should_match</a>参数设置至少有多少个boolean字句必须匹配文档</li>
+<li>must_not：与must相反<blockquote>
+<p>注意：如果boolean查询使用在filter环境并且含有<code>should</code>子句，则至少有一个<code>should</code>子句能够匹配到文档。</p>
+</blockquote>
+</li>
+</ul>
+<p>示例<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span> : &#123;</div><div class="line">        <span class="string">"must"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123; <span class="string">"user"</span> : <span class="string">"kimchy"</span> &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span>: &#123;</div><div class="line">            <span class="string">"term"</span> : &#123; <span class="string">"tag"</span> : <span class="string">"tech"</span> &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"must_not"</span> : &#123;</div><div class="line">            <span class="string">"range"</span> : &#123;</div><div class="line">                <span class="string">"age"</span> : &#123; <span class="string">"from"</span> : <span class="number">10</span>, <span class="string">"to"</span> : <span class="number">20</span> &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"should"</span> : [</div><div class="line">            &#123;</div><div class="line">                <span class="string">"term"</span> : &#123; <span class="string">"tag"</span> : <span class="string">"wow"</span> &#125;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="string">"term"</span> : &#123; <span class="string">"tag"</span> : <span class="string">"elasticsearch"</span> &#125;</div><div class="line">            &#125;</div><div class="line">        ],</div><div class="line">        <span class="string">"minimum_should_match"</span> : <span class="number">1</span>,</div><div class="line">        <span class="string">"boost"</span> : <span class="number">1.0</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>关于boolean查询中_score分数的计算参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-bool-query.html" target="_blank" rel="external">官方文档</a>。</p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = boolQuery()</div><div class="line">    .must(termQuery(<span class="string">"content"</span>, <span class="string">"test1"</span>))    </div><div class="line">    .must(termQuery(<span class="string">"content"</span>, <span class="string">"test4"</span>))    </div><div class="line">    .mustNot(termQuery(<span class="string">"content"</span>, <span class="string">"test2"</span>)) </div><div class="line">    .should(termQuery(<span class="string">"content"</span>, <span class="string">"test3"</span>));</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Dis-Max-Query"><a href="#Dis-Max-Query" class="headerlink" title="Dis Max Query"></a>Dis Max Query</h5><p>类似于Boolean查询的should，组合多个子查询，取子查询中最高的分数作为最终文档的分数。详细说明和示例参考博客：<a href="http://blog.csdn.net/dm_vincent/article/details/41820537" target="_blank" rel="external">[Elasticsearch] 多字段搜索 (二) - 最佳字段查询及其调优
+</a></p>
+<p>示例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"dis_max"</span> : &#123;</div><div class="line">        <span class="string">"tie_breaker"</span> : <span class="number">0.7</span>,</div><div class="line">        <span class="string">"boost"</span> : <span class="number">1.2</span>,</div><div class="line">        <span class="string">"queries"</span> : [</div><div class="line">            &#123;</div><div class="line">                <span class="string">"term"</span> : &#123; <span class="string">"age"</span> : <span class="number">34</span> &#125;</div><div class="line">            &#125;,</div><div class="line">            &#123;</div><div class="line">                <span class="string">"term"</span> : &#123; <span class="string">"age"</span> : <span class="number">35</span> &#125;</div><div class="line">            &#125;</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = disMaxQuery()</div><div class="line">    .add(termQuery(<span class="string">"name"</span>, <span class="string">"kimchy"</span>))        </div><div class="line">    .add(termQuery(<span class="string">"name"</span>, <span class="string">"elasticsearch"</span>)) </div><div class="line">    .boost(<span class="number">1.2f</span>)                             </div><div class="line">    .tieBreaker(<span class="number">0.7f</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Function-Score-Query"><a href="#Function-Score-Query" class="headerlink" title="Function Score Query"></a>Function Score Query</h5><p>允许用户修改通过查询得到的文档的分数。，使用<code>function_score</code>，用户可以定义一个或者多个functions，对每一个文档计算一个新的分数。多个function可以进行组合，更多详细内容参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-function-score-query.html" target="_blank" rel="external">官方文档</a>或博客<a href="http://blog.csdn.net/dm_vincent/article/details/42201789" target="_blank" rel="external">function_score查询中的filter，functions及random_score参数</a></p>
+<p>基本格式如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="string">"function_score"</span>: &#123;</div><div class="line">    <span class="string">"query"</span>: &#123;&#125;,</div><div class="line">    <span class="string">"boost"</span>: <span class="string">"boost for the whole query"</span>,</div><div class="line">    <span class="string">"functions"</span>: [</div><div class="line">        &#123;</div><div class="line">            <span class="string">"filter"</span>: &#123;&#125;,</div><div class="line">            <span class="string">"FUNCTION"</span>: &#123;&#125;, </div><div class="line">            <span class="string">"weight"</span>: number</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="string">"FUNCTION"</span>: &#123;&#125; </div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            <span class="string">"filter"</span>: &#123;&#125;,</div><div class="line">            <span class="string">"weight"</span>: number</div><div class="line">        &#125;</div><div class="line">    ],</div><div class="line">    <span class="string">"max_boost"</span>: number,</div><div class="line">    <span class="string">"score_mode"</span>: <span class="string">"(multiply|max|...)"</span>,</div><div class="line">    <span class="string">"boost_mode"</span>: <span class="string">"(multiply|replace|...)"</span>,</div><div class="line">    <span class="string">"min_score"</span> : number</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试数据中name字段有以下数据：[“test222”,”test333”,”this is test”,”张三”]。查询如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"function_score"</span>: &#123;</div><div class="line">      <span class="string">"functions"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="string">"filter"</span>: &#123;</div><div class="line">            <span class="string">"term"</span>: &#123;</div><div class="line">              <span class="string">"name"</span>: <span class="string">"test"</span></div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">          <span class="string">"weight"</span>: <span class="number">1.5</span></div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">          <span class="string">"filter"</span>: &#123;</div><div class="line">            <span class="string">"term"</span>: &#123;</div><div class="line">              <span class="string">"name"</span>: <span class="string">"test222"</span></div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">          <span class="string">"weight"</span>: <span class="number">2</span></div><div class="line">        &#125;</div><div class="line">      ]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行上面的查询，查询所有数据，得到的结果顺序如下：[“test222”,”this is test”,”test333”,”张三”],其分数分别是[2,1.5,1,1]。</p>
+<p>如果不指定filter，默认查询全部<code>&quot;match_all&quot;: {}</code>。</p>
+<p>定义的function将计算每一个内部filter匹配的文档的分数，通过制定score_mode可以决定分数的计算方式。score_mode 参数值如下：</p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>multiply</td>
+<td>分数相乘，默认值</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>分数求和</td>
+</tr>
+<tr>
+<td>avg</td>
+<td>分数值取平均值</td>
+</tr>
+<tr>
+<td>first</td>
+<td>应用第一个匹配到的function的分数</td>
+</tr>
+<tr>
+<td>max</td>
+<td>取最大值</td>
+</tr>
+<tr>
+<td>min</td>
+<td>取最小值</td>
+</tr>
+</tbody>
+</table>
+<p>boost_mode 参数说明如下：<br>| 参数名      | 含义                     |<br>| ——– | ———————- |<br>| multiply | 查询分数和和function分数相乘，默认值 |<br>| replace  | 忽略查询分数，使用function分数    |<br>| sum      | 查询分数和function分数相加      |<br>| avg      | 取平均值                   |<br>| max      | 查询分数和function分数取最大值    |<br>| min      | 查询分数和function分数取最小值    |</p>
+<p>随机分值计算random_score</p>
+<p>使用当前的查询，拥有相同的_score的结果每次的返回顺序都是相同的。此时引入一定程度的随机性会更好，来保证拥有相同分值的文档都能有同等的展示机会。<br>我们希望每个用户都能看到一个不同的随机顺序，但是对于相同的用户，当他点击第二页，第三页或者后续页面时，看到的顺序应该是相同的。这就是所谓的一致性随机(Consistently Random)。<br>random_score函数，它的输出是一个介于0到1之间的数字，当给它提供相同的seed值时，它能够产生一致性随机的结果，这个seed值可以是用户的会话(Session)ID。</p>
+<blockquote>
+<p>注意：在博客中random_score是写在functions数组中，测试时会打乱所有文档的顺序而不是同分数文档的顺序，如果需要打乱同分数文档的顺序，将random_score写在function中</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="string">"functions"</span>: [</div><div class="line">        &#123;</div><div class="line">          <span class="string">"filter"</span>: &#123;</div><div class="line">            <span class="string">"term"</span>: &#123;</div><div class="line">              <span class="string">"name"</span>: <span class="string">"test"</span></div><div class="line">            &#125;</div><div class="line">          &#125;,</div><div class="line">          <span class="string">"weight"</span>: <span class="number">1.5</span>,</div><div class="line">          <span class="string">"random_score"</span>: &#123; <span class="comment">//打乱同分数文档的顺序</span></div><div class="line">             <span class="string">"seed"</span> : xxx</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ]</div></pre></td></tr></table></figure>
+<p>java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = functionScoreQuery()</div><div class="line">    .add(</div><div class="line">        matchQuery(<span class="string">"name"</span>, <span class="string">"kimchy"</span>),             </div><div class="line">        randomFunction(<span class="string">"ABCDEF"</span>)                  </div><div class="line">    )</div><div class="line">    .add(</div><div class="line">        exponentialDecayFunction(<span class="string">"age"</span>, <span class="number">0L</span>, <span class="number">1L</span>)   </div><div class="line">    );</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Boosting-Query"><a href="#Boosting-Query" class="headerlink" title="Boosting Query"></a>Boosting Query</h5><p>boosting 查询能够有效地对查询的文档降级，不同于boolean查询的not子句，该查询仍然包含“不良的”term，但是会降低它们的整体分数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"boosting"</span> : &#123;</div><div class="line">        <span class="string">"positive"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123;</div><div class="line">                <span class="string">"field1"</span> : <span class="string">"value1"</span></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"negative"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123;</div><div class="line">                <span class="string">"field2"</span> : <span class="string">"value2"</span></div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"negative_boost"</span> : <span class="number">0.2</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = boostingQuery()</div><div class="line">    .positive(termQuery(<span class="string">"name"</span>,<span class="string">"kimchy"</span>))   </div><div class="line">    .negative(termQuery(<span class="string">"name"</span>,<span class="string">"dadoonet"</span>)) </div><div class="line">    .negativeBoost(<span class="number">0.2f</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Indices-Query"><a href="#Indices-Query" class="headerlink" title="Indices Query"></a>Indices Query</h5><p>可以跨多个索引查询，指定一个索引列表和内部的query结构，该query结构仅在指定的索引列表上查找，对于不在指定的列表中但是被查询到的其它索引，可以执行可选的<code>no_match_query</code>参数。</p>
+<p>如下，假设<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"indices"</span> : &#123;</div><div class="line">        <span class="string">"indices"</span> : [<span class="string">"index1"</span>, <span class="string">"index2"</span>],</div><div class="line">        <span class="string">"query"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123; <span class="string">"tag"</span> : <span class="string">"wow"</span> &#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"no_match_query"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123; <span class="string">"tag"</span> : <span class="string">"kow"</span> &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>no_match_query可以指定为一个字符串值 “none”，表示不在其它索引上执行查询，默认值 “all”。</p>
+<blockquote>
+<p>注意：执行indices查询时，不能在顶层指定索引。示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">http://192.168.70.128:9200/radiott/artiststt/_search? -d</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;indices&quot;: &#123;</div><div class="line">      &quot;indices&quot;: [</div><div class="line">        &quot;sys&quot;</div><div class="line">      ],</div><div class="line">      &quot;query&quot;: &#123;</div><div class="line">        &quot;term&quot;: &#123;</div><div class="line">          &quot;user_id&quot;: &quot;1&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      &quot;no_match_query&quot;: &#123;</div><div class="line">        &quot;term&quot;: &#123;</div><div class="line">          &quot;name&quot;: &quot;test&quot;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>在上例中，指定了索引为radiott，类型为artiststt，是无法再在索引sys查找user_id为 “1”的文档的，只会执行not_match_query的查询。<br>Java示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">QueryBuilder builder = QueryBuilders.indicesQuery(QueryBuilders.termQuery(<span class="string">"user_id"</span>,<span class="string">"1"</span>),<span class="string">"sys"</span>)</div><div class="line">                .noMatchQuery(QueryBuilders.termQuery(<span class="string">"name"</span>,<span class="string">"test"</span>));</div><div class="line">SearchResponse res = client.prepareSearch().setQuery(builder).execute().actionGet();</div><div class="line"></div><div class="line"><span class="comment">//官方给出的伪代码如下：</span></div><div class="line">QueryBuilder qb = indicesQuery(</div><div class="line">        termQuery(<span class="string">"tag"</span>, <span class="string">"wow"</span>),            </div><div class="line">        <span class="string">"index1"</span>, <span class="string">"index2"</span>                  </div><div class="line">    ).noMatchQuery(<span class="string">"all"</span>);</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="Joining-queries"><a href="#Joining-queries" class="headerlink" title="Joining queries"></a>Joining queries</h4><p>详情见<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-joining-queries.html" target="_blank" rel="external">官方文档</a></p>
+<p>在类似于elasticsearch这样的分布式系统中实现全功能的SQL是非常非常耗费性能的，作为替代，elasticsearch提供了两种形式的join，可以实现横向扩展。</p>
+<ul>
+<li>nested query</li>
+</ul>
+<p>文档包含类型是<code>nested</code>的字段，这些字段索引了对象数组，每一个对象作为一个独立的文档都能被查询(使用nested query)。</p>
+<ul>
+<li>has_child和has_parent queries</li>
+</ul>
+<p>在一个索引中两个文档类型可以是父子关系，<code>has_child</code>查询返回父文档中符合匹配条件的子文档。<code>has_parent</code>查询返回子文档中符合匹配条件的父文档。</p>
+<h5 id="nested-query"><a href="#nested-query" class="headerlink" title="nested query"></a>nested query</h5><p>nested查询可以查询嵌入的对象或文档（嵌入数据映射见<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/nested.html" target="_blank" rel="external">nested mapping</a>）。该查询执行在被嵌入的对象或文档上，就好像嵌入的文档或对象是被独立索引的(实际上还是内部的)，最终查询结果展示在父文档的根下（或是父文档的嵌入结构）。</p>
+<p>定义数据结构<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">PUT my_index</div><div class="line">&#123;</div><div class="line">  <span class="string">"mappings"</span>: &#123;</div><div class="line">    <span class="string">"my_type"</span>: &#123;</div><div class="line">      <span class="string">"properties"</span>: &#123;</div><div class="line">        <span class="string">"user"</span>: &#123;</div><div class="line">          <span class="string">"type"</span>: <span class="string">"nested"</span> </div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>插入数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">PUT my_index/my_type/<span class="number">1</span></div><div class="line">&#123;</div><div class="line">  <span class="string">"group"</span> : <span class="string">"fans"</span>,</div><div class="line">  <span class="string">"user"</span> : [</div><div class="line">    &#123;</div><div class="line">      <span class="string">"first"</span> : <span class="string">"John"</span>,</div><div class="line">      <span class="string">"last"</span> :  <span class="string">"Smith"</span></div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">      <span class="string">"first"</span> : <span class="string">"Alice"</span>,</div><div class="line">      <span class="string">"last"</span> :  <span class="string">"White"</span></div><div class="line">    &#125;</div><div class="line">  ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查询语句<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">GET my_index/_search</div><div class="line">&#123;</div><div class="line">  <span class="string">"query"</span>: &#123;</div><div class="line">    <span class="string">"nested"</span>: &#123;</div><div class="line">      <span class="string">"path"</span>: <span class="string">"user"</span>,</div><div class="line">      <span class="string">"score_mode"</span> : <span class="string">"avg"</span>,</div><div class="line">      <span class="string">"query"</span>: &#123;</div><div class="line">        <span class="string">"bool"</span>: &#123;</div><div class="line">          <span class="string">"must"</span>: [</div><div class="line">            &#123; <span class="string">"match"</span>: &#123; <span class="string">"user.first"</span>: <span class="string">"Alice"</span> &#125;&#125;,</div><div class="line">            &#123; <span class="string">"match"</span>: &#123; <span class="string">"user.last"</span>:  <span class="string">"Smith"</span> &#125;&#125; </div><div class="line">          ]</div><div class="line">        &#125;</div><div class="line">      &#125;,</div><div class="line">      <span class="string">"inner_hits"</span>: &#123;   <span class="comment">//这是可选部分，允许高亮匹配的嵌入文档</span></div><div class="line">        <span class="string">"highlight"</span>: &#123;</div><div class="line">          <span class="string">"fields"</span>: &#123;</div><div class="line">            <span class="string">"user.first"</span>: &#123;&#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在上面的示例中，<code>path</code>指出嵌入文档的路径，<code>query</code>包含了将要执行在嵌入文档上的查询，然后和父文档连接。需要注意的是任何关联到内部查询的字段都必须使用全路径。</p>
+<p><code>score_mode</code>允许用户定义匹配的嵌入文档怎样影响关联父文档的分数，默认<code>avg</code>，也可以是<code>sum</code>，<code>min</code>，<code>max</code>和<code>none</code>。</p>
+<p>支持多级嵌套和检索，内部嵌套的查询将会自动匹配对应的嵌入层级。</p>
+<p>Java 示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = nestedQuery(</div><div class="line">        <span class="string">"obj1"</span>,               </div><div class="line">        boolQuery()           </div><div class="line">                .must(matchQuery(<span class="string">"obj1.name"</span>, <span class="string">"blue"</span>))</div><div class="line">                .must(rangeQuery(<span class="string">"obj1.count"</span>).gt(<span class="number">5</span>))</div><div class="line">    )</div><div class="line">    .scoreMode(<span class="string">"avg"</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="has-child-query"><a href="#has-child-query" class="headerlink" title="has child query"></a>has child query</h5><p>关于父子类型的映射关系参考官方文档 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/mapping-parent-field.html" target="_blank" rel="external">_parent field</a>。</p>
+<p><code>has_child</code>查询接受一个query参数和一个child type，然后将查询结果展示在父文档中。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"has_child"</span> : &#123;</div><div class="line">        <span class="string">"type"</span> : <span class="string">"blog_tag"</span>,</div><div class="line">        <span class="string">"score_mode"</span> : <span class="string">"sum"</span>,   <span class="comment">//可选，默认none</span></div><div class="line">        <span class="string">"min_children"</span>: <span class="number">2</span>,      <span class="comment">//可选</span></div><div class="line">        <span class="string">"max_children"</span>: <span class="number">10</span>,     <span class="comment">//可选</span></div><div class="line">        <span class="string">"query"</span> : &#123;</div><div class="line">            <span class="string">"term"</span> : &#123;</div><div class="line">                <span class="string">"tag"</span> : <span class="string">"something"</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>score_mode</code>包含<code>min</code>，<code>max</code>，<code>avg</code>，<code>none</code>，默认<code>none</code>。</li>
+<li><code>min_children</code>和<code>max_children</code>可以指定父文档必须匹配子文档的最小/最大数量，可选值，可结合<code>score_mode</code>一起使用</li>
+<li>父文档不能直接使用子文档中的字段进行排序，如果需要根据子文档的字段排序，可以使用<code>function_score</code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"query"</span>: &#123;</div><div class="line">        <span class="string">"has_child"</span> : &#123;</div><div class="line">            <span class="string">"type"</span> : <span class="string">"blog_tag"</span>,</div><div class="line">            <span class="string">"score_mode"</span> : <span class="string">"max"</span>,</div><div class="line">            <span class="string">"query"</span> : &#123;</div><div class="line">                <span class="string">"function_score"</span> : &#123;</div><div class="line">                    <span class="string">"script_score"</span>: &#123;</div><div class="line">                        <span class="string">"script"</span>: <span class="string">"_score * doc['click_count'].value"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>java 示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = hasChildQuery(</div><div class="line">    <span class="string">"blog_tag"</span>,                     </div><div class="line">    termQuery(<span class="string">"tag"</span>,<span class="string">"something"</span>)    </div><div class="line">);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="has-parent-query"><a href="#has-parent-query" class="headerlink" title="has parent query"></a>has parent query</h5><p><code>has_parent</code>查询接受一个query参数和一个parent type，query对应的查询执行在指定的父文档空间中，查询返回与父文档关联的子文档，<code>has_parent</code>参数和工作方式与<code>has_child</code>保持一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;has_parent&quot; : &#123;</div><div class="line">        &quot;parent_type&quot; : &quot;blog&quot;,</div><div class="line">        &quot;query&quot; : &#123;</div><div class="line">            &quot;term&quot; : &#123;</div><div class="line">                &quot;tag&quot; : &quot;something&quot;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>分数计算和排序参考<code>has_child</code>。</p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = hasParentQuery(</div><div class="line">    <span class="string">"blog"</span>,                         </div><div class="line">    termQuery(<span class="string">"tag"</span>,<span class="string">"something"</span>)    </div><div class="line">);</div></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="Geo-queries"><a href="#Geo-queries" class="headerlink" title="Geo queries"></a>Geo queries</h4><p>elasticsearch支持两种geo类型数据，<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/geo-point.html" target="_blank" rel="external">geo_point</a> 和 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/geo-shape.html" target="_blank" rel="external">geo_shape</a>。geo_point支持lat/lon数据对，geo_shape支持点、线、圆、多边形、复合多边形等等。</p>
+<h5 id="geo-shape-query"><a href="#geo-shape-query" class="headerlink" title="geo shape query"></a>geo shape query</h5><p>通过指定的geo_shape 查找与文档中的 geo_shape 的交集、包含或是相离。关于geo_shape mapping参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/geo-shape.html" target="_blank" rel="external">官方文档</a></p>
+<blockquote>
+<p>注意：geo_shape类型使用<code>Spatial4J</code>和<code>JTS</code>，两者都是可选的依赖，如果使用了geo_shape类型确保引入了以下依赖</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spatial4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spatial4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span>                        </div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.vividsolutions<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jts<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.13<span class="tag">&lt;/<span class="name">version</span>&gt;</span>                         </div><div class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>xerces<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>xercesImpl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>geo_shape查询使用坐标网格表示法定义字段映射检索文档。它也可以使用同样的的PrefixTree配置定义字段映射。该查询支持两种方式定义形状，一种是提供完整的形状定义，另一种是引用其它索引定义的形状的名称。  </p>
+<p><strong>内联形状定义</strong></p>
+<p>使用<a href="http://geojson.org/" target="_blank" rel="external">GeoJSON</a>表示形状。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"name"</span>: <span class="string">"Wind &amp; Wetter, Berlin, Germany"</span>,</div><div class="line">    <span class="string">"location"</span>: &#123;</div><div class="line">        <span class="string">"type"</span>: <span class="string">"Point"</span>,</div><div class="line">        <span class="string">"coordinates"</span>: [<span class="number">13.400544</span>, <span class="number">52.530286</span>]</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>下面的例子使用elasticsearch的<code>envelope</code> GeoJSON扩展查找上面的文档<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"query"</span>:&#123;</div><div class="line">        <span class="string">"bool"</span>: &#123;</div><div class="line">            <span class="string">"must"</span>: &#123;</div><div class="line">                <span class="string">"match_all"</span>: &#123;&#125;</div><div class="line">            &#125;,</div><div class="line">            <span class="string">"filter"</span>: &#123;</div><div class="line">                <span class="string">"geo_shape"</span>: &#123;</div><div class="line">                    <span class="string">"location"</span>: &#123;</div><div class="line">                        <span class="string">"shape"</span>: &#123;</div><div class="line">                            <span class="string">"type"</span>: <span class="string">"envelope"</span>,</div><div class="line">                            <span class="string">"coordinates"</span> : [[<span class="number">13.0</span>, <span class="number">53.0</span>], [<span class="number">14.0</span>, <span class="number">52.0</span>]]</div><div class="line">                        &#125;,</div><div class="line">                        <span class="string">"relation"</span>: <span class="string">"within"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>预定义形状</strong></p>
+<p>geo_shape查询也支持预先被其它索引或类型定义的形状，在应用程序中，使用预先定义的形状名称(如新西兰地图)比每次都提供其坐标点集要方便得多。在这种情况下，需要提供以下参数:</p>
+<ul>
+<li>id：包含预定义形状的文档的id</li>
+<li>index：包含预定义形状的索引，默认是<code>shapes</code></li>
+<li>type：包含预定义形状的索引类型</li>
+<li>path：存储预定义形状的字段名称，默认是<code>shape</code></li>
+</ul>
+<p>下面的例子是使用过滤器筛选形状<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span>: &#123;</div><div class="line">        <span class="string">"must"</span>: &#123;</div><div class="line">            <span class="string">"match_all"</span>: &#123;&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span>: &#123;</div><div class="line">            <span class="string">"geo_shape"</span>: &#123;</div><div class="line">                <span class="string">"location"</span>: &#123;</div><div class="line">                    <span class="string">"indexed_shape"</span>: &#123;</div><div class="line">                        <span class="string">"id"</span>: <span class="string">"DEU"</span>,</div><div class="line">                        <span class="string">"type"</span>: <span class="string">"countries"</span>,</div><div class="line">                        <span class="string">"index"</span>: <span class="string">"shapes"</span>,</div><div class="line">                        <span class="string">"path"</span>: <span class="string">"location"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>空间关系</strong></p>
+<p><a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/geo-shape.html#spatial-strategy" target="_blank" rel="external">geo_shape策略</a>映射参数定义了在查询时可能用到的空间关系操作</p>
+<ul>
+<li>INTERSECTS：默认值，返回所有与查询形状相交的文档</li>
+<li>DISJOINT ：返回所有与查询形状相离的文档</li>
+<li>WITHIN：返回所有在查询形状之内的文档</li>
+<li>CONTAINS：返回所有包含查询形状的文档</li>
+</ul>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = geoShapeQuery(</div><div class="line">    <span class="string">"pin.location"</span>,                     <span class="comment">//查询字段名</span></div><div class="line">    ShapeBuilder.newMultiPoint()        <span class="comment">//定义形状</span></div><div class="line">        .point(<span class="number">0</span>, <span class="number">0</span>)</div><div class="line">        .point(<span class="number">0</span>, <span class="number">10</span>)</div><div class="line">        .point(<span class="number">10</span>, <span class="number">10</span>)</div><div class="line">        .point(<span class="number">10</span>, <span class="number">0</span>)</div><div class="line">        .point(<span class="number">0</span>, <span class="number">0</span>),</div><div class="line">    ShapeRelation.WITHIN);              <span class="comment">//空间关系</span></div><div class="line">    </div><div class="line"><span class="comment">// 使用预定义形状</span></div><div class="line">QueryBuilder qb = geoShapeQuery(</div><div class="line">        <span class="string">"pin.location"</span>,                 <span class="comment">//查询字段名</span></div><div class="line">        <span class="string">"DEU"</span>,                          <span class="comment">//预定义形状所在的文档ID</span></div><div class="line">        <span class="string">"countries"</span>,                    <span class="comment">//形状所在的索引类型</span></div><div class="line">        ShapeRelation.WITHIN)           <span class="comment">//空间关系</span></div><div class="line">    .indexedShapeIndex(<span class="string">"shapes"</span>)        <span class="comment">//形状所在的索引名称，默认“shapes”</span></div><div class="line">    .indexedShapePath(<span class="string">"location"</span>);      <span class="comment">//保存形状数据的字段名</span></div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Geo-Bounding-Box-Query"><a href="#Geo-Bounding-Box-Query" class="headerlink" title="Geo Bounding Box Query"></a>Geo Bounding Box Query</h5><p>查找所有指定字段的定位点在边界盒内的文档</p>
+<p>假设一份文档数据如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"pin"</span> : &#123;</div><div class="line">        <span class="string">"location"</span> : &#123;</div><div class="line">            <span class="string">"lat"</span> : <span class="number">40.12</span>,</div><div class="line">            <span class="string">"lon"</span> : <span class="number">-71.34</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>简单的查询示例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span> : &#123;</div><div class="line">        <span class="string">"must"</span> : &#123;</div><div class="line">            <span class="string">"match_all"</span> : &#123;&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"geo_bounding_box"</span> : &#123;</div><div class="line">                <span class="string">"pin.location"</span> : &#123;</div><div class="line">                    <span class="string">"top_left"</span> : &#123;</div><div class="line">                        <span class="string">"lat"</span> : <span class="number">40.73</span>,</div><div class="line">                        <span class="string">"lon"</span> : <span class="number">-74.1</span></div><div class="line">                    &#125;,</div><div class="line">                    <span class="string">"bottom_right"</span> : &#123;</div><div class="line">                        <span class="string">"lat"</span> : <span class="number">40.01</span>,</div><div class="line">                        <span class="string">"lon"</span> : <span class="number">-71.12</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>可以接受的数据格式</strong></p>
+<ul>
+<li><p>lat/lon格式，推荐格式，最直观最安全</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"pin.location"</span> : &#123;</div><div class="line">    <span class="string">"top_left"</span> : &#123;<span class="string">"lat"</span> : <span class="number">40.73</span>,<span class="string">"lon"</span> : <span class="number">-74.1</span>&#125;,</div><div class="line">    <span class="string">"bottom_right"</span>:&#123;<span class="string">"lat"</span> : <span class="number">40.01</span>,<span class="string">"lon"</span> : <span class="number">-71.12</span>&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>[lon,lat]</code>数组格式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"pin.location"</span> : &#123;</div><div class="line">    <span class="string">"top_left"</span> : [<span class="number">-74.1</span>, <span class="number">40.73</span>],</div><div class="line">    <span class="string">"bottom_right"</span> : [<span class="number">-71.12</span>, <span class="number">40.01</span>]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>lat,lon</code> 字符串格式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"pin.location"</span> : &#123;</div><div class="line">    <span class="string">"top_left"</span> : <span class="string">"40.73, -74.1"</span>,</div><div class="line">    <span class="string">"bottom_right"</span> : <span class="string">"40.01, -71.12"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>geohash格式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"pin.location"</span> : &#123;</div><div class="line">    <span class="string">"top_left"</span> : <span class="string">"dr5r9ydj2y73"</span>,</div><div class="line">    <span class="string">"bottom_right"</span> : <span class="string">"drj7teegpus6"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>vertices 顶点格式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="string">"pin.location"</span> : &#123;</div><div class="line">    <span class="string">"top"</span> : <span class="number">-74.1</span>,</div><div class="line">    <span class="string">"left"</span> : <span class="number">40.73</span>,</div><div class="line">    <span class="string">"bottom"</span> : <span class="number">-71.12</span>,</div><div class="line">    <span class="string">"right"</span> : <span class="number">40.01</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = geoBoundingBoxQuery(<span class="string">"pin.location"</span>) </div><div class="line">    .topLeft(<span class="number">40.73</span>, -<span class="number">74.1</span>)                            </div><div class="line">    .bottomRight(<span class="number">40.717</span>, -<span class="number">73.99</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Geo-Distance-Query"><a href="#Geo-Distance-Query" class="headerlink" title="Geo Distance Query"></a>Geo Distance Query</h5><p>查询文档中geo_point与指定geo_point间的距离在指定长度内的文档。</p>
+<p>假设有以下数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"pin"</span> : &#123;</div><div class="line">        <span class="string">"location"</span> : &#123;</div><div class="line">            <span class="string">"lat"</span> : <span class="number">40.12</span>,</div><div class="line">            <span class="string">"lon"</span> : <span class="number">-71.34</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试查询如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span> : &#123;</div><div class="line">        <span class="string">"must"</span> : &#123;</div><div class="line">            <span class="string">"match_all"</span> : &#123;&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"geo_distance"</span> : &#123;</div><div class="line">                <span class="string">"distance"</span> : <span class="string">"200km"</span>,</div><div class="line">                <span class="string">"pin.location"</span> : &#123;</div><div class="line">                    <span class="string">"lat"</span> : <span class="number">40</span>,</div><div class="line">                    <span class="string">"lon"</span> : <span class="number">-70</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>接受的定位数据格式与geo bounding box query一致。其它可选参数如下：</p>
+<ul>
+<li>distance：以指定坐标点为圆心的半径，所有在圆内的geo_point都将被匹配，支持的有<code>cm</code>，<code>m</code>，<code>km</code>，更多单位参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/common-options.html#distance-units" target="_blank" rel="external">the section called “Distance Unitsedit”</a></li>
+<li>distance_type：决定怎样计算距离，<code>sloppy_arc</code>(默认方式)，<code>arc</code>（准确的最高但更耗费性能），<code>plane</code>（速度最快，计算的距离越长或越靠近极点误差最大）</li>
+</ul>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = geoDistanceQuery(<span class="string">"pin.location"</span>)  </div><div class="line">    .point(<span class="number">40</span>, -<span class="number">70</span>)                                 </div><div class="line">    .distance(<span class="number">200</span>, DistanceUnit.KILOMETERS)         </div><div class="line">    .optimizeBbox(<span class="string">"memory"</span>)       <span class="comment">//默认值就是“memory”                  </span></div><div class="line">    .geoDistance(GeoDistance.ARC);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Geo-Distance-Range-Query"><a href="#Geo-Distance-Range-Query" class="headerlink" title="Geo Distance Range Query"></a>Geo Distance Range Query</h5><p>查询与指定坐标点在指定范围内的文档，支持的参数同geo_distance查询，也支持范围查询的通用参数如<code>lt</code>,<code>lte</code>,<code>gt</code>,<code>gte</code>,<code>from</code>,<code>to</code>,<code>include_upper</code>,<code>include_lower</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span> : &#123;</div><div class="line">        <span class="string">"must"</span> : &#123;</div><div class="line">            <span class="string">"match_all"</span> : &#123;&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"geo_distance_range"</span> : &#123;</div><div class="line">                <span class="string">"from"</span> : <span class="string">"200km"</span>,</div><div class="line">                <span class="string">"to"</span> : <span class="string">"400km"</span>,</div><div class="line">                <span class="string">"pin.location"</span> : &#123;</div><div class="line">                    <span class="string">"lat"</span> : <span class="number">40</span>,</div><div class="line">                    <span class="string">"lon"</span> : <span class="number">-70</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = geoDistanceRangeQuery(<span class="string">"pin.location"</span>)         </div><div class="line">    .point(<span class="number">40</span>, -<span class="number">70</span>)                                             </div><div class="line">    .from(<span class="string">"200km"</span>)                                              </div><div class="line">    .to(<span class="string">"400km"</span>)                                                </div><div class="line">    .includeLower(<span class="keyword">true</span>)                                         </div><div class="line">    .includeUpper(<span class="keyword">false</span>)                                        </div><div class="line">    .optimizeBbox(<span class="string">"memory"</span>)                                     </div><div class="line">    .geoDistance(GeoDistance.ARC);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Geo-Polygon-Query"><a href="#Geo-Polygon-Query" class="headerlink" title="Geo Polygon Query"></a>Geo Polygon Query</h5><p>查询坐标点落在指定多边形内的文档<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"bool"</span> : &#123;</div><div class="line">        <span class="string">"query"</span> : &#123;</div><div class="line">            <span class="string">"match_all"</span> : &#123;&#125;</div><div class="line">        &#125;,</div><div class="line">        <span class="string">"filter"</span> : &#123;</div><div class="line">            <span class="string">"geo_polygon"</span> : &#123;</div><div class="line">                <span class="string">"person.location"</span> : &#123;</div><div class="line">                    <span class="string">"points"</span> : [</div><div class="line">                        &#123;<span class="string">"lat"</span> : <span class="number">40</span>, <span class="string">"lon"</span> : <span class="number">-70</span>&#125;,</div><div class="line">                        &#123;<span class="string">"lat"</span> : <span class="number">30</span>, <span class="string">"lon"</span> : <span class="number">-80</span>&#125;,</div><div class="line">                        &#123;<span class="string">"lat"</span> : <span class="number">20</span>, <span class="string">"lon"</span> : <span class="number">-90</span>&#125;</div><div class="line">                    ]</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>支持的坐标数据格式同geo boundingbox query，也可参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-geo-polygon-query.html#_allowed_formats" target="_blank" rel="external">官方文档</a></p>
+<p>Java示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">QueryBuilder qb = geoPolygonQuery(<span class="string">"pin.location"</span>)       </div><div class="line">    .addPoint(<span class="number">40</span>, -<span class="number">70</span>)                                  </div><div class="line">    .addPoint(<span class="number">30</span>, -<span class="number">80</span>)                                  </div><div class="line">    .addPoint(<span class="number">20</span>, -<span class="number">90</span>);</div></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="Geohash-Cell-Query"><a href="#Geohash-Cell-Query" class="headerlink" title="Geohash Cell Query"></a>Geohash Cell Query</h5><p>参考<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/query-dsl-geohash-cell-query.html" target="_blank" rel="external">官方文档</a>。</p>
+<p>Java示例参考<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-geo-queries.html#java-query-dsl-geohash-cell-query" target="_blank" rel="external">官方文档</a>。</p>
+<hr>
+<h4 id="Specialized-queries"><a href="#Specialized-queries" class="headerlink" title="Specialized queries"></a>Specialized queries</h4>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/elasticsearch/">elasticsearch</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/08/18/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-聚合/" data-tooltip="elasticsearh文档整理-聚合">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/06/16/elasticsearh文档整理-查询/"
+     data-title="elasticsearh文档整理-查询" data-url="https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/06/16/elasticsearh文档整理-查询/" data-title="elasticsearh文档整理-查询" data-url="https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/08/18/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-聚合/" data-tooltip="elasticsearh文档整理-聚合">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

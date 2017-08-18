@@ -1,0 +1,561 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>elasticsearch安装与集成 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="elasticsearch版本 2.4.5
+安装
+下载es并解压
+修改config目录下elasticsearch.yml文件
+1234cluster.name: my-esnode.name: node-1network.host: 192.168.70.128http.port: 9200
+
+在elasticsearch根目录下创建data目录
+
+
+elasticsearch不允许使用root">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="elasticsearch安装与集成">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="elasticsearch版本 2.4.5
+安装
+下载es并解压
+修改config目录下elasticsearch.yml文件
+1234cluster.name: my-esnode.name: node-1network.host: 192.168.70.128http.port: 9200
+
+在elasticsearch根目录下创建data目录
+
+
+elasticsearch不允许使用root">
+<meta property="og:updated_time" content="2017-08-18T09:52:18.569Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="elasticsearch安装与集成">
+<meta name="twitter:description" content="elasticsearch版本 2.4.5
+安装
+下载es并解压
+修改config目录下elasticsearch.yml文件
+1234cluster.name: my-esnode.name: node-1network.host: 192.168.70.128http.port: 9200
+
+在elasticsearch根目录下创建data目录
+
+
+elasticsearch不允许使用root">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            elasticsearch安装与集成
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-06-14T17:50:59+08:00">
+	
+		    6月 14, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/elasticsearch</div></pre></td></tr></table></figure>
+<p>如果出现以下代码表示启动成功<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"name"</span>: <span class="string">"node-1"</span>,</div><div class="line">    <span class="attr">"cluster_name"</span>: <span class="string">"my-es"</span>,</div><div class="line">    <span class="attr">"cluster_uuid"</span>: <span class="string">"PTij19gvR6iKW2lY9XWGtw"</span>,</div><div class="line">    <span class="attr">"version"</span>: &#123;</div><div class="line">        <span class="attr">"number"</span>: <span class="string">"2.4.5"</span>,</div><div class="line">        <span class="attr">"build_hash"</span>: <span class="string">"c849dd13904f53e63e88efc33b2ceeda0b6a1276"</span>,</div><div class="line">        <span class="attr">"build_timestamp"</span>: <span class="string">"2017-04-24T16:18:17Z"</span>,</div><div class="line">        <span class="attr">"build_snapshot"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="attr">"lucene_version"</span>: <span class="string">"5.5.4"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"tagline"</span>: <span class="string">"You Know, for Search"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h3><ul>
+<li>bin/plugin install plugin-name<h4 id="elasticsearch-sql插件-v2-4-5-0"><a href="#elasticsearch-sql插件-v2-4-5-0" class="headerlink" title="elasticsearch-sql插件(v2.4.5.0)"></a>elasticsearch-sql插件(v2.4.5.0)</h4><a href="https://github.com/NLPchina/elasticsearch-sql/" target="_blank" rel="external">github主页</a><blockquote>
+<p><em>访问地址：<a href="http://192.168.70.128:9200/_plugin/sql/" target="_blank" rel="external">http://192.168.70.128:9200/_plugin/sql/</a></em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/plugin install https://github.com/NLPchina/elasticsearch-sql/releases/download/2.4.5.0/elasticsearch-sql-2.4.5.0.zip</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>也可以从本地文件系统安装插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/plugin install file:///usr/local/hadoop/thirdparty/elasticsearch-2.4.5/elasticsearch-sql-2.4.5.0.zip</div></pre></td></tr></table></figure></p>
+<p>jdbc使用demo</p>
+<blockquote>
+<p>maven仓库地址：<a href="http://mvnrepository.com/artifact/org.nlpcn/elasticsearch-sql" target="_blank" rel="external">http://mvnrepository.com/artifact/org.nlpcn/elasticsearch-sql</a><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.elasticsearch<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.nlpcn<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-sql<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testJDBC</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    Properties properties = <span class="keyword">new</span> Properties();</div><div class="line">    properties.put(<span class="string">"url"</span>, <span class="string">"jdbc:elasticsearch://192.168.70.128:9300/"</span>);</div><div class="line">    DruidDataSource dds = (DruidDataSource) ElasticSearchDruidDataSourceFactory.createDataSource(properties);</div><div class="line">    Connection connection = dds.getConnection();</div><div class="line">    PreparedStatement ps = connection.prepareStatement(<span class="string">"SELECT * from radiott"</span>);</div><div class="line">    ResultSet resultSet = ps.executeQuery();</div><div class="line">    List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">    <span class="keyword">while</span> (resultSet.next()) &#123;</div><div class="line">        System.out.println(resultSet.getString(<span class="string">"id"</span>) + <span class="string">","</span> + resultSet.getString(<span class="string">"name"</span>));</div><div class="line">    &#125;</div><div class="line">    ps.close();</div><div class="line">    connection.close();</div><div class="line">    dds.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="sql的一些注意事项"><a href="#sql的一些注意事项" class="headerlink" title="sql的一些注意事项"></a>sql的一些注意事项</h5><ul>
+<li>不等于不能写成“!=”，只能是”&lt;&gt;”</li>
+<li>支持join聚合，但不支持在聚合上进行count操作，如select count(0) from a join b on a.x=b.y</li>
+<li>分页语法同mysql，使用limit</li>
+<li>不支持update，支持delete</li>
+<li>查询types使用 select * from indexName/typesName<h4 id="elasticsearch-head插件"><a href="#elasticsearch-head插件" class="headerlink" title="elasticsearch-head插件"></a>elasticsearch-head插件</h4><a href="https://github.com/mobz/elasticsearch-head/" target="_blank" rel="external">github主页</a><blockquote>
+<p><em>访问地址：<a href="http://192.168.70.128:9200/_plugin/head/" target="_blank" rel="external">http://192.168.70.128:9200/_plugin/head/</a></em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/plugin install mobz/elasticsearch-head</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h4 id="elasticsearch-analysis-ik分词器插件-v1-10-5"><a href="#elasticsearch-analysis-ik分词器插件-v1-10-5" class="headerlink" title="elasticsearch-analysis-ik分词器插件(v1.10.5)"></a>elasticsearch-analysis-ik分词器插件(v1.10.5)</h4><p><a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="external">github主页</a></p>
+<h3 id="与Hadoop集成"><a href="#与Hadoop集成" class="headerlink" title="与Hadoop集成"></a>与Hadoop集成</h3><h4 id="与Hive集成"><a href="#与Hive集成" class="headerlink" title="与Hive集成"></a>与Hive集成</h4><p>下载elasticsearch-hadoop-5.4.0.zip包<br><a href="https://github.com/elastic/elasticsearch-hadoop" target="_blank" rel="external">github主页</a></p>
+<p>Java工程中maven引用<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--包含hive、pig、storm、spark等--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.elasticsearch<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-hadoop<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--如果仅仅和hive集成，可以用下面精简的pom--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.elasticsearch<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-hadoop-hive<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>5.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><em>详细见文档：<a href="https://www.elastic.co/guide/en/elasticsearch/hadoop/current/install.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/hadoop/current/install.html</a></em></p>
+<ul>
+<li>解压elasticsearch-hadoop-5.4.0.zip包并拷贝elasticsearch-hadoop-5.4.0.jar到$HIVE_HOME/lib/目录下</li>
+<li><p>修改hive-site.xml中hive.aux.jars.path属性的value值，追加elasticsearch-hadoop-5.4.0.jar的路径</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.aux.jars.path<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span>xxx.jar,file:///usr/local/hadoop/thirdparty/hive/apache-hive-2.1.1/lib/elasticsearch-hadoop-5.4.0.jar<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>建立源数据表</p>
+<blockquote>
+<p><em>如果不需要hive做数据分析等可以不用建立源数据表，可以用中间表的方式替代</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> hive_es_source  (<span class="keyword">id</span> <span class="keyword">STRING</span>, <span class="keyword">name</span> <span class="keyword">STRING</span>) <span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">','</span>;</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>建立hive外部表关联到es的索引</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> hive_es (<span class="keyword">id</span> <span class="keyword">STRING</span>, <span class="keyword">name</span> <span class="keyword">STRING</span>)</div><div class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.elasticsearch.hadoop.hive.EsStorageHandler'</span></div><div class="line">TBLPROPERTIES(<span class="string">'es.resource'</span> = <span class="string">'radiott/artiststt'</span>,<span class="string">'es.index.auto.create'</span> = <span class="string">'true'</span>,<span class="string">'es.nodes'</span> = <span class="string">'192.168.70.128'</span>,<span class="string">'es.port'</span> = <span class="string">'9200'</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><em>es.resource的radiott/artiststt分别是索引名和索引的类型，这个是在es访问数据时候使用的。<br>es.nodes是配置的es的url地址，默认是localhost。es.port是端口号码，默认是9200</em></p>
+<ul>
+<li>插入数据<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*使用源数据表*/</span></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> hive_es_source vvalues(<span class="string">'1'</span>,<span class="string">'test111'</span>);</div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> hive_es <span class="keyword">select</span> * <span class="keyword">from</span> hive_es_source <span class="keyword">where</span> <span class="keyword">id</span>=<span class="string">'1'</span>;</div><div class="line"><span class="comment">/*使用temp中间表，类似于oracle中的dual*/</span></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> hive_es <span class="keyword">select</span> <span class="string">'1'</span>,<span class="string">'test111'</span> <span class="keyword">from</span> temp <span class="keyword">limit</span> <span class="number">1</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="一些配置项说明"><a href="#一些配置项说明" class="headerlink" title="一些配置项说明"></a>一些配置项说明</h4><blockquote>
+<p>文档：<a href="https://www.elastic.co/guide/en/elasticsearch/hadoop/2.4/hive.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/hadoop/2.4/hive.html</a><br><a href="https://www.elastic.co/guide/en/elasticsearch/hadoop/2.4/configuration.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/hadoop/2.4/configuration.html</a></p>
+<ul>
+<li>‘es.resource’ = ‘xxx/yyy’：索引名/索引类型</li>
+<li>‘es.index.auto.create’ = ‘true|false’：自动创建索引</li>
+<li>‘es.nodes’ = ‘ip’：es的URL地址，默认localhost</li>
+<li>‘es.port’ = ‘9200’：es的端口，默认9200</li>
+<li>‘es.mapping.names’ = ‘date:@timestamp,url:url_123’：列明映射。hive列date映射estimestamp,hive列url映射url_123。默认以hive列明为准一一对应。</li>
+<li>‘es.mapping.id’ = ‘id’：指定使用hive名为id的列的值作为es的id</li>
+<li>‘es.input.json` = ‘yes’：使用json作为es的输入</li>
+<li>‘es.output.json` = ‘yes’：使用json作为es的输出，同es.input.json一起使用<h4 id="使用json作为es的唯一输入"><a href="#使用json作为es的唯一输入" class="headerlink" title="使用json作为es的唯一输入"></a>使用json作为es的唯一输入</h4></li>
+<li>创建表定义<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> hive_es_json (<span class="keyword">json</span> <span class="keyword">STRING</span>)</div><div class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.elasticsearch.hadoop.hive.EsStorageHandler'</span></div><div class="line">TBLPROPERTIES(<span class="string">'es.resource'</span> = <span class="string">'json/es_json'</span>,<span class="string">'es.index.auto.create'</span> = <span class="string">'true'</span>,<span class="string">'es.nodes'</span> = <span class="string">'192.168.70.128'</span>,<span class="string">'es.port'</span> = <span class="string">'9200'</span>,<span class="string">'es.input.json'</span> = <span class="string">'yes'</span>,<span class="string">'es.output.json'</span> = <span class="string">'yes'</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>插入数据<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> hive_es_json <span class="keyword">select</span> <span class="string">'&#123;"id":"1","name":"test111"&#125;'</span> <span class="keyword">from</span> temp <span class="keyword">limit</span> <span class="number">1</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><em>在es中可用sql查询，json字段作为条件，如SELECT </em> FROM json where name like ‘%test%’*</p>
+<h4 id="集成时一些错误"><a href="#集成时一些错误" class="headerlink" title="集成时一些错误"></a>集成时一些错误</h4><blockquote>
+<p>Error: java.io.IOException: org.elasticsearch.hadoop.EsHadoopIllegalArgumentException: Index [radiott/artiststt] missing and settings [es.index.read.missing.as.empty] is set to false (state=,code=0)</p>
+</blockquote>
+<p>索引不存在，再创建hive外部表的时候关联es的索引radiott/artiststt，当es中没有该索引时报错</p>
+<h3 id="Java-API"><a href="#Java-API" class="headerlink" title="Java API"></a>Java API</h3><blockquote>
+<p>文档：<a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/index.html</a></p>
+</blockquote>
+<h4 id="使用时的一些错误"><a href="#使用时的一些错误" class="headerlink" title="使用时的一些错误"></a>使用时的一些错误</h4><blockquote>
+<p>Exception in thread “main” java.lang.NoSuchMethodError: com.google.common.util.concurrent.MoreExecutors.directExecutor()Ljava/util/concurrent/Executor</p>
+</blockquote>
+<p>加入guava的包<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.guava<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guava<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>18.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Caused by: java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/FormatFeature</p>
+</blockquote>
+<p>jackson版本不一致，修改jackson版本<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">jackson.version</span>&gt;</span>2.8.1<span class="tag">&lt;/<span class="name">jackson.version</span>&gt;</span></div></pre></td></tr></table></figure></p>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/elasticsearch/">elasticsearch</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-聚合/"  data-tooltip="elasticsearh文档整理-聚合">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/06/14/elasticsearch安装与集成/"
+     data-title="elasticsearch安装与集成" data-url="https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/06/14/elasticsearch安装与集成/" data-title="elasticsearch安装与集成" data-url="https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-聚合/"  data-tooltip="elasticsearh文档整理-聚合">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/14/elasticsearch安装与集成/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

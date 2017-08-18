@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>hive笔记 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="HIVE笔记
+启动hive和内置derby：hive --service hiveserver2
+
+测试连接：
+
+bin/beeline  
+!connect jdbc:hive2://192.168.70.128:10000/test
+
+
+停止hive:hive&amp;gt;exit;
+一些重要的配置
+hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="hive笔记">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/05/19/hive笔记/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="HIVE笔记
+启动hive和内置derby：hive --service hiveserver2
+
+测试连接：
+
+bin/beeline  
+!connect jdbc:hive2://192.168.70.128:10000/test
+
+
+停止hive:hive&amp;gt;exit;
+一些重要的配置
+hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
+<meta property="og:updated_time" content="2017-08-18T09:49:38.586Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hive笔记">
+<meta name="twitter:description" content="HIVE笔记
+启动hive和内置derby：hive --service hiveserver2
+
+测试连接：
+
+bin/beeline  
+!connect jdbc:hive2://192.168.70.128:10000/test
+
+
+停止hive:hive&amp;gt;exit;
+一些重要的配置
+hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            hive笔记
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-05-19T17:48:07+08:00">
+	
+		    5月 19, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/hive/">hive</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h3 id="数据库创建与删除"><a href="#数据库创建与删除" class="headerlink" title="数据库创建与删除"></a>数据库创建与删除</h3><ul>
+<li>语法：<code>CREATE TABLE IF NOT EXISTS user_db;</code></li>
+<li>查看：<code>SHOW DATABASES;</code></li>
+<li>删除：<code>DROP TABLE IF EXISTS user_db;</code></li>
+</ul>
+<hr>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><ul>
+<li>语法:<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> [<span class="keyword">TEMPORARY</span>] [<span class="keyword">EXTERNAL</span>] <span class="keyword">TABLE</span> [<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] [db_name.]  </div><div class="line">table_name (col_name data_type [<span class="string">'注释'</span>],...)  </div><div class="line">[<span class="keyword">COMMENT</span> <span class="string">'表注释'</span>]  </div><div class="line">[PARTITIONED <span class="keyword">BY</span>(col_name,data_type,...)]</div><div class="line">[<span class="keyword">ROW</span> FORAT row_format <span class="keyword">DELIMITED</span> <span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span>  <span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span>]  </div><div class="line">[<span class="keyword">STORED</span> <span class="keyword">AS</span> file_format];</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>示例  </p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> game  <span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span></div><div class="line">(<span class="keyword">id</span> <span class="built_in">int</span>,game_name <span class="keyword">String</span>)  </div><div class="line"><span class="keyword">COMMENT</span> <span class="string">'游戏表'</span>  </div><div class="line"><span class="keyword">ROW</span> <span class="keyword">FORMAT</span> <span class="keyword">DELIMITED</span>  </div><div class="line"><span class="keyword">FIELDS</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\t'</span>  </div><div class="line"><span class="keyword">LINES</span> <span class="keyword">TERMINATED</span> <span class="keyword">BY</span> <span class="string">'\n'</span>  </div><div class="line"><span class="keyword">STORED</span> <span class="keyword">AS</span> TEXTFILE;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h3><ul>
+<li>修改表名：<code>ALTER TABLE name RENAME TO new_name;</code></li>
+<li>添加列：<code>ALTER TABLE name ADD COLUMNS(col_name data_type,...);</code></li>
+<li>删除列：<code>ALTER TABLE name DROP COLUMN col_name;</code></li>
+<li>修改列：<code>ALTER TABLE CHANGE col_name new_name new_type;</code></li>
+<li>替换列：<code>ALTER TABLE REPLACE COLUMNS(col_name data_type new_col_name new_data_type,...);</code></li>
+</ul>
+<hr>
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><ul>
+<li>语法：<code>DROP TABLE [IF EXISTS] table_name</code></li>
+</ul>
+<hr>
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><ul>
+<li>insert：语法格式同传统数据库的格式一致</li>
+<li>load data：一般用来存储大量数据，可用两种方式加载，一种是本地文件系统，另一种是从Hadoop文件系统<blockquote>
+<p>语法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">LOAD</span> <span class="keyword">DATA</span> [<span class="keyword">LOCAL</span>] INPATH <span class="string">'file_path'</span> [OVERWRITE] <span class="keyword">INTO</span> <span class="keyword">TABLE</span> table_name  </div><div class="line">[<span class="keyword">PARTITION</span>(partcol1=val1, partcol2=val2 ...)];</div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p><em>注意：文件的存储格式需与表定义的格式保持一致</em></p>
+<hr>
+<h3 id="Hive-分区"><a href="#Hive-分区" class="headerlink" title="Hive 分区"></a>Hive 分区</h3><ul>
+<li>添加分区  </li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE table_name ADD [IF NOT EXISTS] PARTITION </div><div class="line">partition_sec [LOCATION &apos;location_path1&apos;]  partition_sec [LOCATION &apos;location_path2&apos;]</div></pre></td></tr></table></figure>
+<p><em>其中partition_sec为：(col_name=col_value,…)</em>  </p>
+<p><strong>也可以在创建表示添加<code>PARTITIONED BY(col_name data_type,...)</code>进行分区</strong></p>
+<blockquote>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE game ADD PARTITION (game_type=&apos;1&apos;) LOCATION &apos;/game/types/1&apos;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>重命名分区  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE table_name PARTITION partition_sec RENAME TO PARTITION partition_sec2</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE game PARTITION (game_type=&apos;1&apos;) RENAME TO (game_star=&apos;1&apos;)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li><p>删除分区  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ALTER TABLE table_name DROP [IF EXISTS] PARTITION  partition_sec,PARTITION partition_sec2,...</div></pre></td></tr></table></figure>
+</li>
+<li><p>动态分区<br><em>需要提前设定是否支持动态分区，可以在配置文件中修改参数</em>  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">hive&gt; set hive.exec.dynamic.partition=true;</div><div class="line">hive&gt; set hive.exec.dynamic.partition.mode=nostrick; #允许全部动态分区,strick允许子分区动态，但主分区不允许</div><div class="line">hive&gt; set hive.exec.max.dynamic.partitions.pernode=100;#（缺省值100）每一个mapreducejob允许创建的分区的最大数量，如果超过了这个数量就会报错</div><div class="line">hive&gt; set hive.exec.max.dynamic.partitions=1000;#（缺省值1000）：一个dml语句允许创建的所有分区的最大数量</div><div class="line">hive&gt; set hive.exec.max.created.files=10000;#（缺省值100000）：所有的mapreduce job允许创建的文件的最大数量</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>示例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">INSERT OVERWRITE TABLE partition_test PARTITION(stat_date,province)</div><div class="line">SELECT member_id,name,stat_date,province FROM partition_test_input DISTRIBUTE BY stat_date,province;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<hr>
+<h3 id="内置运算符"><a href="#内置运算符" class="headerlink" title="内置运算符"></a>内置运算符</h3><ul>
+<li>大部分同关系型数据库</li>
+<li>A RLIKE B：有三个值。如果A或B为null,结果为null,如果A任何子字符串匹配到java正则表达式B，结果为true,否则为false。</li>
+<li>A REGEXP B：等同RLIKE<blockquote>
+<p>NULL空值：不同字段类型对null的处理不一样，比如int通过is null，string通过 =‘’，使用时需要注意</p>
+</blockquote>
+</li>
+<li>A[n]:A是一个数组，n是一个整数，返回数组A的第n个元素，n从0开始</li>
+<li>M[key]：M是一个Map<k, v="">并key的类型为K，返回对应于映射中关键字的值</k,></li>
+<li>S.x：S 是一个结构，返回S的s字段</li>
+</ul>
+<hr>
+<h3 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h3><ul>
+<li>BIGINT round(double a)：返回BIGINT最近的double值</li>
+<li>BIGINT floor(double a)：向下取整</li>
+<li>BIGINT ceil(double a)：向上取整</li>
+<li>double rand(),rand(int seed)：返回一个随机数，从行改变到行</li>
+<li>sting concat(string a,stirng b)：返回字符串a+b</li>
+<li>string substr(string a,int start)：返回一个字串，从start开始直到a结束</li>
+<li>string substr(string a,int start,int length)：返回一个指定长度的字串，从start开始</li>
+<li>string upper(string a)：返回大写</li>
+<li>string ucase(string a)：同upper</li>
+<li>string lower(stirng a)：返回小写</li>
+<li>string lcase(string a)：同lower</li>
+<li>string trim(string a)：去掉两端空格</li>
+<li>string ltrim(string a)：去掉左侧空格</li>
+<li>string rtrim(string a)：去掉右侧空格</li>
+<li>string regexp_replace(string a,string reg,string replaceStr)：正则替换</li>
+<li>int size(Map<k.v>)：获取map的容量</k.v></li>
+<li>int size(Array<t>)：获取数组的长度</t></li>
+<li>value<typeb> cast(value as TypeB)：将value强制转换为类型TypeB,如果转换失败，返回null</typeb></li>
+<li>string from_unixtime(int unixtime):返回指定unixtime对应的时间，格式”1970-01-01 00:00:00”</li>
+<li>string to_date(string timestamp):返回日期部分</li>
+<li>int year(string date)：年</li>
+<li>int month(string date)：月，month(“1970-11-01 00:00:00”) = 11</li>
+<li>int day(string date)：日，month(“1970-11-01 00:00:00”) = 1</li>
+<li>string get_json_object(string json_string, string path)：从json字符串提取子json字符串</li>
+<li>BIGINT count(*),count(expr):获取检索行数</li>
+<li>double sum(col),sum(DISTINCT col)：列求和</li>
+<li>double avg(col),avg(DISTINCT col)：列求平均值</li>
+<li>double min(col)：取列最小值</li>
+<li>double max(col)：取列最大值<h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3></li>
+<li>创建视图<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> [<span class="keyword">IF</span> <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] view_name </div><div class="line">[(col_name [<span class="keyword">COMMENT</span> <span class="string">'注释'</span>],...)]</div><div class="line"><span class="keyword">AS</span> <span class="keyword">SELECT</span> ...</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>示例<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> game_view <span class="keyword">AS</span> <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> game <span class="keyword">WHERE</span> game_type=<span class="string">'1'</span>;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>删除视图：<code>DROP VIEW view_name</code></li>
+</ul>
+<h3 id="整合hbase"><a href="#整合hbase" class="headerlink" title="整合hbase"></a>整合hbase</h3><p><em>版本： hadoop 2.7.3+hive 2.1.1+hbase 1.3.0+zookeeper 3.4.9</em></p>
+<ul>
+<li>将${HIVE_HOME}/lib下hbase<em>.jar用${HBASE_HOME}/lib同样的文件替换，删除低版本jar。替换zookeeper</em>.jar为当前环境中安装的zookeeper版本</li>
+<li>修改hive-site.xml<blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.aux.jars.path<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">   file:///usr/local/hadoop/thirdparty/hive/apache-hive-2.1.1/lib/hive-hbase-handler-2.1.1.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hive/apache-hive-2.1.1/lib/guava-14.0.1.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/hbase-common-1.1.9.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/hbase-client-1.1.9.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/hbase-server-1.1.9.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/hbase-hadoop2-compat-1.1.9.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/netty-all-4.0.23.Final.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/hbase-1.3.0/lib/hbase-protocol-1.1.9.jar,</div><div class="line">   file:///usr/local/hadoop/thirdparty/zookeeper-3.4.9/zookeeper-3.4.9.jar</div><div class="line">   <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">description</span>&gt;</span>The location of the plugin jars that contain implementations of user defined functions and serdes.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.enable.doAs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<p>*value中的多个jar用,分隔，不要留空格和回车符</p>
+<ul>
+<li>复制hadoop环境hosts文件中关于节点和zookeeper的相关内容映射到Java运行服务器的hosts文件中</li>
+<li>在hbase中创建表<blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="string">'game'</span>,<span class="string">'info'</span></div></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>1、在hive中创建基于HBase的表<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">table</span> area2(rowkey <span class="keyword">string</span>,info <span class="keyword">map</span>&lt;<span class="keyword">String</span>,<span class="keyword">String</span>&gt;)</div><div class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.apache.hadoop.hive.hbase.HBaseStorageHandler'</span></div><div class="line"><span class="keyword">WITH</span> SERDEPROPERTIES(<span class="string">"hbase.columns.mapping"</span>=<span class="string">":key,info:"</span>)</div><div class="line">TBLPROPERTIES(<span class="string">"hbase.table.name"</span> = <span class="string">"area2"</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>2、通过hive创建表<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> hive_hbase(<span class="keyword">key</span> <span class="built_in">int</span>, info <span class="keyword">map</span>&lt;<span class="keyword">String</span>,<span class="keyword">String</span>&gt;)  </div><div class="line"><span class="keyword">STORED</span> <span class="keyword">BY</span> <span class="string">'org.apache.hadoop.hive.hbase.HBaseStorageHandler'</span>  </div><div class="line"><span class="keyword">WITH</span> SERDEPROPERTIES (<span class="string">"hbase.columns.mapping"</span> = <span class="string">":key,info:"</span>)  </div><div class="line">TBLPROPERTIES (<span class="string">"hbase.table.name"</span> = <span class="string">"hive_hbase"</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使用外部表映射到HBase中的表，这样，在Hive中删除表，并不会删除HBase中的表，否则，就会删除。hbase删除，hive执行操作会报错。另外，除了rowkey，其他三个字段使用Map结构来保存HBase中的每一个列族。</p>
+<p>hive 创建普通表会对应在hbase创建对应的表，如果hive删除表，hbase中的表也会删除，如果hbase删除，hive中表信息在，但执行操作时会报TableNotFoundException的错误</p>
+<p>hive通过外部表的方式连接hbase表，hive删除表，hbase不会删除，hbase删除，hive执行操作会报错</p>
+<p>两种方式创建的表，hive和hbase操作数据都能相互影响</p>
+<p>在hive中，只能通过insert table select 原生表 的方式插入数据，load data不行。如：<br>insert into hive_hbase select ‘1’ as rowkey,map(‘name’,’shot’)as info from temp limit 1;</p>
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/hive/">hive</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/"  data-tooltip="hadoop一些问题记录">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/" data-tooltip="hbase笔记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/05/19/hive笔记/"
+     data-title="hive笔记" data-url="https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/05/19/hive笔记/" data-title="hive笔记" data-url="https://zhanyingf15.github.io/2017/05/19/hive笔记/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/"  data-tooltip="hadoop一些问题记录">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/" data-tooltip="hbase笔记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/05/19/hive笔记/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
