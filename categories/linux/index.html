@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="忘语的个人博客">
-    <title>归档: 2017/5 - 忘语的个人博客</title>
+    <title>分类: linux - 忘语的个人博客</title>
     <meta name="author" content="忘语">
     
     
@@ -16,7 +16,7 @@
     <meta name="description" content="阳光下做人，风雨中做事">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="忘语的个人博客">
-<meta property="og:url" content="https://zhanyingf15.github.io/archives/2017/05/index.html">
+<meta property="og:url" content="https://zhanyingf15.github.io/categories/linux/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="阳光下做人，风雨中做事">
 <meta name="twitter:card" content="summary">
@@ -172,107 +172,6 @@
     
 
 <section class="postShorten-group main-content-wrap">
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/05/21/hadoop一些问题记录/">
-                            hadoop一些问题记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-05-21T17:12:55+08:00">
-	
-		    5月 21, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h3 id="升级Hadoop后无法启动namenode"><a href="#升级Hadoop后无法启动namenode" class="headerlink" title="升级Hadoop后无法启动namenode"></a>升级Hadoop后无法启动namenode</h3><p>namenode 默认在/tmp下建立临时文件，但关机后，/tmp下文档自动删除，再次启动Master造成文件不匹配，所以namenode启动失败。<br>在core-site.xml中指定临时文件位置，然后清空该目录，再运行hadoop namenode -format重新格式化<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/hadoop/hadooptemp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>value中的路径只要不是/tmp 就行。</p>
-                    
-                        <a href="/2017/05/21/hadoop一些问题记录/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/05/19/hive笔记/">
-                            hive笔记
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-05-19T17:48:07+08:00">
-	
-		    5月 19, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/hive/">hive</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <h2 id="HIVE笔记"><a href="#HIVE笔记" class="headerlink" title="HIVE笔记"></a>HIVE笔记</h2><blockquote>
-<p>启动hive和内置derby：<code>hive --service hiveserver2</code></p>
-</blockquote>
-<p>测试连接：</p>
-<ol>
-<li>bin/beeline  </li>
-<li>!connect jdbc:hive2://192.168.70.128:10000/test</li>
-</ol>
-<blockquote>
-<p>停止hive:hive&gt;exit;</p>
-<h3 id="一些重要的配置"><a href="#一些重要的配置" class="headerlink" title="一些重要的配置"></a>一些重要的配置</h3><ul>
-<li>hive-site.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-</blockquote>
-                    
-                        <a href="/2017/05/19/hive笔记/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
     
     
     <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">

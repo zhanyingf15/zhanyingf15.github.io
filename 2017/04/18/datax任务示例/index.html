@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>datax任务示例 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="oracle导出数据到hdfs，oracle导出数据到hbase的基本使用方法">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="datax任务示例">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/04/18/datax任务示例/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="oracle导出数据到hdfs，oracle导出数据到hbase的基本使用方法">
+<meta property="og:updated_time" content="2017-08-18T10:45:52.845Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="datax任务示例">
+<meta name="twitter:description" content="oracle导出数据到hdfs，oracle导出数据到hbase的基本使用方法">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            datax任务示例
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-04-18T17:22:58+08:00">
+	
+		    4月 18, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>oracle导出数据到hdfs，oracle导出数据到hbase的基本使用方法<br><a id="more"></a></p>
+<h2 id="DataX任务示例"><a href="#DataX任务示例" class="headerlink" title="DataX任务示例"></a>DataX任务示例</h2><h3 id="oracle-gt-hdfs"><a href="#oracle-gt-hdfs" class="headerlink" title="oracle=&gt;hdfs"></a>oracle=&gt;hdfs</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"job"</span>: &#123;</div><div class="line">        <span class="attr">"content"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"reader"</span>: &#123;</div><div class="line">                    <span class="attr">"name"</span>: <span class="string">"oraclereader"</span>, </div><div class="line">                    <span class="attr">"parameter"</span>: &#123;</div><div class="line">                        <span class="attr">"column"</span>:[<span class="string">"area_id"</span>,<span class="string">"area_name"</span>,<span class="string">"area_desc"</span>,<span class="string">"up_area_id"</span>,<span class="string">"level_code"</span>], </div><div class="line">                        <span class="attr">"connection"</span>: [</div><div class="line">                            &#123;</div><div class="line">                                <span class="attr">"jdbcUrl"</span>:[<span class="string">"jdbc:oracle:thin:@ip:41521:marketdb2"</span>], </div><div class="line">                                <span class="attr">"table"</span>: [<span class="string">"com_area"</span>]</div><div class="line">                            &#125;</div><div class="line">                        ], </div><div class="line">			<span class="attr">"splitPk"</span>:<span class="string">"area_id"</span>,</div><div class="line">                        <span class="attr">"password"</span>: <span class="string">"1234567890"</span>, </div><div class="line">                        <span class="attr">"username"</span>: <span class="string">"chn_okd_sc"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;, </div><div class="line">                <span class="attr">"writer"</span>: &#123;</div><div class="line">                    <span class="attr">"name"</span>: <span class="string">"hdfswriter"</span>, </div><div class="line">                    <span class="attr">"parameter"</span>: &#123;</div><div class="line">                    <span class="attr">"column"</span>: [</div><div class="line">                       &#123;<span class="attr">"name"</span>:<span class="string">"area_id"</span>,<span class="attr">"type"</span>:<span class="string">"INT"</span>&#125;,</div><div class="line">                       &#123;<span class="attr">"name"</span>:<span class="string">"area_name"</span>,<span class="attr">"type"</span>:<span class="string">"VARCHAR"</span>&#125;,</div><div class="line">                       &#123;<span class="attr">"name"</span>:<span class="string">"area_desc"</span>,<span class="attr">"type"</span>:<span class="string">"VARCHAR"</span>&#125;,</div><div class="line">                       &#123;<span class="attr">"name"</span>:<span class="string">"up_area_id"</span>,<span class="attr">"type"</span>:<span class="string">"INT"</span>&#125;,</div><div class="line">                       &#123;<span class="attr">"name"</span>:<span class="string">"level_code"</span>,<span class="attr">"type"</span>:<span class="string">"VARCHAR"</span>&#125;</div><div class="line">                    ], </div><div class="line">                    <span class="attr">"compress"</span>: <span class="string">""</span>, </div><div class="line">                    <span class="attr">"defaultFS"</span>: <span class="string">"hdfs://192.168.70.128:9000"</span>, </div><div class="line">                    <span class="attr">"fieldDelimiter"</span>: <span class="string">"\t"</span>, </div><div class="line">                    <span class="attr">"fileName"</span>: <span class="string">"area"</span>, </div><div class="line">                    <span class="attr">"fileType"</span>: <span class="string">"text"</span>, </div><div class="line">                    <span class="attr">"path"</span>: <span class="string">"/user/hive/warehouse/test_db.db/area"</span>, </div><div class="line">                    <span class="attr">"writeMode"</span>: <span class="string">"append"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        ], </div><div class="line">        <span class="attr">"setting"</span>: &#123;</div><div class="line">            <span class="attr">"speed"</span>: &#123;</div><div class="line">                <span class="attr">"channel"</span>: <span class="string">"2"</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="oracle-gt-hbase"><a href="#oracle-gt-hbase" class="headerlink" title="oracle=&gt;hbase"></a>oracle=&gt;hbase</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"job"</span>: &#123;</div><div class="line">        <span class="attr">"content"</span>: [</div><div class="line">            &#123;</div><div class="line">                <span class="attr">"reader"</span>: &#123;</div><div class="line">                    <span class="attr">"name"</span>: <span class="string">"oraclereader"</span>, </div><div class="line">                    <span class="attr">"parameter"</span>: &#123;</div><div class="line">                        <span class="attr">"column"</span>: [</div><div class="line">                            &#123;<span class="attr">"name"</span>:<span class="string">"area_id"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                            &#123;<span class="attr">"name"</span>:<span class="string">"area_name"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                            &#123;<span class="attr">"name"</span>:<span class="string">"area_desc"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                            &#123;<span class="attr">"name"</span>:<span class="string">"up_area_id"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                            &#123;<span class="attr">"name"</span>:<span class="string">"level_code"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;</div><div class="line">                        ], </div><div class="line">                        <span class="attr">"connection"</span>: [</div><div class="line">                            &#123;</div><div class="line">                                <span class="attr">"jdbcUrl"</span>: [<span class="string">"jdbc:oracle:thin:@ip:41521:marketdb2"</span>], </div><div class="line">                                <span class="attr">"table"</span>: [<span class="string">"com_area"</span>]</div><div class="line">                            &#125;</div><div class="line">                        ], </div><div class="line">                        <span class="attr">"password"</span>: <span class="string">"1234567890"</span>, </div><div class="line">                        <span class="attr">"username"</span>: <span class="string">"chn_okd_sc"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;, </div><div class="line">                <span class="attr">"writer"</span>: &#123;</div><div class="line">                    <span class="attr">"name"</span>: <span class="string">"hbase11xwriter"</span>, </div><div class="line">                    <span class="attr">"parameter"</span>: &#123;</div><div class="line">                        <span class="attr">"column"</span>: [</div><div class="line">                           &#123;<span class="attr">"index"</span>:<span class="number">1</span>,<span class="attr">"name"</span>:<span class="string">"area:area_name"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                           &#123;<span class="attr">"index"</span>:<span class="number">2</span>,<span class="attr">"name"</span>:<span class="string">"area:area_desc"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                           &#123;<span class="attr">"index"</span>:<span class="number">3</span>,<span class="attr">"name"</span>:<span class="string">"area:up_area_id"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;,</div><div class="line">                           &#123;<span class="attr">"index"</span>:<span class="number">4</span>,<span class="attr">"name"</span>:<span class="string">"area:level_code"</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;</div><div class="line">                        ], </div><div class="line">                        <span class="attr">"encoding"</span>: <span class="string">"UTF-8"</span>, </div><div class="line">                        <span class="attr">"hbaseConfig"</span>: &#123;</div><div class="line">                            <span class="attr">"hbase.cluster.distributed"</span>: <span class="string">"true"</span>, </div><div class="line">                            <span class="attr">"hbase.rootdir"</span>: <span class="string">"hdfs://192.168.70.128:9000/hbase"</span>, </div><div class="line">                            <span class="attr">"hbase.zookeeper.quorum"</span>: <span class="string">"localhost:2181"</span></div><div class="line">                        &#125;, </div><div class="line">                        <span class="attr">"mode"</span>: <span class="string">"normal"</span>, </div><div class="line">                        <span class="attr">"rowkeyColumn"</span>: [&#123;<span class="attr">"index"</span>:<span class="number">0</span>,<span class="attr">"type"</span>:<span class="string">"string"</span>&#125;], </div><div class="line">                        <span class="attr">"table"</span>: <span class="string">"area"</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        ], </div><div class="line">        <span class="attr">"setting"</span>: &#123;</div><div class="line">            <span class="attr">"speed"</span>: &#123;</div><div class="line">                <span class="attr">"channel"</span>: <span class="string">"1"</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/datax/">datax</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/14/vim笔记/"  data-tooltip="vim笔记">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/" data-tooltip="hbase笔记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/04/18/datax任务示例/"
+     data-title="datax任务示例" data-url="https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/04/18/datax任务示例/" data-title="datax任务示例" data-url="https://zhanyingf15.github.io/2017/04/18/datax任务示例/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/14/vim笔记/"  data-tooltip="vim笔记">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/" data-tooltip="hbase笔记">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/18/datax任务示例/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
