@@ -13,25 +13,22 @@
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="[TOC]
-说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
+    <meta name="description" content="说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
 
-2017-8-12修改：重写了该项目，">
+2017-8-12修改：重写了该项目，分离了Dr">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="elasticserch-sql和mybatis整合记录">
-<meta property="og:url" content="https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/index.html">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="[TOC]
-说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
+<meta property="og:description" content="说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
 
-2017-8-12修改：重写了该项目，">
-<meta property="og:updated_time" content="2017-08-18T10:18:34.781Z">
+2017-8-12修改：重写了该项目，分离了Dr">
+<meta property="og:updated_time" content="2017-08-18T10:28:46.647Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticserch-sql和mybatis整合记录">
-<meta name="twitter:description" content="[TOC]
-说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
+<meta name="twitter:description" content="说明elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在GitHub上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例
 
-2017-8-12修改：重写了该项目，">
+2017-8-12修改：重写了该项目，分离了Dr">
     
     
         
@@ -189,9 +186,9 @@
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-06-13T18:03:00+08:00">
+    <time itemprop="datePublished" datetime="2017-07-15T18:03:00+08:00">
 	
-		    6月 13, 2017
+		    7月 15, 2017
     	
     </time>
     
@@ -207,7 +204,13 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#说明"><span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#druid和elasticsearch-sql梳理"><span class="toc-text">druid和elasticsearch-sql梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mybatis查询过程梳理"><span class="toc-text">Mybatis查询过程梳理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#流程-1"><span class="toc-text">流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结-1"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#elasticsearch和mybatis整合"><span class="toc-text">elasticsearch和mybatis整合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#说明-1"><span class="toc-text">说明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#构造元数据信息"><span class="toc-text">构造元数据信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重写物理连接的创建方法"><span class="toc-text">重写物理连接的创建方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重写DruidPooledPreparedStatement中execute和setXXX方法"><span class="toc-text">重写DruidPooledPreparedStatement中execute和setXXX方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重写ElasticSearchConnection中prepareStatement创建，resultSet获取和资源释放等方法"><span class="toc-text">重写ElasticSearchConnection中prepareStatement创建，resultSet获取和资源释放等方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改ElasticSearchDruidPooledConnection-java"><span class="toc-text">修改ElasticSearchDruidPooledConnection.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它修改"><span class="toc-text">其它修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#创建datasrouce-es-xml并import到apppicationContext-xml"><span class="toc-text">创建datasrouce-es.xml并import到apppicationContext.xml</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于分页查询"><span class="toc-text">关于分页查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ElasticsearchServiceBase-java"><span class="toc-text">ElasticsearchServiceBase.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ElasticsearchPaginationInterceptor-java"><span class="toc-text">ElasticsearchPaginationInterceptor.java</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql支持"><span class="toc-text">sql支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#maven依赖"><span class="toc-text">maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后续"><span class="toc-text">后续</span></a></li></ol>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在<a href="https://github.com/NLPchina/elasticsearch-sql" target="_blank" rel="external">GitHub</a>上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例</p>
+<blockquote>
+<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc" target="_blank" rel="external">elasticsearch-jdbc</a>，欢迎fork</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Properties properties = <span class="keyword">new</span> Properties();</div><div class="line">properties.put(<span class="string">"url"</span>, <span class="string">"jdbc:elasticsearch://192.168.70.128:9300/"</span>);</div><div class="line">DruidDataSource dds = (DruidDataSource) ElasticSearchDruidDataSourceFactory.createDataSource(properties);</div><div class="line">Connection connection = dds.getConnection();</div><div class="line">PreparedStatement ps = connection.prepareStatement(<span class="string">"SELECT  * from  radiott"</span>);</div><div class="line">ResultSet resultSet = ps.executeQuery();</div><div class="line">List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="keyword">while</span> (resultSet.next()) &#123;</div><div class="line">    System.out.println(resultSet.getString(<span class="string">"id"</span>) + <span class="string">","</span> + resultSet.getString(<span class="string">"name"</span>));</div><div class="line">&#125;</div><div class="line">ps.close();</div><div class="line">connection.close();</div><div class="line">dds.close();</div></pre></td></tr></table></figure>
+<a id="more"></a>
 <h3 id="druid和elasticsearch-sql梳理"><a href="#druid和elasticsearch-sql梳理" class="headerlink" title="druid和elasticsearch-sql梳理"></a>druid和elasticsearch-sql梳理</h3><h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><blockquote>
 <p><em>主要是在Druid连接池上进行了继承改造，实现了部分JDBC规范</em></p>
 </blockquote>
@@ -331,6 +334,7 @@
 </li>
 </ul>
 <h3 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h3><p>以上的改动是在GitHub上elasticsearch-sql的一个实验项目的基础上修改而来，感觉很多地方不合理，很多代码并不符合JDBC规范，创建连接的方式是直接修改数据源代码而不是写Driver。先这样做，先把功能需求实现了，后面有时间再研究下JDBC规范，考虑重写下。</p>
+
             
         </div>
     </div>
@@ -348,7 +352,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/elasticsearch安装与集成/"  data-tooltip="elasticsearch安装与集成">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -356,7 +360,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/" data-tooltip="hadoop一些问题记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-查询/" data-tooltip="elasticsearh文档整理-查询">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -371,17 +375,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -394,7 +398,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -406,12 +410,12 @@
         
             
                 <!--
-<div id="ds-thread" class="ds-thread" data-thread-key="2017/06/13/elasticserch-sql和mybatis整合记录/"
-     data-title="elasticserch-sql和mybatis整合记录" data-url="https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/07/15/elasticserch-sql和mybatis整合记录/"
+     data-title="elasticserch-sql和mybatis整合记录" data-url="https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
 </div>
 -->
 <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2017/06/13/elasticserch-sql和mybatis整合记录/" data-title="elasticserch-sql和mybatis整合记录" data-url="https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/"></div>
+	<div class="ds-thread" data-thread-key="2017/07/15/elasticserch-sql和mybatis整合记录/" data-title="elasticserch-sql和mybatis整合记录" data-url="https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -447,7 +451,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/elasticsearch安装与集成/"  data-tooltip="elasticsearch安装与集成">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -455,7 +459,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/" data-tooltip="hadoop一些问题记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-查询/" data-tooltip="elasticsearh文档整理-查询">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -470,17 +474,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -493,7 +497,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -506,17 +510,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/06/13/elasticserch-sql和mybatis整合记录/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/07/15/elasticserch-sql和mybatis整合记录/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>

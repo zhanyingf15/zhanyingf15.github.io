@@ -13,22 +13,19 @@
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="[TOC]
-说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
-在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相">
+    <meta name="description" content="说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
+在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="elasticsearch rest api和mybatis整合记录">
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/07/16/elasticsearch-rest-api和mybatis整合记录/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="[TOC]
-说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
-在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相">
-<meta property="og:updated_time" content="2017-08-18T10:23:11.883Z">
+<meta property="og:description" content="说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
+在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅">
+<meta property="og:updated_time" content="2017-08-18T10:28:38.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch rest api和mybatis整合记录">
-<meta name="twitter:description" content="[TOC]
-说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
-在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相">
+<meta name="twitter:description" content="说明官方提供了完整的Java API和Rest API（文档地址）,并提供了TransportClient客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。
+在前文 “elasticserch-sql和mybatis整合记录” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅">
     
     
         
@@ -204,7 +201,14 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明"><span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定义rest结构"><span class="toc-text">定义rest结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#maven依赖"><span class="toc-text">maven依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#封装JestUtil-java"><span class="toc-text">封装JestUtil.java</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构建元数据和数据集"><span class="toc-text">构建元数据和数据集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JestMetaData-java"><span class="toc-text">JestMetaData.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JestResultSet-java"><span class="toc-text">JestResultSet.java</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改JDBC操作逻辑"><span class="toc-text">修改JDBC操作逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义操作类型"><span class="toc-text">定义操作类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改statement操作"><span class="toc-text">修改statement操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#修改executeQuery"><span class="toc-text">修改executeQuery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改execute"><span class="toc-text">修改execute</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其它修改"><span class="toc-text">其它修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖配置项"><span class="toc-text">依赖配置项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-text">测试</span></a></li></ol>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>官方提供了完整的Java API和Rest API（<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/docs-index_.html" target="_blank" rel="external">文档地址</a>）,并提供了<code>TransportClient</code>客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。</p>
+<p>在前文 “<a href="https://zhanyingf15.github.io/2017/06/13/elasticserch-sql%E5%92%8Cmybatis%E6%95%B4%E5%90%88%E8%AE%B0%E5%BD%95/">elasticserch-sql和mybatis整合记录</a>” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅支持极其简单的查询，不支持增加、删除和修改。Rest API功能强大，在实际应用中可能会因前台参数的不同而组合不同的条件，拼接字符串又太麻烦，如果实现Rest API和mybatis整合，让mybatis强大的动态条件功能组合rest API，会让代码更简单更容易维护。</p>
+<p>Rest API客户端使用<code>Jest</code>，具体详情和文档参考<a href="https://github.com/searchbox-io/Jest" target="_blank" rel="external">GitHub Jest主页</a>。在之前的基础上修改整合。</p>
+<blockquote>
+<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc" target="_blank" rel="external">elasticsearch-jdbc</a>，欢迎fork</p>
+</blockquote>
+<a id="more"></a>
 <h2 id="定义rest结构"><a href="#定义rest结构" class="headerlink" title="定义rest结构"></a>定义rest结构</h2><p>基本结构如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--添加--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"jestInsert"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span>&gt;</span></div><div class="line">	PUT $&#123;index&#125;/$&#123;type&#125;/$&#123;_id&#125;?op_type=create</div><div class="line">	&#123;</div><div class="line">		"id":"$&#123;id&#125;",</div><div class="line">		"name":"$&#123;name&#125;"</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">insert</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--查询--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"qryTest2"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span> <span class="attr">resultType</span>=<span class="string">"com.xxx.util.HashMapLowerCase"</span>&gt;</span></div><div class="line">	POST $&#123;index&#125;/$&#123;type&#125;/_search?</div><div class="line">	&#123;</div><div class="line">		"query": &#123;</div><div class="line">			"prefix": &#123;</div><div class="line">				"name": "te"</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--查询2，通过文档_id获取--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"qryTest2"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span> <span class="attr">resultType</span>=<span class="string">"com.xxx.util.HashMapLowerCase"</span>&gt;</span></div><div class="line">	GET $&#123;index&#125;/$&#123;type&#125;/$&#123;id&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--修改--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"jestUpdate"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span>&gt;</span></div><div class="line">	POST $&#123;index&#125;/$&#123;type&#125;/$&#123;id&#125;/_update?</div><div class="line">	&#123;</div><div class="line">		"doc": &#123;</div><div class="line">			"name": "$&#123;name&#125;"</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">update</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--删除--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"jestDeletee"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span>&gt;</span></div><div class="line">	DELETE $&#123;index&#125;/$&#123;type&#125;/$&#123;id&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">delete</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>上面基本列出了CRUD操作，为了方便描述，xml中的内容统称为==restBody==，以修改为例，<code>POST</code>为==协议==，<code>index/type/id/_update</code>为==uri==，<code>?</code>和第一个<code>{</code>间的内容为==参数==(即添加示例中的op_type=create，可选)，<code>{xxx}</code>为==restMapping==，这个就是发到elasticsearch的结构体（JSON字符串）。</p>
 <p>协议的不同，uri也会不同，参数都是可选的，协议与uri的关系如下：</p>
@@ -249,6 +253,7 @@
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>mybatis xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"qryTest2"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Object"</span> <span class="attr">resultType</span>=<span class="string">"java.util.Map"</span>&gt;</span></div><div class="line">	POST $&#123;index&#125;/$&#123;type&#125;/_search?</div><div class="line">	&#123;</div><div class="line">		"query": &#123;</div><div class="line">			"prefix": &#123;</div><div class="line">				"name": "$&#123;name&#125;"</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ESTestServiceImpl esTestService = SpringBeanUtil.getInstance().getBean(<span class="string">"esTestService"</span>,ESTestServiceImpl.class);</div><div class="line">Map param = <span class="keyword">new</span> HashMap();</div><div class="line">param.put(<span class="string">"index"</span>,<span class="string">"radiott"</span>);</div><div class="line">param.put(<span class="string">"type"</span>,<span class="string">"artiststt"</span>);</div><div class="line">param.put(<span class="string">"name"</span>,<span class="string">"te"</span>);</div><div class="line">Map map = esTestService.qryJest(param);</div><div class="line">JestResult result = JestUtil.getQueryResult(map);</div><div class="line">System.out.println(JSONUtil.toJSONString(result.getSourceAsObject(Map.class)));</div></pre></td></tr></table></figure></p>
 <p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&quot;name&quot;:&quot;test333&quot;,&quot;id&quot;:&quot;3&quot;,&quot;es_metadata_id&quot;:&quot;AVx7JhglJRLJihedvp1b&quot;&#125;</div></pre></td></tr></table></figure></p>
+
             
         </div>
     </div>
@@ -274,7 +279,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-查询/" data-tooltip="elasticsearh文档整理-查询">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/15/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -312,7 +317,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -373,7 +378,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/16/elasticsearh文档整理-查询/" data-tooltip="elasticsearh文档整理-查询">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/15/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -411,7 +416,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>

@@ -204,10 +204,10 @@
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
                     <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
-<p>[TOC]</p>
+<!-- toc -->
 <blockquote>
 <p>elasticsearch版本：2.4.5</p>
-<h3 id="Docment-API"><a href="#Docment-API" class="headerlink" title="Docment API"></a>Docment API</h3><p>基础的CRUD API<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html</a></p>
+<h3 id="Docment-API"><a href="#Docment-API" class="headerlink" title="Docment API"></a>Docment API</h3><p>基础的CRUD API<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html</a></p>
 </blockquote>
                     
                         <a href="/2017/06/16/elasticsearh文档整理-查询/" class="postShorten-excerpt_link link">
@@ -252,9 +252,9 @@
             
                 <div class="postShorten-content" itemprop="articleBody">
                     <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
-<p>[TOC]</p>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合"><span class="toc-text">聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构化聚合"><span class="toc-text">结构化聚合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Metrics类型聚合"><span class="toc-text">Metrics类型聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#min"><span class="toc-text">min</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max"><span class="toc-text">max</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sum"><span class="toc-text">sum</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#avg"><span class="toc-text">avg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#count"><span class="toc-text">count</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stats聚合"><span class="toc-text">stats聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extended-Stats聚合"><span class="toc-text">Extended Stats聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Percentiles聚合-百分比统计"><span class="toc-text">Percentiles聚合,百分比统计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Percentile-rank聚合"><span class="toc-text">Percentile rank聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cardinality聚合"><span class="toc-text">Cardinality聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Geo-Bounds聚合"><span class="toc-text">Geo Bounds聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Top-hits聚合"><span class="toc-text">Top hits聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Scripted-Metric聚合"><span class="toc-text">Scripted Metric聚合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bucket类型聚合"><span class="toc-text">Bucket类型聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Global聚合"><span class="toc-text">Global聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter聚合"><span class="toc-text">Filter聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filters聚合"><span class="toc-text">Filters聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Missing聚合"><span class="toc-text">Missing聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nested聚合"><span class="toc-text">Nested聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reerse-nested聚合"><span class="toc-text">Reerse nested聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Children聚合"><span class="toc-text">Children聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Terms聚合"><span class="toc-text">Terms聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Significant-Terms聚合"><span class="toc-text">Significant Terms聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Range聚合"><span class="toc-text">Range聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Date-Range聚合"><span class="toc-text">Date Range聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IPv4-Range-聚合"><span class="toc-text">IPv4 Range 聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Histogram-聚合"><span class="toc-text">Histogram 聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Date-Histogram聚合"><span class="toc-text">Date Histogram聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Geo-Distance聚合"><span class="toc-text">Geo Distance聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoHash-grid-聚合"><span class="toc-text">GeoHash grid 聚合</span></a></li></ol></li></ol></li></ol>
 <h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>基础使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SearchResponse sr = client.prepareSearch()</div><div class="line">    .setQuery(QueryBuilders.matchAllQuery())</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.terms(<span class="string">"agg1"</span>).field(<span class="string">"field"</span>)</div><div class="line">    )</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.dateHistogram(<span class="string">"agg2"</span>)</div><div class="line">                    .field(<span class="string">"birth"</span>)</div><div class="line">                    .interval(DateHistogramInterval.YEAR)</div><div class="line">    )</div><div class="line">    .execute().actionGet();</div><div class="line">Terms agg1 = sr.getAggregations().get(<span class="string">"agg1"</span>);</div><div class="line">DateHistogram agg2 = sr.getAggregations().get(<span class="string">"agg2"</span>);</div></pre></td></tr></table></figure></p>
-<p>&lt;— excerpt –&gt;</p>
+<p>&lt;— more –&gt;</p>
 <h3 id="结构化聚合"><a href="#结构化聚合" class="headerlink" title="结构化聚合"></a>结构化聚合</h3><p>一个聚合中能够包含子聚合，聚合只能是metrics聚合或bucket聚合。例如，下面的聚合由三个子聚合组成</p>
 <ul>
 <li>Terms 聚合 (bucket)</li>
@@ -616,54 +616,6 @@
 <p>elasticsearch不允许使用root账户启动，需要添加一个新账户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">useradd esroot #创建用户</div><div class="line">passwd esroot #设置密码，连续输入两次</div><div class="line">groupadd es #添加分组</div><div class="line">usermod -G esroot es #如果报用户“es”不存在，是因为服务器版本问题，改成usermod -G es esroot</div><div class="line">chown -R esroot.es * #在elasticsearch根目录下执行，给用户赋权</div><div class="line">su esroot #切换用户</div></pre></td></tr></table></figure></p>
                     
                         <a href="/2017/06/14/elasticsearch安装与集成/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/06/13/elasticserch-sql和mybatis整合记录/">
-                            elasticserch-sql和mybatis整合记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-06-13T18:03:00+08:00">
-	
-		    6月 13, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>[TOC]</p>
-<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在<a href="https://github.com/NLPchina/elasticsearch-sql" target="_blank" rel="external">GitHub</a>上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例</p>
-<blockquote>
-<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc" target="_blank" rel="external">elasticsearch-jdbc</a>，欢迎fork</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Properties properties = <span class="keyword">new</span> Properties();</div><div class="line">properties.put(<span class="string">"url"</span>, <span class="string">"jdbc:elasticsearch://192.168.70.128:9300/"</span>);</div><div class="line">DruidDataSource dds = (DruidDataSource) ElasticSearchDruidDataSourceFactory.createDataSource(properties);</div><div class="line">Connection connection = dds.getConnection();</div><div class="line">PreparedStatement ps = connection.prepareStatement(<span class="string">"SELECT  * from  radiott"</span>);</div><div class="line">ResultSet resultSet = ps.executeQuery();</div><div class="line">List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="keyword">while</span> (resultSet.next()) &#123;</div><div class="line">    System.out.println(resultSet.getString(<span class="string">"id"</span>) + <span class="string">","</span> + resultSet.getString(<span class="string">"name"</span>));</div><div class="line">&#125;</div><div class="line">ps.close();</div><div class="line">connection.close();</div><div class="line">dds.close();</div></pre></td></tr></table></figure>
-                    
-                        <a href="/2017/06/13/elasticserch-sql和mybatis整合记录/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         

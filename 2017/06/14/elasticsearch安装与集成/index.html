@@ -37,7 +37,7 @@ elasticsearch不允许使用root">
 
 
 elasticsearch不允许使用root">
-<meta property="og:updated_time" content="2017-08-18T09:52:18.569Z">
+<meta property="og:updated_time" content="2017-08-18T10:30:00.889Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearch安装与集成">
 <meta name="twitter:description" content="elasticsearch版本 2.4.5
@@ -225,7 +225,17 @@ elasticsearch不允许使用root">
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <p><em>elasticsearch版本 2.4.5</em></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>下载es并解压</li>
+<li><p>修改config目录下elasticsearch.yml文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line">node.name: node-1</div><div class="line">network.host: 192.168.70.128</div><div class="line">http.port: 9200</div></pre></td></tr></table></figure>
+</li>
+<li><p>在elasticsearch根目录下创建data目录</p>
+</li>
+</ul>
+<p>elasticsearch不允许使用root账户启动，需要添加一个新账户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">useradd esroot #创建用户</div><div class="line">passwd esroot #设置密码，连续输入两次</div><div class="line">groupadd es #添加分组</div><div class="line">usermod -G esroot es #如果报用户“es”不存在，是因为服务器版本问题，改成usermod -G es esroot</div><div class="line">chown -R esroot.es * #在elasticsearch根目录下执行，给用户赋权</div><div class="line">su esroot #切换用户</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bin/elasticsearch</div></pre></td></tr></table></figure>
 <p>如果出现以下代码表示启动成功<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="attr">"name"</span>: <span class="string">"node-1"</span>,</div><div class="line">    <span class="attr">"cluster_name"</span>: <span class="string">"my-es"</span>,</div><div class="line">    <span class="attr">"cluster_uuid"</span>: <span class="string">"PTij19gvR6iKW2lY9XWGtw"</span>,</div><div class="line">    <span class="attr">"version"</span>: &#123;</div><div class="line">        <span class="attr">"number"</span>: <span class="string">"2.4.5"</span>,</div><div class="line">        <span class="attr">"build_hash"</span>: <span class="string">"c849dd13904f53e63e88efc33b2ceeda0b6a1276"</span>,</div><div class="line">        <span class="attr">"build_timestamp"</span>: <span class="string">"2017-04-24T16:18:17Z"</span>,</div><div class="line">        <span class="attr">"build_snapshot"</span>: <span class="literal">false</span>,</div><div class="line">        <span class="attr">"lucene_version"</span>: <span class="string">"5.5.4"</span></div><div class="line">    &#125;,</div><div class="line">    <span class="attr">"tagline"</span>: <span class="string">"You Know, for Search"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h3><ul>
@@ -311,6 +321,7 @@ elasticsearch不允许使用root">
 <p>Caused by: java.lang.NoClassDefFoundError: com/fasterxml/jackson/core/FormatFeature</p>
 </blockquote>
 <p>jackson版本不一致，修改jackson版本<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">jackson.version</span>&gt;</span>2.8.1<span class="tag">&lt;/<span class="name">jackson.version</span>&gt;</span></div></pre></td></tr></table></figure></p>
+
             
         </div>
     </div>
@@ -336,7 +347,7 @@ elasticsearch不允许使用root">
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/" data-tooltip="hadoop一些问题记录">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -435,7 +446,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/" data-tooltip="elasticserch-sql和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/" data-tooltip="hadoop一些问题记录">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>

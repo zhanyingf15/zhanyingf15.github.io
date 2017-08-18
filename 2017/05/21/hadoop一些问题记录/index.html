@@ -19,7 +19,7 @@
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/05/21/hadoop一些问题记录/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="升级Hadoop后无法启动namenodenamenode 默认在/tmp下建立临时文件，但关机后，/tmp下文档自动删除，再次启动Master造成文件不匹配，所以namenode启动失败。在core-site.xml中指定临时文件位置，然后清空该目录，再运行hadoop namenode -format重新格式化1234&amp;lt;property&amp;gt;  &amp;lt;name&amp;gt;hadoop.t">
-<meta property="og:updated_time" content="2017-08-18T09:46:00.862Z">
+<meta property="og:updated_time" content="2017-08-18T10:31:14.507Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hadoop一些问题记录">
 <meta name="twitter:description" content="升级Hadoop后无法启动namenodenamenode 默认在/tmp下建立临时文件，但关机后，/tmp下文档自动删除，再次启动Master造成文件不匹配，所以namenode启动失败。在core-site.xml中指定临时文件位置，然后清空该目录，再运行hadoop namenode -format重新格式化1234&amp;lt;property&amp;gt;  &amp;lt;name&amp;gt;hadoop.t">
@@ -198,7 +198,9 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <h3 id="升级Hadoop后无法启动namenode"><a href="#升级Hadoop后无法启动namenode" class="headerlink" title="升级Hadoop后无法启动namenode"></a>升级Hadoop后无法启动namenode</h3><p>namenode 默认在/tmp下建立临时文件，但关机后，/tmp下文档自动删除，再次启动Master造成文件不匹配，所以namenode启动失败。<br>在core-site.xml中指定临时文件位置，然后清空该目录，再运行hadoop namenode -format重新格式化<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/hadoop/hadooptemp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>value中的路径只要不是/tmp 就行。</p>
+<a id="more"></a>
 <h3 id="hadoop宽松的权限"><a href="#hadoop宽松的权限" class="headerlink" title="hadoop宽松的权限"></a>hadoop宽松的权限</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.root.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="hive和hbase整合后可以通过cli查询和插入数据但无法从beeline查询数据的问题"><a href="#hive和hbase整合后可以通过cli查询和插入数据但无法从beeline查询数据的问题" class="headerlink" title="hive和hbase整合后可以通过cli查询和插入数据但无法从beeline查询数据的问题"></a>hive和hbase整合后可以通过cli查询和插入数据但无法从beeline查询数据的问题</h3><p>错误日志如下：</p>
 <blockquote>
@@ -207,6 +209,7 @@
 <p>原因是权限的问题<br>修改Hadoop的core-site.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.hadoop.groups<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.proxyuser.hadoop.hosts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p>修改hive的hive-site.xml，增加配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>hive.server2.enable.doAs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="java客户端连接HBase报SocketTimeout-master-xxx的错误"><a href="#java客户端连接HBase报SocketTimeout-master-xxx的错误" class="headerlink" title="java客户端连接HBase报SocketTimeout master xxx的错误"></a>java客户端连接HBase报SocketTimeout master xxx的错误</h3><p>原因是master,slave等配置在Linux的hosts文件中，通常我们在idea中调试运行的Windows环境的hosts中并没有master等地址映射。把Linux上hosts的相关配置同样配置在Windows中的hosts文件中。上线后同样需要配置在Java程序运行的服务器环境中</p>
+
             
         </div>
     </div>
@@ -224,7 +227,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/"  data-tooltip="elasticserch-sql和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/elasticsearch安装与集成/"  data-tooltip="elasticsearch安装与集成">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -323,7 +326,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/13/elasticserch-sql和mybatis整合记录/"  data-tooltip="elasticserch-sql和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/06/14/elasticsearch安装与集成/"  data-tooltip="elasticsearch安装与集成">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>

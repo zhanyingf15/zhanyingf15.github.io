@@ -14,21 +14,21 @@
     
     
     <meta name="description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
-聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .add">
+
+聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .addAggre">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="elasticsearh文档整理-聚合">
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-聚合/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
-聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .add">
-<meta property="og:updated_time" content="2017-08-18T10:02:15.230Z">
+
+聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .addAggre">
+<meta property="og:updated_time" content="2017-08-18T10:29:12.681Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearh文档整理-聚合">
 <meta name="twitter:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
-聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .add">
+
+聚合基础使用12345678910111213SearchResponse sr = client.prepareSearch()    .setQuery(QueryBuilders.matchAllQuery())    .addAggre">
     
     
         
@@ -205,9 +205,9 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
-<p>[TOC]</p>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#聚合"><span class="toc-text">聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构化聚合"><span class="toc-text">结构化聚合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Metrics类型聚合"><span class="toc-text">Metrics类型聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#min"><span class="toc-text">min</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#max"><span class="toc-text">max</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sum"><span class="toc-text">sum</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#avg"><span class="toc-text">avg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#count"><span class="toc-text">count</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stats聚合"><span class="toc-text">stats聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Extended-Stats聚合"><span class="toc-text">Extended Stats聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Percentiles聚合-百分比统计"><span class="toc-text">Percentiles聚合,百分比统计</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Percentile-rank聚合"><span class="toc-text">Percentile rank聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cardinality聚合"><span class="toc-text">Cardinality聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Geo-Bounds聚合"><span class="toc-text">Geo Bounds聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Top-hits聚合"><span class="toc-text">Top hits聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Scripted-Metric聚合"><span class="toc-text">Scripted Metric聚合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bucket类型聚合"><span class="toc-text">Bucket类型聚合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Global聚合"><span class="toc-text">Global聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filter聚合"><span class="toc-text">Filter聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Filters聚合"><span class="toc-text">Filters聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Missing聚合"><span class="toc-text">Missing聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nested聚合"><span class="toc-text">Nested聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Reerse-nested聚合"><span class="toc-text">Reerse nested聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Children聚合"><span class="toc-text">Children聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Terms聚合"><span class="toc-text">Terms聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Significant-Terms聚合"><span class="toc-text">Significant Terms聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Range聚合"><span class="toc-text">Range聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Date-Range聚合"><span class="toc-text">Date Range聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IPv4-Range-聚合"><span class="toc-text">IPv4 Range 聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Histogram-聚合"><span class="toc-text">Histogram 聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Date-Histogram聚合"><span class="toc-text">Date Histogram聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Geo-Distance聚合"><span class="toc-text">Geo Distance聚合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GeoHash-grid-聚合"><span class="toc-text">GeoHash grid 聚合</span></a></li></ol></li></ol></li></ol>
 <h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>基础使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SearchResponse sr = client.prepareSearch()</div><div class="line">    .setQuery(QueryBuilders.matchAllQuery())</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.terms(<span class="string">"agg1"</span>).field(<span class="string">"field"</span>)</div><div class="line">    )</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.dateHistogram(<span class="string">"agg2"</span>)</div><div class="line">                    .field(<span class="string">"birth"</span>)</div><div class="line">                    .interval(DateHistogramInterval.YEAR)</div><div class="line">    )</div><div class="line">    .execute().actionGet();</div><div class="line">Terms agg1 = sr.getAggregations().get(<span class="string">"agg1"</span>);</div><div class="line">DateHistogram agg2 = sr.getAggregations().get(<span class="string">"agg2"</span>);</div></pre></td></tr></table></figure></p>
-<p>&lt;— excerpt –&gt;</p>
+<p>&lt;— more –&gt;</p>
 <h3 id="结构化聚合"><a href="#结构化聚合" class="headerlink" title="结构化聚合"></a>结构化聚合</h3><p>一个聚合中能够包含子聚合，聚合只能是metrics聚合或bucket聚合。例如，下面的聚合由三个子聚合组成</p>
 <ul>
 <li>Terms 聚合 (bucket)</li>
@@ -574,7 +574,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -673,7 +673,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>

@@ -41,7 +41,7 @@ bin/beeline
 停止hive:hive&amp;gt;exit;
 一些重要的配置
 hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
-<meta property="og:updated_time" content="2017-08-18T10:18:13.531Z">
+<meta property="og:updated_time" content="2017-08-18T10:30:18.275Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hive笔记">
 <meta name="twitter:description" content="HIVE笔记
@@ -231,7 +231,22 @@ hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt -->
+            <h2 id="HIVE笔记"><a href="#HIVE笔记" class="headerlink" title="HIVE笔记"></a>HIVE笔记</h2><blockquote>
+<p>启动hive和内置derby：<code>hive --service hiveserver2</code></p>
+</blockquote>
+<p>测试连接：</p>
+<ol>
+<li>bin/beeline  </li>
+<li>!connect jdbc:hive2://192.168.70.128:10000/test</li>
+</ol>
+<blockquote>
+<p>停止hive:hive&gt;exit;</p>
+<h3 id="一些重要的配置"><a href="#一些重要的配置" class="headerlink" title="一些重要的配置"></a>一些重要的配置</h3><ul>
+<li>hive-site.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<a id="more"></a>
 <h3 id="数据库创建与删除"><a href="#数据库创建与删除" class="headerlink" title="数据库创建与删除"></a>数据库创建与删除</h3><ul>
 <li>语法：<code>CREATE TABLE IF NOT EXISTS user_db;</code></li>
 <li>查看：<code>SHOW DATABASES;</code></li>
@@ -381,6 +396,7 @@ hive-site.xml12345678910&amp;lt;property&amp;gt;    &amp;lt;na">
 <p>hive通过外部表的方式连接hbase表，hive删除表，hbase不会删除，hbase删除，hive执行操作会报错</p>
 <p>两种方式创建的表，hive和hbase操作数据都能相互影响</p>
 <p>在hive中，只能通过insert table select 原生表 的方式插入数据，load data不行。如：<br>insert into hive_hbase select ‘1’ as rowkey,map(‘name’,’shot’)as info from temp limit 1;</p>
+
             
         </div>
     </div>

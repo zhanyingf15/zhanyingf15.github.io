@@ -13,17 +13,47 @@
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="记录hbase的基本概念、命令和操作">
+    <meta name="description" content="记录hbase的基本概念、命令和操作
+
+HBase 笔记启动
+bin/start-hbase.shShell 命令
+进入shell：hbase shell
+通用命令
+
+status: 提供HBase的状态，例如，服务器的数量
+version: 提供正在使用HBase版本
+table_help: 表的一些命令帮助
+whoami: 提供有关用户的信息">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="hbase笔记">
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/04/15/hbase笔记/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="记录hbase的基本概念、命令和操作">
+<meta property="og:description" content="记录hbase的基本概念、命令和操作
+
+HBase 笔记启动
+bin/start-hbase.shShell 命令
+进入shell：hbase shell
+通用命令
+
+status: 提供HBase的状态，例如，服务器的数量
+version: 提供正在使用HBase版本
+table_help: 表的一些命令帮助
+whoami: 提供有关用户的信息">
 <meta property="og:image" content="https://zhanyingf15.github.io/hbase笔记/1.jpg">
-<meta property="og:updated_time" content="2017-08-18T09:47:35.569Z">
+<meta property="og:updated_time" content="2017-08-18T10:30:51.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hbase笔记">
-<meta name="twitter:description" content="记录hbase的基本概念、命令和操作">
+<meta name="twitter:description" content="记录hbase的基本概念、命令和操作
+
+HBase 笔记启动
+bin/start-hbase.shShell 命令
+进入shell：hbase shell
+通用命令
+
+status: 提供HBase的状态，例如，服务器的数量
+version: 提供正在使用HBase版本
+table_help: 表的一些命令帮助
+whoami: 提供有关用户的信息">
 <meta name="twitter:image" content="https://zhanyingf15.github.io/hbase笔记/1.jpg">
     
     
@@ -200,7 +230,8 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt --><br><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase-笔记"><span class="toc-text">HBase 笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell-命令"><span class="toc-text">Shell 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#表命令"><span class="toc-text">表命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据操纵命令"><span class="toc-text">数据操纵命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表操作"><span class="toc-text">表操作</span></a></li></ol></li></ol></p>
+            <p>记录hbase的基本概念、命令和操作</p>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase-笔记"><span class="toc-text">HBase 笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell-命令"><span class="toc-text">Shell 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#表命令"><span class="toc-text">表命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据操纵命令"><span class="toc-text">数据操纵命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表操作"><span class="toc-text">表操作</span></a></li></ol></li></ol>
 <h2 id="HBase-笔记"><a href="#HBase-笔记" class="headerlink" title="HBase 笔记"></a>HBase 笔记</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
 <li>bin/start-hbase.sh<h3 id="Shell-命令"><a href="#Shell-命令" class="headerlink" title="Shell 命令"></a>Shell 命令</h3><blockquote>
 <p>进入shell：<code>hbase shell</code></p>
@@ -209,7 +240,10 @@
 <li>status: 提供HBase的状态，例如，服务器的数量</li>
 <li>version: 提供正在使用HBase版本</li>
 <li>table_help: 表的一些命令帮助</li>
-<li>whoami: 提供有关用户的信息<h4 id="表命令"><a href="#表命令" class="headerlink" title="表命令"></a>表命令</h4></li>
+<li>whoami: 提供有关用户的信息</li>
+</ul>
+<a id="more"></a>
+<h4 id="表命令"><a href="#表命令" class="headerlink" title="表命令"></a>表命令</h4><ul>
 <li>create：创建表</li>
 <li>list：列出HBase所有表</li>
 <li>disable：禁用表</li>
@@ -254,6 +288,7 @@
 <li>表计数：<code>count &#39;table_name&#39;</code></li>
 <li>截断表：<code>truncat &#39;table_name&#39;</code></li>
 </ul>
+
             
         </div>
     </div>

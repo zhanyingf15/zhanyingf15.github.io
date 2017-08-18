@@ -14,27 +14,27 @@
     
     
     <meta name="description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
+
 
 elasticsearch版本：2.4.5
-Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.h">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="elasticsearh文档整理-查询">
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/06/16/elasticsearh文档整理-查询/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
+
 
 elasticsearch版本：2.4.5
-Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
-<meta property="og:updated_time" content="2017-08-18T10:01:18.767Z">
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.h">
+<meta property="og:updated_time" content="2017-08-18T10:29:42.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="elasticsearh文档整理-查询">
 <meta name="twitter:description" content="翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。
-[TOC]
+
 
 elasticsearch版本：2.4.5
-Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-d">
+Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.h">
     
     
         
@@ -210,7 +210,13 @@ Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!--excerpt-->
+            <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
+<h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docment-API"><span class="toc-text">Docment API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Index-API"><span class="toc-text">Index API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Get-API"><span class="toc-text">Get API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Multi-Get-API"><span class="toc-text">Multi Get API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete-API"><span class="toc-text">Delete API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Update-API"><span class="toc-text">Update API</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#批量操作"><span class="toc-text">批量操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bulk-API"><span class="toc-text">Bulk API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bulk-Processor"><span class="toc-text">Bulk Processor</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Search-API"><span class="toc-text">Search API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用Java-scrolls"><span class="toc-text">使用Java scrolls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Multisearch-API"><span class="toc-text">Multisearch API</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Terminate-After"><span class="toc-text">Terminate After</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Count-API"><span class="toc-text">Count API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Query-DSL"><span class="toc-text">Query DSL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Match-All-Query"><span class="toc-text">Match All Query</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Full-text-queries"><span class="toc-text">Full text queries</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Match-Query"><span class="toc-text">Match Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Multi-Match-Query"><span class="toc-text">Multi Match Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Common-Terms-Query"><span class="toc-text">Common Terms Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Query-String-Query"><span class="toc-text">Query String Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Simple-Query-String-Query"><span class="toc-text">Simple Query String Query</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Term-level-queries"><span class="toc-text">Term level queries</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Term-Query"><span class="toc-text">Term Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Terms-Query"><span class="toc-text">Terms Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Range-Query"><span class="toc-text">Range Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Exists-Query"><span class="toc-text">Exists Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Prefix-Query"><span class="toc-text">Prefix Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Wildcard-Query"><span class="toc-text">Wildcard Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Regexp-Query"><span class="toc-text">Regexp Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Fuzzy-Query"><span class="toc-text">Fuzzy Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Type-Query"><span class="toc-text">Type Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Ids-Query"><span class="toc-text">Ids Query</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Compound-queries"><span class="toc-text">Compound queries</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Constant-Score-Query"><span class="toc-text">Constant Score Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Bool-Query"><span class="toc-text">Bool Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Dis-Max-Query"><span class="toc-text">Dis Max Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Boosting-Query"><span class="toc-text">Boosting Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Indices-Query"><span class="toc-text">Indices Query</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Joining-queries"><span class="toc-text">Joining queries</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#nested-query"><span class="toc-text">nested query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#has-child-query"><span class="toc-text">has child query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#has-parent-query"><span class="toc-text">has parent query</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Geo-queries"><span class="toc-text">Geo queries</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#geo-shape-query"><span class="toc-text">geo shape query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Geo-Bounding-Box-Query"><span class="toc-text">Geo Bounding Box Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Geo-Distance-Query"><span class="toc-text">Geo Distance Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Geo-Distance-Range-Query"><span class="toc-text">Geo Distance Range Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Geo-Polygon-Query"><span class="toc-text">Geo Polygon Query</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Geohash-Cell-Query"><span class="toc-text">Geohash Cell Query</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Specialized-queries"><span class="toc-text">Specialized queries</span></a></li></ol></li></ol>
+<blockquote>
+<p>elasticsearch版本：2.4.5</p>
+<h3 id="Docment-API"><a href="#Docment-API" class="headerlink" title="Docment API"></a>Docment API</h3><p>基础的CRUD API<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html</a></p>
+</blockquote>
+<a id="more"></a>
 <h4 id="Index-API"><a href="#Index-API" class="headerlink" title="Index API"></a>Index API</h4><p>将结构化的json文档添加到指定的索引下，如果索引不存在，将自动创建<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//使用Map</span></div><div class="line">Map&lt;String, Object&gt; json = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</div><div class="line">json.put(<span class="string">"user"</span>,<span class="string">"kimchy"</span>);</div><div class="line">IndexResponse response = client.prepareIndex(index,type).setRefresh(<span class="keyword">true</span>).setSource(params).get();</div></pre></td></tr></table></figure></p>
 <p>setFresh(true)使添加的文档能立即被搜索到，在添加文档后需要立即能被检索到时很有用，如果是很重的索引操作，不应该设置为true，默认false。</p>
 <h4 id="Get-API"><a href="#Get-API" class="headerlink" title="Get API"></a>Get API</h4><p>通过文档id获取结构化的json文档</p>
@@ -672,7 +678,7 @@ Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/15/elasticserch-sql和mybatis整合记录/"  data-tooltip="elasticserch-sql和mybatis整合记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -718,7 +724,7 @@ Docment API基础的CRUD APIhttps://www.elastic.co/guide/en/elasticsearch/client
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -771,7 +777,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/"  data-tooltip="elasticsearch rest api和mybatis整合记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/15/elasticserch-sql和mybatis整合记录/"  data-tooltip="elasticserch-sql和mybatis整合记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -817,7 +823,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
