@@ -6,26 +6,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="忘语的个人博客">
-    <title>bootstrap-datetime-picker在IE8下不支持的解决方法 - 忘语的个人博客</title>
+    <title>regeneratorRuntime is not defined 错误 - 忘语的个人博客</title>
     <meta name="author" content="忘语">
     
     
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
+    <meta name="description" content="在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下
+
+1、安装babel-polyfill
+npm install babel-polyfill –save-dev
+
+2、安装babel-plugin-transform-runtime：
+npm install babel-plugin-tr">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="bootstrap-datetime-picker在IE8下不支持的解决方法">
-<meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/index.html">
+<meta property="og:title" content="regeneratorRuntime is not defined 错误">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
-<meta property="og:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/1.png">
-<meta property="og:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/2.png">
-<meta property="og:updated_time" content="2017-01-24T07:02:51.155Z">
+<meta property="og:description" content="在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下
+
+1、安装babel-polyfill
+npm install babel-polyfill –save-dev
+
+2、安装babel-plugin-transform-runtime：
+npm install babel-plugin-tr">
+<meta property="og:updated_time" content="2017-03-15T09:22:52.599Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bootstrap-datetime-picker在IE8下不支持的解决方法">
-<meta name="twitter:description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
-<meta name="twitter:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/1.png">
+<meta name="twitter:title" content="regeneratorRuntime is not defined 错误">
+<meta name="twitter:description" content="在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下
+
+1、安装babel-polyfill
+npm install babel-polyfill –save-dev
+
+2、安装babel-plugin-transform-runtime：
+npm install babel-plugin-tr">
     
     
         
@@ -179,21 +194,15 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            bootstrap-datetime-picker在IE8下不支持的解决方法
+            regeneratorRuntime is not defined 错误
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T14:55:27+08:00">
+    <time itemprop="datePublished" datetime="2017-03-15T17:17:46+08:00">
 	
-		    1月 24, 2017
+		    3月 15, 2017
     	
     </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
-
-
     
 </div>
 
@@ -201,13 +210,18 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区</p>
-<a id="more"></a>
-<p><img src="bootstrap-datetime-picker在IE8下不支持的解决方法/1.png" alt="">如上图，在某些IE8浏览器下会报错误，是因为某些IE8不能正确识别出时区，获得的时区是undefined</p>
-<p>修改方案如下：</p>
-<p><img src="bootstrap-datetime-picker在IE8下不支持的解决方法/2.png" alt=""></p>
-<p>有些IE8不支持indexof方法的错误，解决方式是自己实现一个indexof方法。将以下代码添加到bootstap-datetimepicker.js的前面</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">Array</span>.prototype.indexOf) &#123;</div><div class="line">  <span class="built_in">Array</span>.prototype.indexOf = <span class="function"><span class="keyword">function</span>(<span class="params">elt <span class="regexp">/*, from*/</span></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> len = <span class="keyword">this</span>.length &gt;&gt;&gt; <span class="number">0</span>;</div><div class="line">    <span class="keyword">var</span> <span class="keyword">from</span> = <span class="built_in">Number</span>(<span class="built_in">arguments</span>[<span class="number">1</span>]) || <span class="number">0</span>;</div><div class="line">    <span class="keyword">from</span> = (<span class="keyword">from</span> &lt; <span class="number">0</span>)? <span class="built_in">Math</span>.ceil(<span class="keyword">from</span>): <span class="built_in">Math</span>.floor(<span class="keyword">from</span>);</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">from</span> &lt; <span class="number">0</span>)<span class="keyword">from</span> += len;</div><div class="line">    <span class="keyword">for</span> (; <span class="keyword">from</span> &lt; len; <span class="keyword">from</span>++)&#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">from</span> <span class="keyword">in</span> <span class="keyword">this</span> &amp;&amp; <span class="keyword">this</span>[<span class="keyword">from</span>] === elt)</div><div class="line">        <span class="keyword">return</span> <span class="keyword">from</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+            <p>在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下</p>
+<ul>
+<li><p>1、安装babel-polyfill</p>
+<p>npm install babel-polyfill –save-dev</p>
+</li>
+<li><p>2、安装babel-plugin-transform-runtime：</p>
+<p>npm install babel-plugin-transform-runtime –save-dev</p>
+</li>
+<li><p>3、修改.bablerc文件</p>
+<p>添加”plugins”:[“transform-runtime”],如果有plugins属性就追加</p>
+</li>
+</ul>
 
             
         </div>
@@ -217,7 +231,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/IE8/">IE8</a> <a class="tag tag--primary tag--small t-link" href="/tags/bootstrap/">bootstrap</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/bable/">bable</a> <a class="tag tag--primary tag--small t-link" href="/tags/react/">react</a>
 
             </div>
         
@@ -226,7 +240,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/"  data-tooltip="MUI一些有用的类,处理过的元素和方法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/"  data-tooltip="hbase笔记">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -234,7 +248,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/" data-tooltip="mui的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/02/06/thunk与Generator函数实现自动流程管理/" data-tooltip="thunk与Generator函数实现自动流程管理">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -249,17 +263,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -284,12 +298,12 @@
         
             
                 <!--
-<div id="ds-thread" class="ds-thread" data-thread-key="2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/"
-     data-title="bootstrap-datetime-picker在IE8下不支持的解决方法" data-url="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/03/15/regeneratorRuntime-is-not-defined-错误/"
+     data-title="regeneratorRuntime is not defined 错误" data-url="https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
 </div>
 -->
 <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/" data-title="bootstrap-datetime-picker在IE8下不支持的解决方法" data-url="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/15/regeneratorRuntime-is-not-defined-错误/" data-title="regeneratorRuntime is not defined 错误" data-url="https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -325,7 +339,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/"  data-tooltip="MUI一些有用的类,处理过的元素和方法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/04/15/hbase笔记/"  data-tooltip="hbase笔记">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -333,7 +347,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/" data-tooltip="mui的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/02/06/thunk与Generator函数实现自动流程管理/" data-tooltip="thunk与Generator函数实现自动流程管理">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -348,17 +362,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -384,17 +398,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>

@@ -6,26 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="忘语的个人博客">
-    <title>bootstrap-datetime-picker在IE8下不支持的解决方法 - 忘语的个人博客</title>
+    <title>hbase笔记 - 忘语的个人博客</title>
     <meta name="author" content="忘语">
     
     
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
+    <meta name="description" content="记录hbase的基本概念、命令和操作">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="bootstrap-datetime-picker在IE8下不支持的解决方法">
-<meta property="og:url" content="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/index.html">
+<meta property="og:title" content="hbase笔记">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/04/15/hbase笔记/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
-<meta property="og:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/1.png">
-<meta property="og:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/2.png">
-<meta property="og:updated_time" content="2017-01-24T07:02:51.155Z">
+<meta property="og:description" content="记录hbase的基本概念、命令和操作">
+<meta property="og:image" content="https://zhanyingf15.github.io/hbase笔记/1.jpg">
+<meta property="og:updated_time" content="2017-08-18T09:37:56.710Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="bootstrap-datetime-picker在IE8下不支持的解决方法">
-<meta name="twitter:description" content="使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区">
-<meta name="twitter:image" content="https://zhanyingf15.github.io/bootstrap-datetime-picker在IE8下不支持的解决方法/1.png">
+<meta name="twitter:title" content="hbase笔记">
+<meta name="twitter:description" content="记录hbase的基本概念、命令和操作">
+<meta name="twitter:image" content="https://zhanyingf15.github.io/hbase笔记/1.jpg">
     
     
         
@@ -179,19 +178,19 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            bootstrap-datetime-picker在IE8下不支持的解决方法
+            hbase笔记
         </h1>
     
     <div class="post-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T14:55:27+08:00">
+    <time itemprop="datePublished" datetime="2017-04-15T17:14:12+08:00">
 	
-		    1月 24, 2017
+		    4月 15, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
+    <a class="category-link" href="/categories/hbase/">hbase</a>, <a class="category-link" href="/categories/hbase/大数据/">大数据</a>
 
 
     
@@ -201,14 +200,60 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区</p>
-<a id="more"></a>
-<p><img src="bootstrap-datetime-picker在IE8下不支持的解决方法/1.png" alt="">如上图，在某些IE8浏览器下会报错误，是因为某些IE8不能正确识别出时区，获得的时区是undefined</p>
-<p>修改方案如下：</p>
-<p><img src="bootstrap-datetime-picker在IE8下不支持的解决方法/2.png" alt=""></p>
-<p>有些IE8不支持indexof方法的错误，解决方式是自己实现一个indexof方法。将以下代码添加到bootstap-datetimepicker.js的前面</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">Array</span>.prototype.indexOf) &#123;</div><div class="line">  <span class="built_in">Array</span>.prototype.indexOf = <span class="function"><span class="keyword">function</span>(<span class="params">elt <span class="regexp">/*, from*/</span></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> len = <span class="keyword">this</span>.length &gt;&gt;&gt; <span class="number">0</span>;</div><div class="line">    <span class="keyword">var</span> <span class="keyword">from</span> = <span class="built_in">Number</span>(<span class="built_in">arguments</span>[<span class="number">1</span>]) || <span class="number">0</span>;</div><div class="line">    <span class="keyword">from</span> = (<span class="keyword">from</span> &lt; <span class="number">0</span>)? <span class="built_in">Math</span>.ceil(<span class="keyword">from</span>): <span class="built_in">Math</span>.floor(<span class="keyword">from</span>);</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">from</span> &lt; <span class="number">0</span>)<span class="keyword">from</span> += len;</div><div class="line">    <span class="keyword">for</span> (; <span class="keyword">from</span> &lt; len; <span class="keyword">from</span>++)&#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">from</span> <span class="keyword">in</span> <span class="keyword">this</span> &amp;&amp; <span class="keyword">this</span>[<span class="keyword">from</span>] === elt)</div><div class="line">        <span class="keyword">return</span> <span class="keyword">from</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">  &#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-
+            <!-- excerpt --><br><h1 id="table-of-contents">目录</h1><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase-笔记"><span class="toc-text">HBase 笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shell-命令"><span class="toc-text">Shell 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通用命令"><span class="toc-text">通用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#表命令"><span class="toc-text">表命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数据操纵命令"><span class="toc-text">数据操纵命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#表操作"><span class="toc-text">表操作</span></a></li></ol></li></ol></p>
+<h2 id="HBase-笔记"><a href="#HBase-笔记" class="headerlink" title="HBase 笔记"></a>HBase 笔记</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
+<li>bin/start-hbase.sh<h3 id="Shell-命令"><a href="#Shell-命令" class="headerlink" title="Shell 命令"></a>Shell 命令</h3><blockquote>
+<p>进入shell：<code>hbase shell</code></p>
+<h4 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h4></blockquote>
+</li>
+<li>status: 提供HBase的状态，例如，服务器的数量</li>
+<li>version: 提供正在使用HBase版本</li>
+<li>table_help: 表的一些命令帮助</li>
+<li>whoami: 提供有关用户的信息<h4 id="表命令"><a href="#表命令" class="headerlink" title="表命令"></a>表命令</h4></li>
+<li>create：创建表</li>
+<li>list：列出HBase所有表</li>
+<li>disable：禁用表</li>
+<li>is_disabled：验证一个表是否被禁用</li>
+<li>enable：启用一个表</li>
+<li>is_enabled：验证一个表是否被启用</li>
+<li>describe：提供表的描述</li>
+<li>alter：修改表</li>
+<li>exists：验证表是否存在</li>
+<li>drop：删除表</li>
+<li>drop_all：删除匹配参数regex表达式的表<h4 id="数据操纵命令"><a href="#数据操纵命令" class="headerlink" title="数据操纵命令"></a>数据操纵命令</h4></li>
+<li>put：设置个单元格的值</li>
+<li>get：去行或单元格的内容</li>
+<li>delete：删除表中单元格的值</li>
+<li>deleteall：删除给定行的所有单元格</li>
+<li>scan：扫描并返回表数据</li>
+<li>count：计算表的行数</li>
+<li>truncate: 截断表</li>
+</ul>
+<hr>
+<h3 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h3><ul>
+<li>创建表：<code>create &#39;table_name&#39;,&#39;列簇名1&#39;,&#39;列簇名2&#39;,...</code></li>
+<li>禁用表：<code>disable &#39;table_name&#39;</code>或<code>disable_all &#39;regex&#39;</code></li>
+<li>启用表：<code>enable &#39;table_name&#39;</code></li>
+<li>插入数据：<code>put &#39;table_name&#39;,&#39;row_key&#39;,&#39;&lt;col_family.colname&gt;&#39;,&#39;value&#39;</code><blockquote>
+<p>示例  </p>
+</blockquote>
+</li>
+</ul>
+<p>有以下表结构：<br>create ‘emp’, ‘personal data’, ’professional data’<br><img src="hbase笔记/1.jpg" alt=""></p>
+<p>插入第一行数据<br><code>put &#39;emp&#39;,&#39;1&#39;,&#39;personal data:name&#39;,&#39;raju&#39;</code><br><code>put &#39;emp&#39;,&#39;1&#39;,&#39;personal data:city&#39;,&#39;hyderabad&#39;</code><br><code>put &#39;emp&#39;,&#39;1&#39;,&#39;professional data:designation&#39;,&#39;manager&#39;</code><br><code>put &#39;emp&#39;,&#39;1&#39;,&#39;professional data:salary&#39;,&#39;50000&#39;</code><br>put 命令同样可用于更新，如将raju的city改为Delhi<br><code>put &#39;emp&#39;,&#39;1&#39;,&#39;personal:city&#39;,&#39;Delhi&#39;</code>  </p>
+<ul>
+<li>读取数据：<br><code>get &#39;table_name&#39;,&#39;rowkey&#39;</code> 读取一行数据<br><code>get &#39;table name&#39;, ‘rowid’, {COLUMN =&gt; &#39;family:column_name&#39;}</code> 读取一列数据  <blockquote>
+<p>示例：<code>get &#39;emp&#39;, &#39;1&#39;, {COLUMN=&gt;&#39;personal data:name&#39;}</code>  </p>
+</blockquote>
+</li>
+<li>删除数据：<br><code>delete &#39;table_name&#39;,&#39;rowkey&#39;,&#39;family:col_name&#39;,&#39;time_stamp&#39;</code>  删除单元格<br><code>deleteall &#39;tabe_name&#39;,&#39;rowkey&#39;</code>  删除整行<blockquote>
+<p>示例：<code>delete &#39;emp&#39;, &#39;1&#39;, &#39;personal data:city&#39;,1417521848375</code></p>
+</blockquote>
+</li>
+<li>扫描表：<code>scan &#39;table_name&#39;</code></li>
+<li>表计数：<code>count &#39;table_name&#39;</code></li>
+<li>截断表：<code>truncat &#39;table_name&#39;</code></li>
+</ul>
             
         </div>
     </div>
@@ -217,7 +262,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/IE8/">IE8</a> <a class="tag tag--primary tag--small t-link" href="/tags/bootstrap/">bootstrap</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/hbase/">hbase</a>
 
             </div>
         
@@ -226,7 +271,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/"  data-tooltip="MUI一些有用的类,处理过的元素和方法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/"  data-tooltip="hadoop一些问题记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -234,7 +279,7 @@
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/" data-tooltip="mui的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/" data-tooltip="regeneratorRuntime is not defined 错误">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -249,17 +294,17 @@
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -272,7 +317,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -284,12 +329,12 @@
         
             
                 <!--
-<div id="ds-thread" class="ds-thread" data-thread-key="2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/"
-     data-title="bootstrap-datetime-picker在IE8下不支持的解决方法" data-url="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/04/15/hbase笔记/"
+     data-title="hbase笔记" data-url="https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
 </div>
 -->
 <!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/" data-title="bootstrap-datetime-picker在IE8下不支持的解决方法" data-url="https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/"></div>
+	<div class="ds-thread" data-thread-key="2017/04/15/hbase笔记/" data-title="hbase笔记" data-url="https://zhanyingf15.github.io/2017/04/15/hbase笔记/"></div>
 <!-- 多说评论框 end -->
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
@@ -325,7 +370,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/"  data-tooltip="MUI一些有用的类,处理过的元素和方法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/05/21/hadoop一些问题记录/"  data-tooltip="hadoop一些问题记录">
                 
                     <i class="fa fa-angle-left"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -333,7 +378,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </li>
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/01/24/mui的一些问题/" data-tooltip="mui的一些问题">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/" data-tooltip="regeneratorRuntime is not defined 错误">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right"></i>
@@ -348,17 +393,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-google-plus"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-facebook-official"></i>
             </a>
         </li>
         <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-twitter"></i>
             </a>
         </li>
@@ -371,7 +416,7 @@ var duoshuoQuery = {short_name:"wangyu1992"};
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#">
+                <a class="post-action-btn btn btn--default" href="#table-of-contents">
             
                 <i class="fa fa-list"></i>
             </a>
@@ -384,17 +429,17 @@ var duoshuoQuery = {short_name:"wangyu1992"};
                 <div id="share-options-bar" class="share-options-bar" data-behavior="3">
     <ul class="share-options">
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
             </a>
         </li>
         <li class="share-option">
-            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/04/15/hbase笔记/">
                 <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
             </a>
         </li>
