@@ -174,39 +174,47 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/08/18/elasticsearch-rest-api和mybatis整合记录/">
+                        <a class="link-unstyled" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/">
                             elasticsearch rest api和mybatis整合记录
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-08-18T18:10:51+08:00">
+    <time itemprop="datePublished" datetime="2017-07-16T18:03:00+08:00">
 	
-		    8月 18, 2017
+		    7月 16, 2017
     	
     </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
     
 </div>
 
             </div>
             
-                <div class="postShorten-content" itemprop="articleBody">
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>[TOC]</p>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>官方提供了完整的Java API和Rest API（<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/docs-index_.html" target="_blank" rel="external">文档地址</a>）,并提供了<code>TransportClient</code>客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。</p>
+<p>在前文 “<a href="https://zhanyingf15.github.io/2017/06/13/elasticserch-sql%E5%92%8Cmybatis%E6%95%B4%E5%90%88%E8%AE%B0%E5%BD%95/">elasticserch-sql和mybatis整合记录</a>” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅支持极其简单的查询，不支持增加、删除和修改。Rest API功能强大，在实际应用中可能会因前台参数的不同而组合不同的条件，拼接字符串又太麻烦，如果实现Rest API和mybatis整合，让mybatis强大的动态条件功能组合rest API，会让代码更简单更容易维护。</p>
+<p>Rest API客户端使用<code>Jest</code>，具体详情和文档参考<a href="https://github.com/searchbox-io/Jest" target="_blank" rel="external">GitHub Jest主页</a>。在之前的基础上修改整合。</p>
+<blockquote>
+<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc" target="_blank" rel="external">elasticsearch-jdbc</a>，欢迎fork</p>
+</blockquote>
                     
-                    
+                        <a href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
                         
-                    
-                    
-                        <p>
-                            <a href="/2017/08/18/elasticsearch-rest-api和mybatis整合记录/#post-footer" class="postShorten-excerpt_link link">
-                                注释和共享
-                            </a>
-                        </p>
                     
                 </div>
             
