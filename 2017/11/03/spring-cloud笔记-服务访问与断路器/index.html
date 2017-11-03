@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>spring cloud笔记-服务访问与断路器 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="在上一篇笔记-注册中心中，服务sample只是简单实现了eureka客户端，现在为它添加一个controller1234567891011@Controller@RequestMapping(&quot;/&quot;)public class TestController &amp;#123;    @ResponseBody    @RequestMapping(&quot;param&quot;)    public Object tes">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="spring cloud笔记-服务访问与断路器">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="在上一篇笔记-注册中心中，服务sample只是简单实现了eureka客户端，现在为它添加一个controller1234567891011@Controller@RequestMapping(&quot;/&quot;)public class TestController &amp;#123;    @ResponseBody    @RequestMapping(&quot;param&quot;)    public Object tes">
+<meta property="og:updated_time" content="2017-11-03T02:08:21.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring cloud笔记-服务访问与断路器">
+<meta name="twitter:description" content="在上一篇笔记-注册中心中，服务sample只是简单实现了eureka客户端，现在为它添加一个controller1234567891011@Controller@RequestMapping(&quot;/&quot;)public class TestController &amp;#123;    @ResponseBody    @RequestMapping(&quot;param&quot;)    public Object tes">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            spring cloud笔记-服务访问与断路器
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T10:06:58+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在上一篇笔记-注册中心中，服务sample只是简单实现了eureka客户端，现在为它添加一个controller<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</div><div class="line">    <span class="meta">@ResponseBody</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">test</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">        Map params = HttpServletUtil.getRequestParameters(request);</div><div class="line">        params.put(<span class="string">"msg"</span>,<span class="string">"请求成功"</span>);</div><div class="line">        <span class="keyword">return</span> params;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个接口很简单，获取请求参数，在参数Map中加一个msg，然后再原样返回给请求方。</p>
+<p>通常来说，请求方可以直接通过<code>ip:port/param?key=value</code>的形式访问sample，但是这样做就跟传统的web项目没区别了，注册中心也就失去了它本来的意义。<br><a id="more"></a><br>在spring cloud中，服务的请求有两种方式，一种是<code>ribbon+restTemplate</code>，另一种是<code>feign</code>，下面分别介绍下两种方式的使用方式。</p>
+<p>比如存在另一个服务service1，需要在sample服务中调用service1服务，两种实现方式如下</p>
+<p>继续在sample工程中添加依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-ribbon<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-feign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>ribbon+restTemplate</strong></p>
+<p>使用ribbon和断路器时需要在主类上添加<code>@EnableHystrix</code>注解。</p>
+<p>创建restTemplate的bean<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="meta">@LoadBalanced</span></div><div class="line"><span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>创建一个bean，封装一些访问的方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Bean</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClient</span></span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    RestTemplate restTemplate;</div><div class="line">    </div><div class="line">    <span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"callError"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">postForObject</span><span class="params">(String serviceId, String methodMapping, Object params)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> restTemplate.postForObject(<span class="string">"http://"</span>+serviceId+<span class="string">"/"</span>+methodMapping,params,String.class);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"callError"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">postForObject</span><span class="params">(String serviceId, String controllerMapping, String methodMapping, Object params)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> restTemplate.postForObject(<span class="string">"http://"</span>+serviceId+<span class="string">"/"</span>+controllerMapping+<span class="string">"/"</span>+methodMapping,params,String.class);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    </div><div class="line">    <span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"callError"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getForObject</span><span class="params">(String serviceId, String methodMapping, String params)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://"</span>+serviceId+<span class="string">"/"</span>+methodMapping+<span class="string">"?"</span>+params,String.class);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    </div><div class="line">    <span class="meta">@HystrixCommand</span>(fallbackMethod = <span class="string">"callError"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getForObject</span><span class="params">(String serviceId, String controllerMapping, String methodMapping, String params)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://"</span>+serviceId+<span class="string">"/"</span>+controllerMapping+<span class="string">"/"</span>+methodMapping+<span class="string">"?"</span>+params,String.class);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callError</span><span class="params">(String serviceId, String methodMapping, Object params)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"调用服务"</span>+serviceId+<span class="string">"发生错误，服务可能已下线，请稍后再试"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callError</span><span class="params">(String serviceId, String controllerMapping, String methodMapping, Object params)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"调用服务"</span>+serviceId+<span class="string">"发生错误，服务可能已下线，请稍后再试"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callError</span><span class="params">(String serviceId, String methodMapping, String params)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"调用服务"</span>+serviceId+<span class="string">"发生错误，服务可能已下线，请稍后再试"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callError</span><span class="params">(String serviceId, String controllerMapping, String methodMapping, String params)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"调用服务"</span>+serviceId+<span class="string">"发生错误，服务可能已下线，请稍后再试"</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码中分别封装了两个POST方法和两个GET方法，使用restTemplate的getForObject或postForObject方法发送get或post请求，这里直接使用serviceId代替具体的url地址，在ribbon中它会根据服务名来选择具体的服务实例，在请求时使用具体的url替换掉服务名。</p>
+<p>方法上面的注解<code>@HystrixCommand(fallbackMethod = &quot;callError&quot;)</code>就是断路器，在请求的服务不可用时可以快速返回，避免因为单个服务出现问题，调用者出现线程阻塞。在上面代码中，如果被调用服务不可用，则调用者会回退调用指定的CallError方法。</p>
+<p><code>restTemplate.postForObject</code>方法的第二个参数是服务的请求入参，方法上指定的类型是Object，实际上最好是<code>HttpEntity</code>对象，一个构建<code>HttpEntity</code>方法示例如下，实际可根据业务需求修改<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> HttpEntity <span class="title">buildPostParam</span><span class="params">(Object params,HttpServletRequest request)</span></span>&#123;</div><div class="line">    HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</div><div class="line">    String contentType = request.getContentType();</div><div class="line">    <span class="keyword">if</span>(StringUtils.isBlank(contentType))&#123;</div><div class="line">        contentType = <span class="string">"text/plain;charset=UTF-8"</span>;</div><div class="line">    &#125;</div><div class="line">    headers.setContentType(MediaType.parseMediaType(contentType));</div><div class="line">    HttpEntity&lt;String&gt; formEntity = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">if</span>(params <span class="keyword">instanceof</span> String)&#123;</div><div class="line">        formEntity = <span class="keyword">new</span> HttpEntity&lt;String&gt;((String)params, headers);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        formEntity = <span class="keyword">new</span> HttpEntity&lt;String&gt;(JSONUtil.toJSONString(params), headers);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> formEntity;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>feign</strong></p>
+<p>feign是一个声明式的伪Http客户端，采用基于接口的注解，默认集成了ribbon并和eureka结合，实现了客户端负载均衡。</p>
+<p>需要在主类添加<code>@EnableFeignClients</code>注解。</p>
+<p>创建一个接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"service1"</span>,,fallback = TestClientHiHystric.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TestClient</span> </span>&#123;</div><div class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"test/param"</span>,method = RequestMethod.POST)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callTest</span><span class="params">(@RequestParam(value = <span class="string">"name"</span>)</span> String value)</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实现断路器，需要修改application.yml配置文件，实现TestClient接口并注入到Ioc容器中<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="attr">feign:</span></div><div class="line"><span class="attr">  hystrix:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestClientHiHystric</span> <span class="keyword">implements</span> <span class="title">TestClient</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">callTest</span><span class="params">(String value)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"sorry "</span>+name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过<code>@FeignClient</code>注解的value值指定了该接口调用的是service1服务，fallback值指定了断路器，方法上的注解指定了调用服务service1上的test/param地址，使用POst方式。方法入参指定了参数名和值。方法的返回类型指定了调用该服务接口的返回类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"test"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientTestController</span> </span>&#123;</div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    TestClient testClient;</div><div class="line"></div><div class="line">    <span class="meta">@ResponseBody</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"test"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">hi</span><span class="params">()</span></span>&#123;</div><div class="line">        String response = testClient.callTest(<span class="string">"zhagnsan"</span>);</div><div class="line">        <span class="keyword">return</span> response;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面例子中在sample服务的一个controller中调用另外一个服务service1的test/param接口，参数是name=zhagnsan。</p>
+<p>对于服务sample来说，并不知道服务service1的具体地址，也不知道到底有几个service1的实例在运行，仅仅需要指定需要调用的服务名就行，feign自己会从eureka注册中心获取服务service1的url信息完成调用。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring-cloud/">spring cloud</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-网关zuul/"  data-tooltip="spring cloud笔记-网关zuul">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-注册中心/" data-tooltip="spring cloud笔记--注册中心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/spring-cloud笔记-服务访问与断路器/"
+     data-title="spring cloud笔记-服务访问与断路器" data-url="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/spring-cloud笔记-服务访问与断路器/" data-title="spring cloud笔记-服务访问与断路器" data-url="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-网关zuul/"  data-tooltip="spring cloud笔记-网关zuul">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-注册中心/" data-tooltip="spring cloud笔记--注册中心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-服务访问与断路器/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

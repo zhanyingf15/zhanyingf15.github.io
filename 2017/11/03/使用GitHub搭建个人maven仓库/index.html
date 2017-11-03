@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>使用GitHub搭建个人maven仓库 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="说明使用maven搭建maven仓库，找了网上的一些方法，踩了写坑，鼓捣了大半天终于弄好了，特此记录备忘。网上基本上有两种方法，但本质上都是一样的，一种是将工程编译到本地，再将本地编译好的jar等文件上传到GitHub。另一种是在pom文件中配置插件，将编译上传使用插件完成。
+创建GitHub仓库在GitHub上创建一个仓库作为个人的maven仓库，以后自己编译后的jar都可以发布到该仓库中，我建">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="使用GitHub搭建个人maven仓库">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="说明使用maven搭建maven仓库，找了网上的一些方法，踩了写坑，鼓捣了大半天终于弄好了，特此记录备忘。网上基本上有两种方法，但本质上都是一样的，一种是将工程编译到本地，再将本地编译好的jar等文件上传到GitHub。另一种是在pom文件中配置插件，将编译上传使用插件完成。
+创建GitHub仓库在GitHub上创建一个仓库作为个人的maven仓库，以后自己编译后的jar都可以发布到该仓库中，我建">
+<meta property="og:updated_time" content="2017-11-03T02:15:21.357Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用GitHub搭建个人maven仓库">
+<meta name="twitter:description" content="说明使用maven搭建maven仓库，找了网上的一些方法，踩了写坑，鼓捣了大半天终于弄好了，特此记录备忘。网上基本上有两种方法，但本质上都是一样的，一种是将工程编译到本地，再将本地编译好的jar等文件上传到GitHub。另一种是在pom文件中配置插件，将编译上传使用插件完成。
+创建GitHub仓库在GitHub上创建一个仓库作为个人的maven仓库，以后自己编译后的jar都可以发布到该仓库中，我建">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            使用GitHub搭建个人maven仓库
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T10:14:23+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/其它/">其它</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>使用maven搭建maven仓库，找了网上的一些方法，踩了写坑，鼓捣了大半天终于弄好了，特此记录备忘。<br>网上基本上有两种方法，但本质上都是一样的，一种是将工程编译到本地，再将本地编译好的jar等文件上传到GitHub。另一种是在pom文件中配置插件，将编译上传使用插件完成。</p>
+<h3 id="创建GitHub仓库"><a href="#创建GitHub仓库" class="headerlink" title="创建GitHub仓库"></a>创建GitHub仓库</h3><p>在GitHub上创建一个仓库作为个人的maven仓库，以后自己编译后的jar都可以发布到该仓库中，我建立的仓库是maven-repo。<br><a id="more"></a></p>
+<h3 id="修改settings-xml"><a href="#修改settings-xml" class="headerlink" title="修改settings.xml"></a>修改settings.xml</h3><p>在<code>servers</code>节点下增加<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">server</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>github<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">username</span>&gt;</span>github的用户名<span class="tag">&lt;/<span class="name">username</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">password</span>&gt;</span>github的密码<span class="tag">&lt;/<span class="name">password</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">server</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="修改pom-xml"><a href="#修改pom-xml" class="headerlink" title="修改pom.xml"></a>修改pom.xml</h3><p>添加一个属性<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">github.global.server</span>&gt;</span>github<span class="tag">&lt;/<span class="name">github.global.server</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>增加一个plugin，把编译后的jar放在target目录下的mvn-repo目录<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-deploy-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">altDeploymentRepository</span>&gt;</span>internal.repo::default::file://$&#123;project.build.directory&#125;/mvn-repo<span class="tag">&lt;/<span class="name">altDeploymentRepository</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>继续增加一个plugin<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.github<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>site-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">configuration</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">message</span>&gt;</span>Maven artifacts for $&#123;project.version&#125;<span class="tag">&lt;/<span class="name">message</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">noJekyll</span>&gt;</span>true<span class="tag">&lt;/<span class="name">noJekyll</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">outputDirectory</span>&gt;</span>$&#123;project.build.directory&#125;/mvn-repo<span class="tag">&lt;/<span class="name">outputDirectory</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">branch</span>&gt;</span>refs/heads/master<span class="tag">&lt;/<span class="name">branch</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">includes</span>&gt;</span> </div><div class="line">      <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*<span class="tag">&lt;/<span class="name">include</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">includes</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">repositoryName</span>&gt;</span>maven-repo<span class="tag">&lt;/<span class="name">repositoryName</span>&gt;</span>  </div><div class="line">    <span class="comment">&lt;!-- 对应github上创建的仓库名称 name --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">repositoryOwner</span>&gt;</span>你的用户名<span class="tag">&lt;/<span class="name">repositoryOwner</span>&gt;</span>  </div><div class="line">    <span class="comment">&lt;!-- github 仓库所有者 --&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span>  </div><div class="line">  <span class="tag">&lt;<span class="name">executions</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">execution</span>&gt;</span> </div><div class="line">      <span class="tag">&lt;<span class="name">goals</span>&gt;</span> </div><div class="line">        <span class="tag">&lt;<span class="name">goal</span>&gt;</span>site<span class="tag">&lt;/<span class="name">goal</span>&gt;</span> </div><div class="line">      <span class="tag">&lt;/<span class="name">goals</span>&gt;</span>  </div><div class="line">      <span class="tag">&lt;<span class="name">phase</span>&gt;</span>deploy<span class="tag">&lt;/<span class="name">phase</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;/<span class="name">execution</span>&gt;</span> </div><div class="line">  <span class="tag">&lt;/<span class="name">executions</span>&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>运行maven的clean deploy命令就可以把jar包上传到GitHub的maven-repo仓库中了。</p>
+<p>这种方式需要对pom文件做一些修改，也可以自己先把jar编译到本地，再将本地文件夹上传到GitHub，两种方式的原理其实是一样的。下面说一下编译到本地的方式。</p>
+<h3 id="修改pom-xml-1"><a href="#修改pom-xml-1" class="headerlink" title="修改pom.xml"></a>修改pom.xml</h3><p>在GitHub上创建好仓库后，clone到本地并初始化，如我的本地目录是D:\wjj\github\maven-repo。修改pom增加如下配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">distributionManagement</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">id</span>&gt;</span>wjj-maven-repo<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">url</span>&gt;</span>file:D:/wjj/github/maven-repo<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">distributionManagement</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>上面配置是指定maven将jar包编译到本地，编译成功后，在将本地目录maven-repo提交到GitHub就行了。</p>
+<p>可以参考我的示例 <a href="https://github.com/zhanyingf15/maven-repo" target="_blank" rel="external">https://github.com/zhanyingf15/maven-repo</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>在新的maven工程pom.xml中添加配置,指定GitHub上的仓库<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">repositories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">repository</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">id</span>&gt;</span>wjj-maven-repo<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">url</span>&gt;</span>https://raw.github.com/zhanyingf15/maven-repo/master<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>指定仓库后就可以添加依赖了，如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.wjj<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>elasticsearch-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在测试的时候发现包并不能下载下来，原因是我使用了阿里的maven仓库镜像，在mirror配置中<code>mirrorOf</code>配置为<code>*</code>，这样会覆盖我们在pom中自定义的GitHub仓库，修改<br><code>&lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</code>为<code>&lt;mirrorOf&gt;*,!wjj-maven-repo&lt;/mirrorOf&gt;</code>。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--This sends everything else to /public --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*,!wjj-maven-repo<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--This is used to direct the public snapshots repo in the </span></div><div class="line">        profile below over to a different nexus group --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus-public-snapshots<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>public-snapshots<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/repositories/snapshots/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>关于mirrorOf的配置参考<a href="http://maven.apache.org/guides/mini/guide-mirror-settings.html" target="_blank" rel="external">官方文档</a>。</p>
+<p>部分内容参考自下面的博客</p>
+<p>参考1：<a href="http://blog.csdn.net/hwangfantasy/article/details/69389766" target="_blank" rel="external">http://blog.csdn.net/hwangfantasy/article/details/69389766</a></p>
+<p>参考2：<a href="http://www.importnew.com/19178.html" target="_blank" rel="external">http://www.importnew.com/19178.html</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/github/">github</a> <a class="tag tag--primary tag--small t-link" href="/tags/maven/">maven</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-配置中心/" data-tooltip="spring cloud笔记-配置中心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/使用GitHub搭建个人maven仓库/"
+     data-title="使用GitHub搭建个人maven仓库" data-url="https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/使用GitHub搭建个人maven仓库/" data-title="使用GitHub搭建个人maven仓库" data-url="https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-配置中心/" data-tooltip="spring cloud笔记-配置中心">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/使用GitHub搭建个人maven仓库/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

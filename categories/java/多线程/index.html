@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>分类: 多线程 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="阳光下做人，风雨中做事">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="忘语的个人博客">
+<meta property="og:url" content="https://zhanyingf15.github.io/categories/java/多线程/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="阳光下做人，风雨中做事">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="忘语的个人博客">
+<meta name="twitter:description" content="阳光下做人，风雨中做事">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="1">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="1"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    
+
+<section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-Guava-二/">
+                            java多线程笔记-Guava(二)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:51:25+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。</p>
+<p>一个服务正常生命周期有：</p>
+<ul>
+<li>Service.State.NEW</li>
+<li>Service.State.STARTING</li>
+<li>Service.State.RUNNING</li>
+<li>Service.State.STOPPING</li>
+<li>Service.State.TERMINATED</li>
+</ul>
+<p>服务一旦被停止就无法再重新启动了。如果服务在starting、running、stopping状态出现问题、会进入Service.State.FAILED.状态。调用startAsync()方法可以异步开启一个服务,同时返回this对象形成方法调用链。注意：只有在当前服务的状态是NEW时才能调用startAsync()方法，因此最好在应用中有一个统一的地方初始化相关服务。停止一个服务也是类似的、使用异步方法stopAsync()。但是不像startAsync(),多次调用这个方法是安全的。这是为了方便处理关闭服务时候的锁竞争问题。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-Guava-二/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-Guava-一/">
+                            java多线程笔记-Guava(一)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:49:35+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <h5 id="ListenableFuture"><a href="#ListenableFuture" class="headerlink" title="ListenableFuture"></a>ListenableFuture</h5><p>ListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Future是否完成了，如果完成就自动调用回调函数，这样可以减少并发程序的复杂度。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-Guava-一/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-基础-二/">
+                            java多线程笔记-基础(二)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:48:07+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <h5 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h5><p> Lock是<code>java.util.concurrent.locks</code>包下的接口，Lock 实现提供了比使用synchronized 方法和语句可获得的更广泛的锁定操作，它能以更优雅的方式处理线程同步问题。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-基础-二/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-基础-一/">
+                            java多线程笔记--基础(一)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:45:44+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>java线程有两个重要的特性，<code>可见性</code>和<code>有序性</code>，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的Sum对象刷新主内存的Sum对象，当一个对象在多个线程中都有Sum对象的副本时，如果其中一个线程修改了共享变量，其它线程也应该能看见到，这是<code>可见性</code>。因为CPU对线程的调度是随机性的，在处理一些业务如银行转账时，必须保证先取款后汇款或先汇款后取款的有序操作，这是<code>有序性</code>。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-基础-一/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-线程池/">
+                            java多线程笔记--线程池
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:42:35+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>JDK1.5以后java加入了一个并发包<code>java.util.concurrent</code>用于替换传统的多线程使用场景。其中包含几个重要的接口<code>Executor</code>,<code>ExecutorService</code>,<code>Future</code>,<code>Callable</code>等。</p>
+<p><code>Executor</code>接口只定义了一个方法<code>void execute(Runnable command)</code>,它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户不需要明确的像传统方式那样定义一个线程，如：<code>new Thread(new(RunnableTask())).start()</code>。可以通过如下方式提交一个任务<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-线程池/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+        <li class="pagination-number">第 1 页 共 1 页</li>
+    </ul>
+</div>
+
+</section>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+</html>

@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>spring cloud笔记-网关zuul - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（apache、Ngnix），再到达服务网关（zuul集群），然后再到具体的服。
+Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="spring cloud笔记-网关zuul">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（apache、Ngnix），再到达服务网关（zuul集群），然后再到具体的服。
+Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能">
+<meta property="og:updated_time" content="2017-11-03T02:09:19.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring cloud笔记-网关zuul">
+<meta name="twitter:description" content="在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（apache、Ngnix），再到达服务网关（zuul集群），然后再到具体的服。
+Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            spring cloud笔记-网关zuul
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T10:08:40+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在Spring Cloud微服务系统中，一种常见的负载均衡方式是，客户端的请求首先经过负载均衡（apache、Ngnix），再到达服务网关（zuul集群），然后再到具体的服。</p>
+<p>Zuul的主要功能是路由转发和过滤器。路由功能是微服务的一部分，比如／api/user转发到到user服务，/api/shop转发到到shop服务。zuul默认和Ribbon结合实现了负载均衡的功能<br><a id="more"></a><br>在前文的基础上，重新创建一个工程，加入以下依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-zuul<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.marcosbarbero.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-zuul-ratelimit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在主类上加入注解<code>@EnableZuulProxy</code>和<code>@EnableEurekaClient</code>，开启zuul的功能<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@EnableZuulProxy</span></div><div class="line"><span class="meta">@EnableEurekaClient</span></div><div class="line"><span class="meta">@SpringBootApplication</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GatewayApplication</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        SpringApplication.run(GatewayApplication.class, args);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>编辑配置文件application.yml<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="attr">eureka:</span></div><div class="line"><span class="attr">  client:</span></div><div class="line"><span class="attr">    serviceUrl:</span></div><div class="line"><span class="attr">      defaultZone:</span> http://localhost:<span class="number">8761</span>/eureka/</div><div class="line"><span class="attr">server:</span></div><div class="line"><span class="attr">  port:</span> <span class="number">8083</span></div><div class="line"><span class="attr">spring:</span></div><div class="line"><span class="attr">  application:</span></div><div class="line"><span class="attr">    name:</span> gateway</div><div class="line"><span class="attr">zuul:</span></div><div class="line"><span class="attr">  routes:</span></div><div class="line"><span class="attr">    service-sample:</span></div><div class="line"><span class="attr">      path:</span> /sample/**</div><div class="line"><span class="attr">      serviceId:</span> sample</div><div class="line"><span class="attr">    service-1:</span></div><div class="line"><span class="attr">      path:</span> /service1/**</div><div class="line"><span class="attr">      serviceId:</span> service1</div></pre></td></tr></table></figure></p>
+<p>在上面配置中，指定网关服务名为gateway，运行在8083端口，配置了两条路由规则。以/sample/开头的请求都转发到sample服务，以/service1/的请求都转发到service1服务。<br>在浏览器访问<code>localhost:8083/sample/param?a=1</code>,返回结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&quot;a&quot;:1,&quot;msg&quot;:&quot;请求成功&quot;&#125;</div></pre></td></tr></table></figure></p>
+<p>证明zuul起到了路由的作用。</p>
+<p><strong>过滤器</strong><br>zuul的过滤器不是web服务的过滤器，它能实现如权限验证，身份校验，负载均衡、限流等一系列功能，一个简单的过滤器如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessFilter</span> <span class="keyword">extends</span> <span class="title">ZuulFilter</span></span>&#123;</div><div class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;resource.exception.extension&#125;"</span>)</div><div class="line">    <span class="keyword">private</span> String exceptionExtension;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">filterType</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> FilterConstants.PRE_TYPE;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">filterOrder</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">shouldFilter</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(StringUtils.isBlank(exceptionExtension))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        RequestContext ctx = RequestContext.getCurrentContext();</div><div class="line">        String requestPath = ctx.getRequest().getRequestURI();</div><div class="line">        String extension = UriUtils.extractFileExtension(requestPath);</div><div class="line">        <span class="keyword">if</span>(StringUtils.isBlank(extension)||StringUtils.equals(extension,<span class="string">"action"</span>))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">        String []extensions = exceptionExtension.split(<span class="string">","</span>);</div><div class="line">        <span class="keyword">for</span>(String ex:extensions)&#123;</div><div class="line">            <span class="keyword">if</span>(StringUtils.equals(ex,extension))&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        RequestContext ctx = RequestContext.getCurrentContext();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            HttpServletRequest request = ctx.getRequest();</div><div class="line">            String token = request.getParameter(<span class="string">"token"</span>);</div><div class="line">            IMapEntry params = HttpServletUtil.getRequestParameters(ctx);</div><div class="line">            <span class="keyword">if</span>(StringUtils.isBlank(token))&#123;</div><div class="line">                ctx.setSendZuulResponse(<span class="keyword">false</span>);</div><div class="line">                ctx.setResponseStatusCode(<span class="number">200</span>);</div><div class="line">                IMapEntry result = ResultUtil.resultFailure(CommonConstant.RESULT_CODE_FAIL,<span class="string">"token不能为空"</span>);</div><div class="line">                ctx.setResponseBody(JSONUtil.toJSONString(result));</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            DICLogger.error(<span class="string">"在权限验证时发生错误"</span>,e);</div><div class="line">            ctx.set(<span class="string">"error.status_code"</span>, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);</div><div class="line">            ctx.set(<span class="string">"error.exception"</span>, e);</div><div class="line">            ctx.set(<span class="string">"error.message"</span>, <span class="string">"在权限验证时发生错误"</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面实现的是一个访问的过滤器，作用是拦截接口请求，对rest请求和后缀是.action的请求做拦截，校验token。局部变量<code>exceptionExtension</code>是例外列表，是从配置文件读取的，指定的文件不做过滤如jsp,css,js等静态文件。请求的判断逻辑在shouldFilter方法中。在run方法中写token校验逻辑，这里只是简单的判断了以下非空。</p>
+<p><strong>熔断处理</strong></p>
+<p>zuul转发请求是通过ribbon请求指定的服务，也会存在服务不可用的情况，zuul自己做了熔断，但是返回的数据格式不一定是我们需要的格式，我们可以自己写熔断逻辑<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HystrixFallback</span> <span class="keyword">implements</span> <span class="title">ZuulFallbackProvider</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRoute</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"*"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ClientHttpResponse <span class="title">fallbackResponse</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ClientHttpResponse() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> HttpHeaders <span class="title">getHeaders</span><span class="params">()</span> </span>&#123;</div><div class="line">                HttpHeaders headers = <span class="keyword">new</span> HttpHeaders();</div><div class="line">                MediaType type = <span class="keyword">new</span> MediaType(<span class="string">"application"</span>,<span class="string">"json"</span>,Charset.forName(<span class="string">"UTF-8"</span>));</div><div class="line">                headers.setContentType(type);</div><div class="line">                <span class="keyword">return</span> headers;</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> InputStream <span class="title">getBody</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                IMapEntry result = ResultUtil.resultFailure(CommonConstant.RESULT_CODE_FAIL,<span class="string">"服务不可用，请稍后重试"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ByteArrayInputStream(JSONUtil.toJSONString(result).getBytes(<span class="string">"UTF-8"</span>));</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> HttpStatus <span class="title">getStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                <span class="keyword">return</span> HttpStatus.OK;</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getRawStatusCode</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.getStatusCode().value();</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">getStatusText</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.getStatusCode().getReasonPhrase();</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>getRoute方法返回一个路由名(如上面的service-sample或service-1)，指定该熔断是处理哪一个服务的请求，返回<code>null</code>或<code>*</code>表示处理所有的服务请求。</p>
+<p><strong>统一错误处理</strong></p>
+<p>zuul同样统一处理了错误，在网上的一些版本中，需要写一个error过滤器，在新版本中已经不需要了，只需要实现一个bean就行，具体可参考 <a href="https://segmentfault.com/a/1190000011612469" target="_blank" rel="external">Spring Cloud Zuul中异常处理细节</a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Component</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerErrorMsg</span> <span class="keyword">extends</span> <span class="title">DefaultErrorAttributes</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getErrorAttributes</span><span class="params">(RequestAttributes requestAttributes, <span class="keyword">boolean</span> includeStackTrace)</span> </span>&#123;</div><div class="line">        Map&lt;String, Object&gt; result = <span class="keyword">super</span>.getErrorAttributes(requestAttributes,includeStackTrace);</div><div class="line">        result.put(<span class="string">"code"</span>,result.get(<span class="string">"status"</span>));</div><div class="line">        result.put(<span class="string">"msg"</span>,result.get(<span class="string">"error"</span>));</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在上面的例子中，重写了getErrorAttributes方法，在原来的错误消息格式中，新加了两个字段code和msg。通过过滤器的方式可以参考这篇博客<a href="http://blog.didispace.com/spring-cloud-zuul-exception-3/" target="_blank" rel="external">Spring Cloud实战小贴士：Zuul统一异常处理（三）【Dalston版】</a>。</p>
+<p><strong>限流</strong></p>
+<p>zuul限流使用了GitHub上的一个模块<a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit" target="_blank" rel="external">spring-cloud-zuul-ratelimit</a>,具体可参考文档</p>
+<p>最后附上我的zuul配置<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#路由</span></div><div class="line"><span class="attr">zuul:</span></div><div class="line"><span class="attr">  add-host-header:</span> <span class="literal">true</span></div><div class="line"><span class="attr">  routes:</span></div><div class="line"><span class="attr">    gatewayService:</span></div><div class="line"><span class="attr">      path:</span> /gateway/**</div><div class="line"><span class="attr">      url:</span> forward:/gateway <span class="comment">#将请求转到mapping为gateway的本地controller</span></div><div class="line"><span class="attr">    service1:</span></div><div class="line"><span class="attr">      path:</span> /service1/**</div><div class="line"><span class="attr">      serviceId:</span> service1</div><div class="line">  <span class="comment">#限流</span></div><div class="line"><span class="attr">  ratelimit:</span></div><div class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">    default-policy:</span> <span class="comment">#默认限流策略</span></div><div class="line"><span class="attr">      limit:</span> <span class="number">10</span> <span class="comment">#限制每个IP、用户、url每分钟只能请求10次</span></div><div class="line"><span class="attr">      quota:</span> <span class="number">1000</span> <span class="comment">#限制每个路径每分钟只能被请求1000次</span></div><div class="line"><span class="attr">    policies:</span></div><div class="line"><span class="attr">      service1:</span> <span class="comment">#针对service1限流</span></div><div class="line"><span class="attr">        type:</span> url <span class="comment">#通过请求路径区分</span></div><div class="line"><span class="attr">        quota:</span> <span class="number">2000</span></div><div class="line"><span class="attr">  max:</span></div><div class="line"><span class="attr">    host:</span></div><div class="line"><span class="attr">      connections:</span> <span class="number">1000</span> <span class="comment">#网关最大连接数量</span></div><div class="line"><span class="attr">  host:</span></div><div class="line"><span class="attr">    socket-timeout-millis:</span> <span class="number">3000</span></div><div class="line"><span class="attr">    connect-timeout-millis:</span> <span class="number">1000</span></div><div class="line"><span class="comment">#负载均衡</span></div><div class="line"><span class="attr">ribbon:</span></div><div class="line"><span class="attr">  ReadTimeout:</span> <span class="number">1000</span></div><div class="line"><span class="attr">  ConnectTimeout:</span> <span class="number">500</span></div><div class="line"><span class="attr">  OkToRetryOnAllOperations:</span> <span class="literal">true</span> <span class="comment">#对所有操作进行重试</span></div><div class="line"><span class="attr">  MaxAutoRetries:</span> <span class="number">0</span> <span class="comment">#不对当前实例重试</span></div><div class="line"><span class="attr">  MaxAutoRetriesNextServer:</span> <span class="number">1</span> <span class="comment">#对下个实例进行一次重试</span></div><div class="line"><span class="comment">#断路器</span></div><div class="line"><span class="attr">hystrix:</span></div><div class="line"><span class="attr">  command:</span></div><div class="line"><span class="attr">   default:</span></div><div class="line"><span class="attr">    execution:</span></div><div class="line"><span class="attr">      timeout:</span></div><div class="line"><span class="attr">        enabled:</span> <span class="literal">true</span></div><div class="line"><span class="attr">      isolation:</span></div><div class="line"><span class="attr">        thread:</span></div><div class="line"><span class="attr">          timeoutInMilliseconds:</span> <span class="number">5000</span>  <span class="comment">#配置断路器的超时时间，必须超过ribbon的超时时间，否则重试将失效</span></div><div class="line"><span class="attr">resource:</span></div><div class="line"><span class="attr">  exception:</span></div><div class="line">    <span class="comment">#不被拦截的资源后缀</span></div><div class="line"><span class="attr">    extension:</span> html,jsp,css,js,json,txt,jpg,jpeg,png,bmp,svg,woff,eot,ttf,md,zip,doc,docx,ppt,pptx,xls,xlsx</div></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring-cloud/">spring cloud</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-配置中心/"  data-tooltip="spring cloud笔记-配置中心">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-服务访问与断路器/" data-tooltip="spring cloud笔记-服务访问与断路器">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/spring-cloud笔记-网关zuul/"
+     data-title="spring cloud笔记-网关zuul" data-url="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/spring-cloud笔记-网关zuul/" data-title="spring cloud笔记-网关zuul" data-url="https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-配置中心/"  data-tooltip="spring cloud笔记-配置中心">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-cloud笔记-服务访问与断路器/" data-tooltip="spring cloud笔记-服务访问与断路器">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/spring-cloud笔记-网关zuul/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

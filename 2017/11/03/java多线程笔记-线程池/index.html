@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>java多线程笔记--线程池 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="JDK1.5以后java加入了一个并发包java.util.concurrent用于替换传统的多线程使用场景。其中包含几个重要的接口Executor,ExecutorService,Future,Callable等。
+Executor接口只定义了一个方法void execute(Runnable command),它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="java多线程笔记--线程池">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="JDK1.5以后java加入了一个并发包java.util.concurrent用于替换传统的多线程使用场景。其中包含几个重要的接口Executor,ExecutorService,Future,Callable等。
+Executor接口只定义了一个方法void execute(Runnable command),它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户">
+<meta property="og:updated_time" content="2017-11-03T01:44:51.756Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java多线程笔记--线程池">
+<meta name="twitter:description" content="JDK1.5以后java加入了一个并发包java.util.concurrent用于替换传统的多线程使用场景。其中包含几个重要的接口Executor,ExecutorService,Future,Callable等。
+Executor接口只定义了一个方法void execute(Runnable command),它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            java多线程笔记--线程池
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:42:35+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>JDK1.5以后java加入了一个并发包<code>java.util.concurrent</code>用于替换传统的多线程使用场景。其中包含几个重要的接口<code>Executor</code>,<code>ExecutorService</code>,<code>Future</code>,<code>Callable</code>等。</p>
+<p><code>Executor</code>接口只定义了一个方法<code>void execute(Runnable command)</code>,它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户不需要明确的像传统方式那样定义一个线程，如：<code>new Thread(new(RunnableTask())).start()</code>。可以通过如下方式提交一个任务<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Executor executor = &lt;em&gt;anExecutor;</div><div class="line">executor.execute(<span class="keyword">new</span> RunnableTask1());</div><div class="line">executor.execute(<span class="keyword">new</span> RunnableTask2());</div></pre></td></tr></table></figure></p>
+<p><code>ExecutorService</code>接口继承自<code>Executor</code>接口，我们经常使用的也是这个接口。它提供了一系列管理异步任务的方法。<code>java.util.concurrent</code>包中提供了一个实现<code>ExecutorService</code>接口的虚拟类<code>AbstractExecutorService</code>。</p>
+<p>通常情况下我们不必自己去实现<code>ExecutorService</code>接口，java提供了一个工具类<code>Executors</code>，它提供了一些创建不同线程池的静态方法，如<code>newFixedThreadPool</code>,<code>newSingleThreadExecutor</code>,<code>newCachedThreadPool</code>,<code>newScheduledThreadPool</code>等。</p>
+<p><strong>FixedThreadPool</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FixedThreadPool</span> </span>&#123;</div><div class="line">    ExecutorService threadPool = Executors.newFixedThreadPool(<span class="number">1</span>);</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testFixedThreadPool</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Task task1 = <span class="keyword">new</span> Task(<span class="string">"task1"</span>);</div><div class="line">            Task task2 = <span class="keyword">new</span> Task(<span class="string">"task2"</span>);</div><div class="line">            Future task1Future = threadPool.submit(task1);</div><div class="line">            Future task2Future = threadPool.submit(task2);</div><div class="line">            <span class="comment">//做其它任务</span></div><div class="line">            Thread.sleep(<span class="number">1000</span>);</div><div class="line">            Console.log(<span class="string">"task1计算结果：&#123;&#125;"</span>,task1Future.get());</div><div class="line">            Console.log(<span class="string">"task2计算结果：&#123;&#125;"</span>,task2Future.get());</div><div class="line">        &#125;<span class="keyword">catch</span> (InterruptedException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;<span class="keyword">catch</span> (ExecutionException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;<span class="keyword">finally</span> &#123;</div><div class="line">            threadPool.shutdown();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        FixedThreadPool fixedThreadPool = <span class="keyword">new</span> FixedThreadPool();</div><div class="line">        fixedThreadPool.testFixedThreadPool();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Task</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">Integer</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer[] numbers = <span class="keyword">new</span> Integer[<span class="number">100</span>];</div><div class="line">    String taskName;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Task</span><span class="params">(String taskName)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.taskName = taskName;</div><div class="line">        fillNumbers();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">fillNumbers</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;numbers.length;i++)&#123;</div><div class="line">            numbers[i] = <span class="keyword">new</span> Random().nextInt(<span class="number">100</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Console.log(<span class="string">"线程&#123;&#125;，开始计算"</span>,Thread.currentThread().getName());</div><div class="line">        Integer sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;numbers.length;i++)&#123;</div><div class="line">            sum+=numbers[i];</div><div class="line">        &#125;</div><div class="line">        Console.log(<span class="string">"线程&#123;&#125;，计算完成，结果是：&#123;&#125;"</span>,Thread.currentThread().getName(),sum);</div><div class="line">        <span class="keyword">return</span> sum;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">线程pool-1-thread-1，开始计算</div><div class="line">线程pool-1-thread-1，计算完成，结果是：4356</div><div class="line">线程pool-1-thread-1，开始计算</div><div class="line">线程pool-1-thread-1，计算完成，结果是：5142</div><div class="line">task1计算结果：4356</div><div class="line">task2计算结果：5142</div></pre></td></tr></table></figure></p>
+<p>初始化一个只有一个线程的固定线程池，提交两个任务，因为池中线程数量只有一个，第一个任务未执行完之前，第二个任务需要等待第一个任务执行完成才能执行。如果因为任务执行失败造成线程被关闭，线程池会创建一个新的线程代替它的位置。</p>
+<p><strong>CachedThreadPool</strong><br>使用方式同上，创建一个线程缓存区将初始化的线程缓存起来，如果有空闲的线程，则使用空闲线程，如果没有就创建新的线程。如果线程空闲超过60s，线程将被移除。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ExecutorService threadPool = Executors.newCachedThreadPool();</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>CachedThreadPool中的线程数量上限是<code>Integer.MAX_VALUE</code>,使用时要注意溢出的问题。</p>
+</blockquote>
+<p><strong>SingleThreadExecutor</strong>  </p>
+<p>创建一个单work线程的线程池，以无界队列的方式执行提交的任务，如果因为某个任务失败造成线程结束，线程池会创建一个新的线程继续完成接下来的任务。提交到线程中的任务是严格按照顺序执行的。任何时刻都只有一个任务在执行，等价于<code>newFixedThreadPool(1)</code>。</p>
+<p><strong>ScheduledThreadPool</strong></p>
+<p>创建一个可以在指定延迟后执行或定期执行的线程池<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduledThreadPool</span> </span>&#123;</div><div class="line">    ScheduledExecutorService scheduleService = Executors.newScheduledThreadPool(<span class="number">1</span>);</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">new</span> ScheduledThreadPool().testScheduledThreadPool();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testScheduledThreadPool</span><span class="params">()</span></span>&#123;</div><div class="line">        Console.log(<span class="string">"延迟2s执行"</span>);</div><div class="line">        scheduleService.schedule(<span class="keyword">new</span> Callable&lt;Object&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                Console.log(<span class="string">"执行具体任务--开始"</span>);</div><div class="line">                Thread.sleep(<span class="number">1000</span>);</div><div class="line">                Console.log(<span class="string">"执行具体任务--结束"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="number">5</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;, <span class="number">2</span>, TimeUnit.SECONDS);</div><div class="line">        Console.log(<span class="string">"执行其他任务"</span>);</div><div class="line">        <span class="comment">//立即执行，每2s执行一次</span></div><div class="line">        scheduleService.scheduleAtFixedRate(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                Console.log(<span class="string">"执行周期性任务"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;,<span class="number">0</span>,<span class="number">2</span>,TimeUnit.SECONDS);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">延迟2s执行</div><div class="line">执行其他任务</div><div class="line">执行周期性任务</div><div class="line">执行具体任务--开始</div><div class="line">执行具体任务--结束</div><div class="line">执行周期性任务</div><div class="line">执行周期性任务</div><div class="line">执行周期性任务</div><div class="line">执行周期性任务</div><div class="line">执行周期性任务</div></pre></td></tr></table></figure></p>
+<p><strong>ForkJoinPool</strong></p>
+<p>java7中新引进的一种线程池，它使用一个无限队列保存需要执行的任务，可以通过构造函数指定线程数量，如果不指定，则默认使用CPU核心数作为线程数量。</p>
+<p>不同于其它线程池，ForkJoinPool基于work-stealing模式，在该线程池的每个线程中会维护一个队列来存放需要被执行的任务。当线程自身队列中的任务都执行完毕后，它会从别的线程中拿到未被执行的任务并帮助它执行，尽量避免线程处于空闲状态。在任务负载不均衡的场景中非常有用；</p>
+<p>ForkJoinPool实现了ExecutorService，可以提交实现Callable和Runnable接口的任务，也可以直接继承ForkJoinTask或RecursiveTask对象。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForkJoinPoolTest</span> </span>&#123;</div><div class="line">    ForkJoinPool forkJoinPool = <span class="keyword">new</span> ForkJoinPool();</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Double[] num = <span class="keyword">new</span> Double[<span class="number">1000</span>];</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        ForkJoinPoolTest pool = <span class="keyword">new</span> ForkJoinPoolTest();</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;num.length;i++)&#123;</div><div class="line">            num[i] = Math.random();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> count = pool.forkJoinPool.invoke(<span class="keyword">new</span> ForkJoinTaskTest(<span class="number">1</span>,<span class="number">1000</span>));</div><div class="line">        Console.log(<span class="string">"count:&#123;&#125;"</span>,count);</div><div class="line">        <span class="comment">//Test norm ForkJoinTask</span></div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</div><div class="line"><span class="comment">//            int result = pool.forkJoinPool.submit(new ForkJoinTask2(i+1)).fork().join();</span></div><div class="line">            <span class="keyword">int</span> result = pool.forkJoinPool.invoke(<span class="keyword">new</span> ForkJoinTask2(i+<span class="number">1</span>));</div><div class="line">            Console.log(<span class="string">"result:&#123;&#125;"</span>,result);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ForkJoinTaskTest</span> <span class="keyword">extends</span> <span class="title">RecursiveTask</span>&lt;<span class="title">Integer</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> start;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> end;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ForkJoinTaskTest</span><span class="params">(<span class="keyword">int</span> start,<span class="keyword">int</span> end)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.start = start;</div><div class="line">            <span class="keyword">this</span>.end = end;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> Integer <span class="title">compute</span><span class="params">()</span> </span>&#123;</div><div class="line">            Integer subCount = <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">this</span>.end - start&lt;=<span class="number">10</span>)&#123;</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="keyword">this</span>.start;i&lt;<span class="keyword">this</span>.end;i++)&#123;</div><div class="line">                    <span class="keyword">if</span>(num[i]&lt;<span class="number">0.5</span>)&#123;subCount++;&#125;</div><div class="line">                &#125;</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">int</span> mid = (start+end)/<span class="number">2</span>;</div><div class="line">                ForkJoinTaskTest left = <span class="keyword">new</span> ForkJoinTaskTest(start,mid);</div><div class="line">                left.fork();</div><div class="line">                ForkJoinTaskTest right = <span class="keyword">new</span> ForkJoinTaskTest(mid+<span class="number">1</span>,end);</div><div class="line">                right.fork();</div><div class="line">                subCount+=left.join();</div><div class="line">                subCount+=right.join();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> subCount;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ForkJoinTask2</span> <span class="keyword">extends</span> <span class="title">ForkJoinTask</span>&lt;<span class="title">Integer</span>&gt;</span>&#123;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span> num;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ForkJoinTask2</span><span class="params">(<span class="keyword">int</span> num)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.num = num;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> Integer <span class="title">getRawResult</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setRawResult</span><span class="params">(Integer value)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.result = value;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">exec</span><span class="params">()</span> </span>&#123;</div><div class="line">            result = <span class="keyword">this</span>.num*<span class="keyword">this</span>.num;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继承ForkJoinTask时，重写的getRawResult和setRawResult两个方法是为了扩展和调试了，不要直接调用这个两个方法设置和获取值，应该调用对象的join或get方法。</p>
+<blockquote>
+<p><code>Executors</code>工具提供了<code>newWorkStealingPool</code>方法直接创建一个ForkJoinPool对象。</p>
+</blockquote>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/多线程/">多线程</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-一/"  data-tooltip="java多线程笔记--基础(一)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/log4j2自定义日志级别-并输出到指定文件/" data-tooltip="log4j2自定义日志级别 并输出到指定文件">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-线程池/"
+     data-title="java多线程笔记--线程池" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-线程池/" data-title="java多线程笔记--线程池" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-一/"  data-tooltip="java多线程笔记--基础(一)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/log4j2自定义日志级别-并输出到指定文件/" data-tooltip="log4j2自定义日志级别 并输出到指定文件">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-线程池/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

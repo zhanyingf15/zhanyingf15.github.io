@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>java多线程笔记-Guava(一) - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="ListenableFutureListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Futu">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="java多线程笔记-Guava(一)">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="ListenableFutureListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Futu">
+<meta property="og:updated_time" content="2017-11-03T01:51:05.624Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java多线程笔记-Guava(一)">
+<meta name="twitter:description" content="ListenableFutureListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Futu">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            java多线程笔记-Guava(一)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:49:35+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <h5 id="ListenableFuture"><a href="#ListenableFuture" class="headerlink" title="ListenableFuture"></a>ListenableFuture</h5><p>ListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Future是否完成了，如果完成就自动调用回调函数，这样可以减少并发程序的复杂度。<br><a id="more"></a></p>
+<h5 id="MoreExecutors"><a href="#MoreExecutors" class="headerlink" title="MoreExecutors"></a>MoreExecutors</h5><p>该类是final类型的工具类，提供了很多静态方法。例如listeningDecorator方法初始化ListeningExecutorService方法，使用此实例submit方法即可初始化ListenableFuture对象。</p>
+<ul>
+<li>getExitingExecutorService(ThreadPoolExecutor executor)</li>
+</ul>
+<p>Executors的静态方法创建的线程池必须显式调用shutdown()方法关闭线程池，通常情况下我们并不知道线程池该何时关掉，MoreExecutors工具类提供了一个getExitingExecutorService(ThreadPoolExecutor executor)及其一系列重载方法，该方法会给指定的ThreadPoolExecutor添加一个钩子，在程序完成后它会通过使用守护线程和添加一个关闭钩子来等待他们完成，然后自动调用ThreadPoolExecutor的shutdown()方法。默认会等待120s等待线程池完成工作，120s后会关闭线程池，即便线程池中仍有工作未完成。MoreExecutors提供了相应的重载方法可以指定超时时间。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ExecutorService threadPool = MoreExecutors.getExitingExecutorService(</div><div class="line">            (ThreadPoolExecutor) Executors.newFixedThreadPool(<span class="number">1</span>)</div><div class="line">    )</div></pre></td></tr></table></figure></p>
+<ul>
+<li>getExitingScheduledExecutorService(ScheduledThreadPoolExecutor executor)</li>
+</ul>
+<p>基本同getExitingExecutorService方法。</p>
+<ul>
+<li>addDelayedShutdownHook(ExecutorService service,long timeout,TimeUnit unit)</li>
+</ul>
+<p>给指定的ExecutorService添加一个钩子，在程序完成后延迟指定时间再关闭线程池。</p>
+<h5 id="ListeningExecutorService"><a href="#ListeningExecutorService" class="headerlink" title="ListeningExecutorService"></a>ListeningExecutorService</h5><p>继承自ExecutorService，重写ExecutorService类中的submit方法，返回ListenableFuture对象</p>
+<h5 id="ListenableFuture-1"><a href="#ListenableFuture-1" class="headerlink" title="ListenableFuture"></a>ListenableFuture</h5><p>继承自Future类增加了addListener方法，该方法在给定的excutor上注册一个监听器，当计算完成时会马上调用该监听器。不能够确保监听器执行的顺序，但可以在计算完成时确保马上被调用</p>
+<h5 id="FutureCallback"><a href="#FutureCallback" class="headerlink" title="FutureCallback"></a>FutureCallback</h5><p>该接口提供了OnSuccess和OnFailuren方法。获取异步计算的结果并回调</p>
+<p>一个完整的例子如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*static ListeningExecutorService service = MoreExecutors.listeningDecorator(</span></div><div class="line">            MoreExecutors.getExitingExecutorService(</div><div class="line">                    (ThreadPoolExecutor) Executors.newFixedThreadPool(1)</div><div class="line">            )</div><div class="line">    );*/</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        ExecutorService pool = Executors.newFixedThreadPool(<span class="number">1</span>);</div><div class="line">        ListeningExecutorService service = MoreExecutors.listeningDecorator(pool);</div><div class="line">        MoreExecutors.addDelayedShutdownHook(service,<span class="number">3</span>,TimeUnit.SECONDS);</div><div class="line">        ListenableFuture&lt;Integer&gt; listenableFuture = service.submit(()-&gt;&#123;</div><div class="line">            Random random = <span class="keyword">new</span> Random();</div><div class="line">            <span class="keyword">int</span> i=<span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span> (i&lt;<span class="number">10</span>)&#123;</div><div class="line">                i++;</div><div class="line">                Console.log(random.nextInt(<span class="number">100</span>));</div><div class="line">                Thread.sleep(<span class="number">100</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> random.nextInt(<span class="number">100</span>);</div><div class="line">        &#125;);</div><div class="line">        Futures.addCallback(listenableFuture, <span class="keyword">new</span> FutureCallback&lt;Integer&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(@Nullable Integer result)</span> </span>&#123;</div><div class="line">                Console.log(<span class="string">"执行结果："</span>+result);</div><div class="line">            &#125;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;</div><div class="line">                Console.log(<span class="string">"线程执行发生错误"</span>);</div><div class="line">                t.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        Console.log(<span class="string">"主程序结束了"</span>);</div><div class="line">        System.exit(<span class="number">0</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">主程序结束了</div><div class="line">47</div><div class="line">62</div><div class="line">48</div><div class="line">57</div><div class="line">50</div><div class="line">80</div><div class="line">52</div><div class="line">52</div><div class="line">99</div><div class="line">62</div><div class="line">执行结果：33</div></pre></td></tr></table></figure></p>
+<p>在上面的例子中，给ListeningExecutorService实例service添加一个钩子，设定在主程序结束了延迟3s关闭线程池。给service添加一个任务，执行10个打印，每个间隔约100ms，可以看出，在主程序结束后3s线程池才关闭，期间线程池完成了任务执行回调打印结果。如果指定的延迟时间到了任务还没完成，线程池也会强制关闭。如上将打印间隔时间改成1000ms，任务执行到约三分之一就结束了，结果也不会打印出来。</p>
+<h5 id="Futures"><a href="#Futures" class="headerlink" title="Futures"></a>Futures</h5><p>该工具类提供了许多静态工具常用的如下：</p>
+<ul>
+<li>addCallback(ListenableFuture future,FutureCallback callback)：给ListenableFuture添加一个回调，在任务完成后执行callback，无法保证回调的执行顺序，但能保证回调一定会被执行。</li>
+<li>addCallback(ListenableFuture future,FutureCallback callback,Executor executor)：重载方法，指定executor执行callback</li>
+<li>allAsList(Iterable&lt;? extends ListenableFuture&lt;? extends V&gt;&gt; futures：创建一个新的ListenableFuture，其值是一个list，如果传入的所有future都成功了，该list包含了传入的所有future的值，值的顺序与传入的future顺序一致，如果传入的future有一个失败，则返回的future立即失败。如果取消返回的 future，则会尝试取消传入的所有future，同样，传入的future有一个失败或是取消，返回的future也会同样失败或取消。<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> ListeningExecutorService service = MoreExecutors.listeningDecorator(</div><div class="line">            MoreExecutors.getExitingExecutorService(</div><div class="line">                    (ThreadPoolExecutor) Executors.newFixedThreadPool(<span class="number">1</span>)</div><div class="line">            )</div><div class="line">    );</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Task</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">T</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">public</span> T t;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Task</span><span class="params">(T t)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.t = t;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAllAsList</span><span class="params">()</span></span>&#123;</div><div class="line">    List&lt;ListenableFuture&lt;Object&gt;&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    Random random = <span class="keyword">new</span> Random();</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)&#123;</div><div class="line">        ListenableFuture&lt;Object&gt; future = service.submit(<span class="keyword">new</span> Task&lt;Object&gt;(i) &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                Thread.sleep(<span class="number">1000</span>);</div><div class="line">                <span class="comment">/*if(if(ObjectUtils.equals(this.t,1))&#123;//注释段1</span></div><div class="line">                        throw new RuntimeException("手动抛出任务失败");</div><div class="line">                    &#125;)&#123;</div><div class="line">                    throw new RuntimeException("手动抛出异常");</div><div class="line">                &#125;*/</div><div class="line">                Console.log(<span class="string">"任务 &#123;&#125; 执行完成"</span>,<span class="keyword">this</span>.t);</div><div class="line">                <span class="keyword">return</span> <span class="keyword">this</span>.t;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        list.add(future);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//  list.get(1).cancel(true);//注释段2</span></div><div class="line">    ListenableFuture&lt;List&lt;Object&gt;&gt; combinedFuture = Futures.allAsList(list);</div><div class="line">    Futures.addCallback(combinedFuture, <span class="keyword">new</span> FutureCallback&lt;List&lt;Object&gt;&gt;() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(@Nullable List&lt;Object&gt; result)</span> </span>&#123;</div><div class="line">            <span class="keyword">for</span>(Object obj:result)&#123;</div><div class="line">                Console.log(<span class="string">"返回结果：&#123;&#125;"</span>,obj);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(Throwable t)</span> </span>&#123;</div><div class="line">            Console.log(<span class="string">"任务失败了"</span>);</div><div class="line">            t.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line"><span class="comment">//  combinedFuture.cancel(true); //注释段3 </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">任务 0 执行完成</div><div class="line">任务 1 执行完成</div><div class="line">任务 2 执行完成</div><div class="line">返回结果：0</div><div class="line">返回结果：1</div><div class="line">返回结果：2</div></pre></td></tr></table></figure></p>
+<p>如果解开注释段1在第二个任务手动抛出异常，打印如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">任务 0 执行完成</div><div class="line">任务失败了</div><div class="line">java.lang.RuntimeException: 手动抛出异常</div><div class="line">任务 2 执行完成</div></pre></td></tr></table></figure></p>
+<p>可以看出第二个任务出现异常执行失败，第一个和第三个任务正常执行，但是在回调中并没有执行onSuccess，而是执行onFailure。第二个任务发生异常时，combinedFuture立即失败，但是并不影响线程池中第三个任务的执行。</p>
+<p>如果解开注释段2取消第二个任务的执行，打印如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">任务失败了</div><div class="line">java.util.concurrent.CancellationException: Task was cancelled.</div><div class="line">任务 0 执行完成</div><div class="line">任务 2 执行完成</div></pre></td></tr></table></figure></p>
+<p>取消第二个任务，combinedFuture立即取消并执行回调的异常，但是线程池的第三个任务仍正常执行。</p>
+<p>如果解开注释段3，通过combinedFuture取消任务，打印如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">任务失败了</div><div class="line">java.util.concurrent.CancellationException: Task was cancelled.</div></pre></td></tr></table></figure></p>
+<p>可见通过combinedFuture取消任务，会同时取消传入的所有正在执行中(cancel方法传入true)或未执行的任务。</p>
+<blockquote>
+<p>注意：在任务中一定要关注任务的中断标记，cancel不一定能使当前正在执行的任务停止，IO阻塞、synchronized锁阻塞时无法被停止，Lock可以被停止。</p>
+</blockquote>
+<ul>
+<li>successfulAsList：返回一个ListenableFuture，基本同allAsList，该Future的结果包含所有成功的Future，按照原来的顺序，当其中之一Failed或者cancel，则用null替代。</li>
+<li><i, o=""> ListenableFuture<o> transform(ListenableFuture<i> input,final Function&lt;? super I, ? extends O&gt; function)</i></o></i,></li>
+</ul>
+<p>将input返回值通过指定的function中，转换成一个新的ListenableFuture，新future的返回值是function的返回值。表达有点绕口，说个案例比较容易明白，提交一个任务向远端调用一个接口，将返回值做一些复杂耗时处理再入库，这涉及到两个耗时过程，如果按照传统的方式，submit一个任务返回ListenableFuture，然后监听任务结束，在回调中将结果处理入库过程包装成另一个任务提交，再监听结束。大致代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">ListenableFuture future1 = service.submit(()-&gt;&#123;</div><div class="line">    <span class="comment">//执行远端接口调用</span></div><div class="line">    returrn 调用结果</div><div class="line">&#125;);</div><div class="line"><span class="comment">//监听future1</span></div><div class="line">Futures.addCallback(future1,<span class="keyword">new</span> FutureCallback()&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(@Nullable Object result)</span> </span>&#123;</div><div class="line">       ListenableFuture future2 = ListenableFuture future1 = service.submit((result)-&gt;&#123;</div><div class="line">            <span class="comment">//处理调用结果并入库</span></div><div class="line">            returrn 入库结果</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">//监听future2</span></div><div class="line">        Futures.addCallback(future2,<span class="keyword">new</span> FutureCallback()&#123;</div><div class="line">            <span class="comment">//此处省略代码</span></div><div class="line">        &#125;)</div><div class="line">    &#125; </div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>从上面可以看出，代码冗长，多次监听回调，如果采用transform，代码会精简很多<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testTransform</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    ListenableFuture&lt;Integer&gt; future1 = service.submit(()-&gt;&#123;</div><div class="line">        <span class="comment">//执行远端接口调用，这里模拟返回1</span></div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125;);</div><div class="line">    Function&lt;Integer,String&gt; func = <span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</div><div class="line">        <span class="meta">@Nullable</span></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(@Nullable Integer input)</span> </span>&#123;</div><div class="line">            <span class="comment">//处理调用结果并入库，这里模拟如果为：input+"_123"</span></div><div class="line">            <span class="keyword">return</span> input+<span class="string">"_123"</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">    ListenableFuture&lt;String&gt; finalFuture = Futures.transform(future1,func);</div><div class="line">    Console.log(<span class="string">"结果：&#123;&#125;"</span>,finalFuture.get());</div><div class="line">    </div><div class="line">    <span class="comment">/*AsyncFunction&lt;Integer,String&gt; func = new AsyncFunction&lt;Integer, String&gt;() &#123;</span></div><div class="line">            @Override</div><div class="line">            public ListenableFuture&lt;String&gt; apply(@Nullable Integer input) throws Exception &#123;</div><div class="line">                return service.submit(()-&gt;input+"_123");</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">    ListenableFuture&lt;String&gt; finalFuture = Futures.transformAsync(future1,func);</div><div class="line">    Console.log("结果：&#123;&#125;",finalFuture.get());*/</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">结果：1_123</div></pre></td></tr></table></figure></p>
+<p>在上面的例子中，只看到显式地提交了第一个任务，没给第一个任务添加监听也并没有显式提交第二个任务。实际上guava已经做了这些工作了。如果取消finalFuture，则future1也会取消(如果能取消，同样如果取消future1，finalFuture会执行回调(如果添加了回调)并尝试取消自身。</p>
+<p>注释部分是另一种实现，Function内部也是通过AsyncFunction实现的。</p>
+<p>transform方法还包含一个重载方法，允许在第三个参数传入一个Executor，如果指定，则function在指定的Executor执行。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/guava/">guava</a> <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/多线程/">多线程</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-二/"  data-tooltip="java多线程笔记-Guava(二)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-二/" data-tooltip="java多线程笔记-基础(二)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-Guava-一/"
+     data-title="java多线程笔记-Guava(一)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-Guava-一/" data-title="java多线程笔记-Guava(一)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-二/"  data-tooltip="java多线程笔记-Guava(二)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-二/" data-tooltip="java多线程笔记-基础(二)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-一/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

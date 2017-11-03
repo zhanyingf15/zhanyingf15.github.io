@@ -173,80 +173,27 @@
 <section class="postShorten-group main-content-wrap">
     
     
-    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
-                            regeneratorRuntime is not defined 错误
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-03-15T17:17:46+08:00">
-	
-		    3月 15, 2017
-    	
-    </time>
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-content" itemprop="articleBody">
-                    <p>在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下</p>
-<ul>
-<li><p>1、安装babel-polyfill</p>
-<p>npm install babel-polyfill –save-dev</p>
-</li>
-<li><p>2、安装babel-plugin-transform-runtime：</p>
-<p>npm install babel-plugin-transform-runtime –save-dev</p>
-</li>
-<li><p>3、修改.bablerc文件</p>
-<p>添加”plugins”:[“transform-runtime”],如果有plugins属性就追加</p>
-</li>
-</ul>
-
-                    
-                        
-                    
-                    
-                        <p>
-                            <a href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/#post-footer" class="postShorten-excerpt_link link">
-                                注释和共享
-                            </a>
-                        </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
     <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
         <div class="postShorten-wrap">
             
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/02/06/thunk与Generator函数实现自动流程管理/">
-                            thunk与Generator函数实现自动流程管理
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-基础-二/">
+                            java多线程笔记-基础(二)
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-02-06T14:15:16+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:48:07+08:00">
 	
-		    2月 06, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/es6/">es6</a>
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
 
 
     
@@ -255,9 +202,9 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>只接受回调函数作为参数的单参数函数叫做 Thunk 函数。<br>Thunk 函数可以用于 Generator 函数的自动流程管理。使Generator 函数可以自动执行<br>
+                    <h5 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h5><p> Lock是<code>java.util.concurrent.locks</code>包下的接口，Lock 实现提供了比使用synchronized 方法和语句可获得的更广泛的锁定操作，它能以更优雅的方式处理线程同步问题。<br>
                     
-                        <a href="/2017/02/06/thunk与Generator函数实现自动流程管理/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/java多线程笔记-基础-二/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -275,21 +222,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/sui的一些问题/">
-                            sui的一些问题
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-基础-一/">
+                            java多线程笔记--基础(一)
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T15:59:34+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:45:44+08:00">
 	
-		    1月 24, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
 
 
     
@@ -298,9 +245,9 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>记录一些sui使用过程中遇到的一些问题</p>
+                    <p>java线程有两个重要的特性，<code>可见性</code>和<code>有序性</code>，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的Sum对象刷新主内存的Sum对象，当一个对象在多个线程中都有Sum对象的副本时，如果其中一个线程修改了共享变量，其它线程也应该能看见到，这是<code>可见性</code>。因为CPU对线程的调度是随机性的，在处理一些业务如银行转账时，必须保证先取款后汇款或先汇款后取款的有序操作，这是<code>有序性</code>。<br>
                     
-                        <a href="/2017/01/24/sui的一些问题/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/java多线程笔记-基础-一/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -318,21 +265,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/一些CSS技巧/">
-                            一些CSS技巧
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-线程池/">
+                            java多线程笔记--线程池
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T15:43:13+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:42:35+08:00">
 	
-		    1月 24, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/CSS/">CSS</a>
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
 
 
     
@@ -341,9 +288,10 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>记录一些CSS技巧，以备后查</p>
+                    <p>JDK1.5以后java加入了一个并发包<code>java.util.concurrent</code>用于替换传统的多线程使用场景。其中包含几个重要的接口<code>Executor</code>,<code>ExecutorService</code>,<code>Future</code>,<code>Callable</code>等。</p>
+<p><code>Executor</code>接口只定义了一个方法<code>void execute(Runnable command)</code>,它用来执行提交的任务，用户只需提交任务，不必关心任务何时执行以及任务的调度情况。用户不需要明确的像传统方式那样定义一个线程，如：<code>new Thread(new(RunnableTask())).start()</code>。可以通过如下方式提交一个任务<br>
                     
-                        <a href="/2017/01/24/一些CSS技巧/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/java多线程笔记-线程池/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -361,21 +309,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/">
-                            MUI一些有用的类,处理过的元素和方法
+                        <a class="link-unstyled" href="/2017/11/03/log4j2自定义日志级别-并输出到指定文件/">
+                            log4j2自定义日志级别 并输出到指定文件
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T15:23:51+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:39:57+08:00">
 	
-		    1月 24, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
+    <a class="category-link" href="/categories/java/">java</a>
 
 
     
@@ -384,9 +332,9 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>记录一些mui使用过程中遇到的一些有用的东西</p>
+                    <p>log4j2相对于log4j1.x有了相当大的变换，官方称相对于log4j，在多线程下高达10多倍的吞吐量。在之前的项目中一直使用的是log4j1.x，这次需要升级到log4j2，以前的自定义的日志级别如输出接口访问信息到指定文件就需要更改。</p>
                     
-                        <a href="/2017/01/24/MUI一些有用的类-处理过的元素和方法/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/log4j2自定义日志级别-并输出到指定文件/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -404,21 +352,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/">
-                            bootstrap-datetime-picker在IE8下不支持的解决方法
+                        <a class="link-unstyled" href="/2017/11/03/log4j-1-x自定义日志级别并输出到指定文件/">
+                            log4j 1.x自定义日志级别并输出到指定文件
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T14:55:27+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:37:00+08:00">
 	
-		    1月 24, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
+    <a class="category-link" href="/categories/java/">java</a>
 
 
     
@@ -427,9 +375,11 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>使用bootstrap3.x+bootstrap-datetime-picker插件，运行环境IE8，js报错，插件不能正确识别到时区</p>
+                    <p>最近的一个需求，需要记录接口访问的详情，如请求入参、出参、请求上下文、路径、消耗时间以及成功失败等信息，将这些信息以结构化的形式输出到单独的日志文件中，方便以后入库到elasticsearch中做分析。</p>
+<p>百度搜索自定义日志级别的文章一大把，基本上都是使用Filter和xml配置的方式，这种方式能行，但我感觉写的代码略多，而且我的工程中用的properties的方式配置的，个人也比较懒也就不想改动，就没有采用这种方式。   </p>
+<p>log4j中每个appenders都有一个threshold，这个值默认是<code>null</code>，它对应的是配置文件中<code>log4j.appender.errorfile.Threshold = debug|info|error|...</code>项，如果不配置，会将所有级别日志打印到这个appender中，如果是debug则会将debug及以上的级别日志打印到这个appender中。<br>
                     
-                        <a href="/2017/01/24/bootstrap-datetime-picker在IE8下不支持的解决方法/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/log4j-1-x自定义日志级别并输出到指定文件/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -447,21 +397,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/mui的一些问题/">
-                            mui的一些问题
+                        <a class="link-unstyled" href="/2017/11/03/datax-elasticsearch说明明/">
+                            datax-elasticsearch说明
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T14:10:35+08:00">
+    <time itemprop="datePublished" datetime="2017-11-03T09:30:39+08:00">
 	
-		    1月 24, 2017
+		    11月 03, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/框架/">框架</a>
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
 
 
     
@@ -470,9 +420,10 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>收集一些mui开发过程中遇到的问题和坑</p>
+                    <p>DataX 是一个异构数据源离线同步工具，致力于实现包括关系型数据库(MySQL、Oracle等)、HDFS、Hive、MaxCompute(原ODPS)、HBase、FTP等各种异构数据源之间稳定高效的数据同步功能。</p>
+<p><code>datax-elasticsearch</code>是datax的一个支持elasticsearch的插件，包含<code>elasticsearchreader</code>和<code>elasticsearchwriter</code>两部分。借助于datax体系，能够高效的在elasticsearch与oracle、mysql、HDFS等异构数据源间同步数据。<br>
                     
-                        <a href="/2017/01/24/mui的一些问题/" class="postShorten-excerpt_link link">
+                        <a href="/2017/11/03/datax-elasticsearch说明明/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -490,21 +441,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/24/angularjs-模板编译/">
-                            angularjs 模板编译,$scope和controller绑定
+                        <a class="link-unstyled" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/">
+                            elasticsearch rest api和mybatis整合记录
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-24T10:11:26+08:00">
+    <time itemprop="datePublished" datetime="2017-07-16T18:03:00+08:00">
 	
-		    1月 24, 2017
+		    7月 16, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
 
 
     
@@ -513,9 +464,15 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>一个简单的自定义toast，练习下angularjs 模板编译,$scope和controller绑定</p>
+                    <!-- toc -->
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>官方提供了完整的Java API和Rest API（<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/docs-index_.html">文档地址</a>）,并提供了<code>TransportClient</code>客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。</p>
+<p>在前文 “<a href="https://zhanyingf15.github.io/2017/07/15/elasticserch-sql%E5%92%8Cmybatis%E6%95%B4%E5%90%88%E8%AE%B0%E5%BD%95/">elasticserch-sql和mybatis整合记录</a>” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅支持极其简单的查询，不支持增加、删除和修改。Rest API功能强大，在实际应用中可能会因前台参数的不同而组合不同的条件，拼接字符串又太麻烦，如果实现Rest API和mybatis整合，让mybatis强大的动态条件功能组合rest API，会让代码更简单更容易维护。</p>
+<p>Rest API客户端使用<code>Jest</code>，具体详情和文档参考<a href="https://github.com/searchbox-io/Jest">GitHub Jest主页</a>。在之前的基础上修改整合。</p>
+<blockquote>
+<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc">elasticsearch-jdbc</a>，欢迎fork</p>
+</blockquote>
                     
-                        <a href="/2017/01/24/angularjs-模板编译/" class="postShorten-excerpt_link link">
+                        <a href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -533,21 +490,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/">
-                            webpack UglifyJsPlugin 打包js兼容IE8的一些问题
+                        <a class="link-unstyled" href="/2017/07/15/elasticserch-sql和mybatis整合记录/">
+                            elasticserch-sql和mybatis整合记录
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-23T09:10:05+08:00">
+    <time itemprop="datePublished" datetime="2017-07-15T18:03:00+08:00">
 	
-		    1月 23, 2017
+		    7月 15, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
 
 
     
@@ -556,9 +513,14 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>react项目需要兼容到IE8，因为IE8中default等关键字问题，需要在webpack中加入es3ify-loader解决{default:value}和obj.default这种IE8不支持的格式，将其转换成{“default”:value}和obj[“default”]的格式，在使用webpack UglifyJsPlugin插件对代码进行压缩后发现，代码又出现了{default:value}和obj.default,通过查阅API发现是插件的问题。</p>
+                    <!-- toc -->
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在<a href="https://github.com/NLPchina/elasticsearch-sql">GitHub</a>上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例</p>
+<blockquote>
+<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc">elasticsearch-jdbc</a>，欢迎fork</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Properties properties = <span class="keyword">new</span> Properties();</div><div class="line">properties.put(<span class="string">"url"</span>, <span class="string">"jdbc:elasticsearch://192.168.70.128:9300/"</span>);</div><div class="line">DruidDataSource dds = (DruidDataSource) ElasticSearchDruidDataSourceFactory.createDataSource(properties);</div><div class="line">Connection connection = dds.getConnection();</div><div class="line">PreparedStatement ps = connection.prepareStatement(<span class="string">"SELECT  * from  radiott"</span>);</div><div class="line">ResultSet resultSet = ps.executeQuery();</div><div class="line">List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="keyword">while</span> (resultSet.next()) &#123;</div><div class="line">    System.out.println(resultSet.getString(<span class="string">"id"</span>) + <span class="string">","</span> + resultSet.getString(<span class="string">"name"</span>));</div><div class="line">&#125;</div><div class="line">ps.close();</div><div class="line">connection.close();</div><div class="line">dds.close();</div></pre></td></tr></table></figure>
                     
-                        <a href="/2017/01/23/webpack-UglifyJsPlugin-打包js兼容IE8的一些问题/" class="postShorten-excerpt_link link">
+                        <a href="/2017/07/15/elasticserch-sql和mybatis整合记录/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -576,21 +538,21 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/22/react笔记/">
-                            react笔记
+                        <a class="link-unstyled" href="/2017/06/16/elasticsearh文档整理-查询/">
+                            elasticsearh文档整理-查询
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-22T17:10:55+08:00">
+    <time itemprop="datePublished" datetime="2017-06-16T18:03:11+08:00">
 	
-		    1月 22, 2017
+		    6月 16, 2017
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/前端/">前端</a>
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
 
 
     
@@ -599,9 +561,59 @@
             </div>
             
                 <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>一些react相关的笔记大杂烩，持续更新中……</p>
+                    <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
+<!-- toc -->
+<blockquote>
+<p>elasticsearch版本：2.4.5</p>
+<h3 id="Docment-API"><a href="#Docment-API" class="headerlink" title="Docment API"></a>Docment API</h3><p>基础的CRUD API<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html</a></p>
+</blockquote>
                     
-                        <a href="/2017/01/22/react笔记/" class="postShorten-excerpt_link link">
+                        <a href="/2017/06/16/elasticsearh文档整理-查询/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/06/16/elasticsearh文档整理-聚合/">
+                            elasticsearh文档整理-聚合
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-06-16T17:53:19+08:00">
+	
+		    6月 16, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
+<!-- toc -->
+<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>基础使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SearchResponse sr = client.prepareSearch()</div><div class="line">    .setQuery(QueryBuilders.matchAllQuery())</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.terms(<span class="string">"agg1"</span>).field(<span class="string">"field"</span>)</div><div class="line">    )</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.dateHistogram(<span class="string">"agg2"</span>)</div><div class="line">                    .field(<span class="string">"birth"</span>)</div><div class="line">                    .interval(DateHistogramInterval.YEAR)</div><div class="line">    )</div><div class="line">    .execute().actionGet();</div><div class="line">Terms agg1 = sr.getAggregations().get(<span class="string">"agg1"</span>);</div><div class="line">DateHistogram agg2 = sr.getAggregations().get(<span class="string">"agg2"</span>);</div></pre></td></tr></table></figure></p>
+                    
+                        <a href="/2017/06/16/elasticsearh文档整理-聚合/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -632,7 +644,7 @@
             </a>
         </li>
         
-        <li class="pagination-number">第 2 页 共 3 页</li>
+        <li class="pagination-number">第 2 页 共 4 页</li>
     </ul>
 </div>
 

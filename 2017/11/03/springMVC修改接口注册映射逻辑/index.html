@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>springMVC修改接口注册映射逻辑 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+因为现系统已经在运行，所以改造不能影响已在使用的接口，最开始的设想是建立一个新接口，然后用拦截器拦截请求，组装请求地址+版本号，重定向到新接口，如下：">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="springMVC修改接口注册映射逻辑">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+因为现系统已经在运行，所以改造不能影响已在使用的接口，最开始的设想是建立一个新接口，然后用拦截器拦截请求，组装请求地址+版本号，重定向到新接口，如下：">
+<meta property="og:updated_time" content="2017-11-03T01:55:09.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springMVC修改接口注册映射逻辑">
+<meta name="twitter:description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+因为现系统已经在运行，所以改造不能影响已在使用的接口，最开始的设想是建立一个新接口，然后用拦截器拦截请求，组装请求地址+版本号，重定向到新接口，如下：">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            springMVC修改接口注册映射逻辑
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:53:10+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。</p>
+<p>因为现系统已经在运行，所以改造不能影响已在使用的接口，最开始的设想是建立一个新接口，然后用拦截器拦截请求，组装请求地址+版本号，重定向到新接口，如下：<br><a id="more"></a><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"cpct"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</div><div class="line">    <span class="meta">@ResponseBody</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">versionApi1</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，默认版本"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@ResponseBody</span></div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"param/v20"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">versionApi2</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，版本v2.0"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>像上面那样，建立一个cpct/param/v20的新接口，客户端请求<code>cpct/param.action?version=v2.0</code>时重定向成<code>cpct/param/v20.action</code>，想法是美好的，客户端ajax请求根本无法实现重定向。</p>
+<p>就因为开始的想法是这样，后面就华丽丽地跑偏了，脑子里全想的是怎么在服务端实现接口重定向，走了一大截弯路(当然这种方式也是能实现多版本控制的)。</p>
+<p>拦截重定向行不通，就试试从springMVC的<code>RequestMappingHandlerMapping</code>的接口注册和查询逻辑上入手，迂回实现上面的功能。在方法上加个注解标注版本<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Mapping</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ApiVersion &#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_VERSION = <span class="string">"v1.0"</span>;</div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> DEFAULT_VERSION</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line"><span class="meta">@ApiVersion</span>(<span class="string">"v2.0"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">versionApi2</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，版本v2.0"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>翻阅<code>RequestMappingHandlerMapping</code>源码，在扫描方法的<code>RequestMapping</code>注解时有一个很重要的方法<code>getMappingForMethod</code>，它将含有<code>RequestMapping</code>注解的方法信息获取到生成<code>RequestMappingInfo</code>对象，作为键放在一个<code>Map</code>中(这个Map是内部类<code>MappingRegistry</code>的一个属性<code>mappingLookup</code>)。</p>
+<p>幸好<code>getMappingForMethod</code>方法是protected的，重写这个方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CpctRequestMappingHandlerMapping</span> <span class="keyword">extends</span> <span class="title">RequestMappingHandlerMapping</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> RequestMappingInfo <span class="title">getMappingForMethod</span><span class="params">(Method method, Class&lt;?&gt; handlerType)</span> </span>&#123;</div><div class="line">        <span class="comment">//调用父方法获取映射信息</span></div><div class="line">        RequestMappingInfo info = <span class="keyword">super</span>.getMappingForMethod(method,handlerType);</div><div class="line">        <span class="comment">//获取接口版本注解信息</span></div><div class="line">        ApiVersion apiVersion = AnnotationUtils.findAnnotation(method, ApiVersion.class);</div><div class="line">        <span class="comment">//所有接口默认v1.0，不做处理，只处理不是v1.0的接口</span></div><div class="line">        <span class="keyword">if</span>(info!=<span class="keyword">null</span>&amp;&amp;apiVersion!=<span class="keyword">null</span>&amp;&amp;!StringUtils.equals(apiVersion.value(),ApiVersion.DEFAULT_VERSION))&#123;</div><div class="line">            String version = apiVersion.value().replaceAll(<span class="string">"\\."</span>,<span class="string">""</span>);</div><div class="line">            <span class="comment">//获取映射模式</span></div><div class="line">            PatternsRequestCondition patternsRequestCondition = info.getPatternsCondition();</div><div class="line">            <span class="comment">//获取映射地址集合，这个集合是不可修改的，集合值就是接口地址</span></div><div class="line">            Set&lt;String&gt; patternSet = patternsRequestCondition.getPatterns();</div><div class="line">            Iterator&lt;String&gt; itr =patternSet.iterator();</div><div class="line">            <span class="comment">//建立一个新集合放拼装后的地址</span></div><div class="line">            Set&lt;String&gt; newSet = <span class="keyword">new</span> HashSet&lt;&gt;();</div><div class="line">            <span class="comment">//接口分隔默认"/"</span></div><div class="line">            String separator = AntPathMatcher.DEFAULT_PATH_SEPARATOR;</div><div class="line">            <span class="comment">//获取java运行环境的实际分隔符</span></div><div class="line">            <span class="keyword">try</span>&#123;</div><div class="line">                Field field = patternsRequestCondition.getClass().getDeclaredField(<span class="string">"pathMatcher"</span>);</div><div class="line">                field.setAccessible(<span class="keyword">true</span>);</div><div class="line">                Object pathMatcher = field.get(patternsRequestCondition);</div><div class="line">                <span class="keyword">if</span>(pathMatcher <span class="keyword">instanceof</span> AntPathMatcher)&#123;</div><div class="line">                    AntPathMatcher antPathMatcher = (AntPathMatcher) pathMatcher;</div><div class="line">                    Field pathSeparatorField = antPathMatcher.getClass().getDeclaredField(<span class="string">"pathSeparator"</span>);</div><div class="line">                    pathSeparatorField.setAccessible(<span class="keyword">true</span>);</div><div class="line">                    Object pathSeparator = pathSeparatorField.get(antPathMatcher);</div><div class="line">                    <span class="keyword">if</span>(pathSeparator!=<span class="keyword">null</span>&amp;&amp;StringUtils.isNotBlank((String)pathSeparator))&#123;</div><div class="line">                        separator = (String)pathSeparator;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">                <span class="comment">//错误不处理，使用默认的分隔符</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">while</span> (itr.hasNext())&#123;</div><div class="line">                String pattern = itr.next();</div><div class="line">                newSet.add(pattern+separator+version);<span class="comment">//拼装新地址</span></div><div class="line">            &#125;</div><div class="line">            <span class="comment">//设置新的地址集合</span></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                newSet = Collections.unmodifiableSet(newSet);</div><div class="line">                Field field = patternsRequestCondition.getClass().getDeclaredField(<span class="string">"patterns"</span>);</div><div class="line">                field.setAccessible(<span class="keyword">true</span>);</div><div class="line">                field.set(patternsRequestCondition,newSet);</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                DICLogger.error(<span class="string">"根据接口版本重写接口地址失败"</span>,e);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//返回一个新的地址映射对象，避免springMVC抛出接口映射已经注册的错误</span></div><div class="line">            info = <span class="keyword">new</span> RequestMappingInfo(</div><div class="line">                    info.getName(),</div><div class="line">                    info.getPatternsCondition(),</div><div class="line">                    info.getMethodsCondition(),</div><div class="line">                    info.getParamsCondition(),</div><div class="line">                    info.getHeadersCondition(),</div><div class="line">                    info.getConsumesCondition(),</div><div class="line">                    info.getProducesCondition(),</div><div class="line">                    info.getCustomCondition()</div><div class="line">            );</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> info;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样，所有带有<code>@ApiVersion</code>注解的接口都换成了新地址。在客户端请求时，需要修改获取接口的逻辑。<code>RequestMappingHandlerMapping</code>类从<code>AbstractHandlerMethodMapping</code>类继承了一个重要的方法<code>getHandlerInternal</code>，这个方法就是根据请求信息获取对应的地址。原方法实现如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> HandlerMethod <span class="title">getHandlerInternal</span><span class="params">(HttpServletRequest request)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">	String lookupPath = getUrlPathHelper().getLookupPathForRequest(request);</div><div class="line">	<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">		logger.debug(<span class="string">"Looking up handler method for path "</span> + lookupPath);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">this</span>.mappingRegistry.acquireReadLock();</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);</div><div class="line">		<span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</div><div class="line">			<span class="keyword">if</span> (handlerMethod != <span class="keyword">null</span>) &#123;</div><div class="line">				logger.debug(<span class="string">"Returning handler method ["</span> + handlerMethod + <span class="string">"]"</span>);</div><div class="line">			&#125;</div><div class="line">			<span class="keyword">else</span> &#123;</div><div class="line">				logger.debug(<span class="string">"Did not find handler method for ["</span> + lookupPath + <span class="string">"]"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> (handlerMethod != <span class="keyword">null</span> ? handlerMethod.createWithResolvedBean() : <span class="keyword">null</span>);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">finally</span> &#123;</div><div class="line">		<span class="keyword">this</span>.mappingRegistry.releaseReadLock();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>最开始尝试重写这个方法，但是方法内部做了线程同步而<code>mappingRegistry</code>这个属性私有无法访问。调试发现从request中获取请求信息是通过<code>UrlPathHelper</code>这个工具类的<code>getLookupPathForRequest</code>方法完成的。<code>AbstractHandlerMethodMapping</code>类有一个公共方法<code>getUrlPathHelper</code>获取<code>UrlPathHelper</code>实例。所以解决方式就是继承<code>UrlPathHelper</code>，重写<code>getLookupPathForRequest</code>方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomerUrlPathHelper</span> <span class="keyword">extends</span> <span class="title">UrlPathHelper</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLookupPathForRequest</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</div><div class="line">        String path = <span class="keyword">super</span>.getLookupPathForRequest(request);</div><div class="line">        String version = NormRequestUtil.getRequestVersion(request);</div><div class="line">        <span class="comment">//同样不处理默认的v1.0版本</span></div><div class="line">        <span class="keyword">if</span>(StringUtils.isNotBlank(version)&amp;&amp;!version.equals(ApiVersion.DEFAULT_VERSION))&#123;</div><div class="line">            <span class="keyword">if</span>(!version.startsWith(<span class="string">"v"</span>))&#123;</div><div class="line">                version = <span class="string">"v"</span>+version;</div><div class="line">            &#125;</div><div class="line">            version = version.replaceAll(<span class="string">"\\."</span>,<span class="string">""</span>);</div><div class="line">            path = path.replace(<span class="string">".action"</span>,<span class="string">"/"</span>+version+<span class="string">".action"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> path;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public class CpctRequestMappingHandlerMapping extends RequestMappingHandlerMapping&#123;</div><div class="line">    private UrlPathHelper urlPathHelper = new CustomerUrlPathHelper();</div><div class="line">    public void setAlwaysUseFullPath(boolean alwaysUseFullPath) &#123;</div><div class="line">        super.setAlwaysUseFullPath(alwaysUseFullPath);</div><div class="line">        this.urlPathHelper.setAlwaysUseFullPath(alwaysUseFullPath);</div><div class="line">    &#125;</div><div class="line">    public void setUrlDecode(boolean urlDecode) &#123;</div><div class="line">        super.setUrlDecode(urlDecode);</div><div class="line">        this.urlPathHelper.setUrlDecode(urlDecode);</div><div class="line">    &#125;</div><div class="line">    public void setRemoveSemicolonContent(boolean removeSemicolonContent) &#123;</div><div class="line">        super.setRemoveSemicolonContent(removeSemicolonContent);</div><div class="line">        this.urlPathHelper.setRemoveSemicolonContent(removeSemicolonContent);</div><div class="line">    &#125;</div><div class="line">    public void setUrlPathHelper(UrlPathHelper urlPathHelper) &#123;</div><div class="line">        super.setUrlPathHelper(new CustomerUrlPathHelper());</div><div class="line">        this.urlPathHelper = new CustomerUrlPathHelper();</div><div class="line">    &#125;</div><div class="line">    public UrlPathHelper getUrlPathHelper() &#123;</div><div class="line">        return this.urlPathHelper;</div><div class="line">    &#125;</div><div class="line">    ....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在<code>CpctRequestMappingHandlerMapping</code>类中添加如上代码，为了以防万一，重写了所有给urlPathHelper设置属性的代码，同时调用父类的相关方法。</p>
+<p>修改application-servlet.xml配置。如果有<code>&lt;mvc:annotation-driven&gt;</code>配置，需要注释掉，手动配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"handlerMapping"</span> <span class="attr">class</span>=<span class="string">"com.xxx.core.apiversion.CpctRequestMappingHandlerMapping"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageConverters"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.xxx.NormMappingJackson2HttpMessageConverter"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在实际开发过程中这样做没有多少实际意义，springMVC本身扩展性比较强，大多数需求都可以通过扩展完成，但这也是一种思路，万一哪天遇到一些特殊的需求呢。</p>
+<p>RequestMappingHandlerMapping源码解读可以参考：<br><a href="http://www.cnblogs.com/leftthen/p/5208404.html" target="_blank" rel="external">SpringMVC源码解读 - HandlerMapping - RequestMappingHandlerMapping初始化</a><br><a href="http://blog.csdn.net/u013038630/article/details/51517967" target="_blank" rel="external">springMVC (十) RequestMappingHandlerMapping</a></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/springMVC/">springMVC</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC实现多版本接口/"  data-tooltip="springMVC实现多版本接口">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-二/" data-tooltip="java多线程笔记-Guava(二)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/springMVC修改接口注册映射逻辑/"
+     data-title="springMVC修改接口注册映射逻辑" data-url="https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/springMVC修改接口注册映射逻辑/" data-title="springMVC修改接口注册映射逻辑" data-url="https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC实现多版本接口/"  data-tooltip="springMVC实现多版本接口">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-二/" data-tooltip="java多线程笔记-Guava(二)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC修改接口注册映射逻辑/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

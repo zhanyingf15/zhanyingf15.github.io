@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>springMVC实现多版本接口 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+在前一篇博文 springMVC修改接口注册映射逻辑 中，用修改springMVC注册和映射接口的逻辑实现了该功能，但缺点也很明显，客户端传入的版本号必须在服务端存在，如传入v2.0，则服务端必须存在v2.0版本的接口，否则会抛出404，无法">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="springMVC实现多版本接口">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+在前一篇博文 springMVC修改接口注册映射逻辑 中，用修改springMVC注册和映射接口的逻辑实现了该功能，但缺点也很明显，客户端传入的版本号必须在服务端存在，如传入v2.0，则服务端必须存在v2.0版本的接口，否则会抛出404，无法">
+<meta property="og:updated_time" content="2017-11-03T01:58:10.784Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springMVC实现多版本接口">
+<meta name="twitter:description" content="最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。
+在前一篇博文 springMVC修改接口注册映射逻辑 中，用修改springMVC注册和映射接口的逻辑实现了该功能，但缺点也很明显，客户端传入的版本号必须在服务端存在，如传入v2.0，则服务端必须存在v2.0版本的接口，否则会抛出404，无法">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            springMVC实现多版本接口
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:57:31+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。</p>
+<p>在前一篇博文 <em>springMVC修改接口注册映射逻辑</em> 中，用修改springMVC注册和映射接口的逻辑实现了该功能，但缺点也很明显，客户端传入的版本号必须在服务端存在，如传入v2.0，则服务端必须存在v2.0版本的接口，否则会抛出404，无法实现降级调用最新接口或默认接口的功能。<br><a id="more"></a><br>网上有两篇博文 <a href="http://www.cnblogs.com/leftthen/p/5209946.html" target="_blank" rel="external">SpringMVC源码解读 - RequestMapping注解实现解读 - RequestCondition体系</a> 和 <a href="http://www.cnblogs.com/fangjian0423/p/springMVC-request-mapping.html" target="_blank" rel="external">详解SpringMVC请求的时候是如何找到正确的Controller</a>详细讲解了<code>RequestCondition</code>，<code>RequestMappingHandlerMapping</code>真正实现接口匹配的是<code>RequestCondition</code>。</p>
+<p><code>RequestMappingInfo</code>类是Spring3.1版本之后引入的。是一个封装了各种请求映射条件并实现了<code>RequestCondition</code>接口的类。有各种<code>RequestCondition</code>实现类属性，<code>patternsCondition</code>，<code>methodsCondition</code>，<code>paramsCondition</code>，<code>headersCondition</code>，<code>consumesCondition</code>以及<code>producesCondition</code>，分别代表http请求的路径模式、方法、参数、头部等信息。</p>
+<p>在<code>RequestMappingHandlerMapping</code>的父类<code>RequestMappingHandlerMapping</code>中有两个方法<code>getCustomTypeCondition</code>和<code>getCustomMethodCondition</code>，这两个方法返回一个<code>RequestCondition</code>实例，默认实现返回null。在springMVC扫描注解创建映射时，获取的<code>RequestCondition</code>实例保存在<code>RequestMappingInfo</code>的<code>customConditionHolder</code>属性中。实现接口版本管理的关键是重写这两个方法，创建一个自定义的<code>RequestCondition</code>并实现比较。</p>
+<p>首先创建一个注解<code>ApiVersion</code>，给方法标注版本号<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</div><div class="line"><span class="meta">@Documented</span></div><div class="line"><span class="meta">@Mapping</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ApiVersion &#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String DEFAULT_VERSION = <span class="string">"v1.0"</span>;</div><div class="line">    <span class="function">String <span class="title">value</span><span class="params">()</span> <span class="keyword">default</span> DEFAULT_VERSION</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>创建自定义类<code>ApiVersionCondition</code>，实现<code>RequestCondition</code>接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApiVersionCondition</span> <span class="keyword">implements</span> <span class="title">RequestCondition</span>&lt;<span class="title">ApiVersionCondition</span>&gt;</span>&#123;</div><div class="line">    <span class="keyword">private</span> String version = <span class="string">""</span>;<span class="comment">//v1.0</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ApiVersionCondition</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ApiVersionCondition</span><span class="params">(String version)</span></span>&#123;</div><div class="line">        <span class="keyword">if</span>(<span class="keyword">null</span>!=version)&#123;</div><div class="line">            <span class="keyword">this</span>.version = version.toLowerCase();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getVersion</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.version;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ApiVersionCondition <span class="title">combine</span><span class="params">(ApiVersionCondition other)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiVersionCondition(other.getVersion());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> ApiVersionCondition <span class="title">getMatchingCondition</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</div><div class="line">        String requestVersion = NormRequestUtil.getRequestVersion(request);</div><div class="line">        <span class="keyword">if</span>(compareVersion(requestVersion,<span class="keyword">this</span>.version)&gt;=<span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(ApiVersionCondition other, HttpServletRequest request)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> compareVersion(other.getVersion(),<span class="keyword">this</span>.version);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">compareVersion</span><span class="params">(String version1,String version2)</span></span>&#123;</div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            String pattern = Pattern.compile(<span class="string">"[a-z\\s]"</span>).pattern();</div><div class="line">            String newVersion1 = version1.replaceAll(pattern,<span class="string">""</span>);</div><div class="line">            String newVersion2 = version2.replaceAll(pattern,<span class="string">""</span>);</div><div class="line">            String[] v1 = newVersion1.split(<span class="string">"."</span>);</div><div class="line">            String[] v2 = newVersion2.split(<span class="string">"."</span>);</div><div class="line">            <span class="keyword">if</span>(v1.length&gt;v2.length)&#123;</div><div class="line">                v2 = fillArrayByZero(v2,v1.length);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(v2.length&gt;v1.length)&#123;</div><div class="line">                v1 = fillArrayByZero(v1,v2.length);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;v1.length;i++)&#123;</div><div class="line">                <span class="keyword">int</span> ver1 = NumberUtils.toInt(v1[i]);</div><div class="line">                <span class="keyword">int</span> ver2 = NumberUtils.toInt(v2[i]);</div><div class="line">                <span class="keyword">if</span>(ver1!=ver2)&#123;</div><div class="line">                    <span class="keyword">return</span> ver1 - ver2;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            DICLogger.info(<span class="string">"用数字方式逐号比较版本结果一致，尝试重新使用字符比较"</span>);</div><div class="line">            <span class="keyword">return</span> version1.compareTo(version2);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            DICLogger.error(<span class="string">"将版本转换成数字比较时发生错误，降级用字符串比较，可能无法精准匹配到指定版本接口，请检查版本号"</span>,e);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> version1.compareTo(version2);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> String[] fillArrayByZero(String[] arr,<span class="keyword">int</span> totalLength)&#123;</div><div class="line">        <span class="keyword">if</span>(arr.length&gt;totalLength)&#123;</div><div class="line">            <span class="keyword">return</span> arr;</div><div class="line">        &#125;</div><div class="line">        String[] newV = <span class="keyword">new</span> String[totalLength];</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;newV.length;i++)&#123;</div><div class="line">            <span class="keyword">if</span>(i&lt;arr.length)&#123;</div><div class="line">                newV[i] = arr[i];</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                newV[i] = <span class="string">"0"</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> newV;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>实现比较简单，重要的是<code>getMatchingCondition</code>方法，在上面实现中，所有比请求版本号小的接口都是符合条件的，<code>compareTo</code>方法比对所有符合条件的接口，取最新的接口。</p>
+<p>重写<code>getCustomTypeCondition</code>和<code>getCustomMethodCondition</code>方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CpctRequestMappingHandlerMapping</span> <span class="keyword">extends</span> <span class="title">RequestMappingHandlerMapping</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> RequestCondition&lt;?&gt; getCustomTypeCondition(Class&lt;?&gt; handlerType) &#123;</div><div class="line">        ApiVersion version = AnnotationUtils.findAnnotation(handlerType,ApiVersion.class);</div><div class="line">        <span class="keyword">return</span> createCondition(version);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">protected</span> RequestCondition&lt;?&gt; getCustomMethodCondition(Method method) &#123;</div><div class="line">        ApiVersion apiVersion = AnnotationUtils.findAnnotation(method, ApiVersion.class);</div><div class="line">        <span class="keyword">return</span> createCondition(apiVersion);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> RequestCondition&lt;ApiVersionCondition&gt; <span class="title">createCondition</span><span class="params">(ApiVersion apiVersion)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> apiVersion == <span class="keyword">null</span> ? <span class="keyword">null</span> : <span class="keyword">new</span> ApiVersionCondition(apiVersion.value());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>修改applicationContext-servlet.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"handlerMapping"</span> <span class="attr">class</span>=<span class="string">"com.xxx.core.apiversion.CpctRequestMappingHandlerMapping"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"messageConverters"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">list</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.xxx.NormMappingJackson2HttpMessageConverter"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">list</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>示例<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">versionApi1</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，默认版本"</span>);</div><div class="line">&#125;</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line"><span class="meta">@ApiVersion</span>(<span class="string">"v2.0"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">versionApi2</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，版本v2.0"</span>);</div><div class="line">&#125;</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"param"</span>)</div><div class="line"><span class="meta">@ApiVersion</span>(<span class="string">"v3.0"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">versionApi3</span><span class="params">(HttpServletRequest request)</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> NormResultUtil.resultSuccess(request,<span class="string">"成功请求接口cpct/param，版本v3.0"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/spring/">spring</a> <a class="tag tag--primary tag--small t-link" href="/tags/springMVC/">springMVC</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-boot笔记-基础搭建和传统web开发配置比较/"  data-tooltip="spring boot笔记--基础搭建和传统web开发配置比较">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC修改接口注册映射逻辑/" data-tooltip="springMVC修改接口注册映射逻辑">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/springMVC实现多版本接口/"
+     data-title="springMVC实现多版本接口" data-url="https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/springMVC实现多版本接口/" data-title="springMVC实现多版本接口" data-url="https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/spring-boot笔记-基础搭建和传统web开发配置比较/"  data-tooltip="spring boot笔记--基础搭建和传统web开发配置比较">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC修改接口注册映射逻辑/" data-tooltip="springMVC修改接口注册映射逻辑">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/springMVC实现多版本接口/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

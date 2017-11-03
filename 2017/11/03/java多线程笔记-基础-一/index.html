@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>java多线程笔记--基础(一) - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="java线程有两个重要的特性，可见性和有序性，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="java多线程笔记--基础(一)">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="java线程有两个重要的特性，可见性和有序性，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的">
+<meta property="og:updated_time" content="2017-11-03T01:47:49.595Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java多线程笔记--基础(一)">
+<meta name="twitter:description" content="java线程有两个重要的特性，可见性和有序性，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            java多线程笔记--基础(一)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:45:44+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>java线程有两个重要的特性，<code>可见性</code>和<code>有序性</code>，多个线程之间是不能直接传递数据的，它们之间的交互只能通过共享变量实现。例如，对一堆数据进行求和运算，多个线程共享一个Sum类的对象，这个对象是被创建在主内存(堆)中，每个线程都有自己的工作内存(线程栈)，工作内存存储了Sum对象的一个副本，当线程操作Sum对象时，首先从主内存中复制Sum对象到工作内存中，然后执行方法求和，改变sum值，最后用工作内存的Sum对象刷新主内存的Sum对象，当一个对象在多个线程中都有Sum对象的副本时，如果其中一个线程修改了共享变量，其它线程也应该能看见到，这是<code>可见性</code>。因为CPU对线程的调度是随机性的，在处理一些业务如银行转账时，必须保证先取款后汇款或先汇款后取款的有序操作，这是<code>有序性</code>。<br><a id="more"></a></p>
+<h5 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h5><p>如下面测试代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(String name)</span></span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>)&#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; name.length(); i++) &#123;  </div><div class="line">            System.out.print(name.charAt(i));  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用synchronized将需要互斥的代码块包裹起来并加一把锁，这把锁必须是多个线程间的共享对象，如果将<code>synchronized(this)</code>换成<code>synchronized(new Object())</code>是没有意义的，因为没有线程都会创建一个锁，起不到同步的效果。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</div><div class="line">        Object o = <span class="keyword">new</span> Object();</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">synchronized</span>(o)&#123;</div><div class="line">                <span class="comment">//...............</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test2</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">synchronized</span>(<span class="keyword">this</span>)&#123;</div><div class="line">                <span class="comment">//...............</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>每个对象只有一把监视锁(monitorlock),一次只能被一个线程获取.当一个线程获取了这一个锁后,其它线程就只能等待这个线程释放锁才能再获取。那么synchronized关键字到底锁什么?得到了谁的锁?对于同步块,synchronized获取的是参数中的对象锁。参数对象的作用范围不同，控制程序不同。</p>
+<p>因此对于以上代码，synchornized(o)和<br>synchronized(this)的范围是不同的,因为执行到Test实例的synchornized(o)的线程等待时,其它线程可以执行Test实例的synchronized(o1)部分,但多个线程同时只有一个可以执行Test实例的synchornized(this)。而对于  synchronized(Test.class){}这样的同步块而言,所有调用Test多个实例的线程赐教只能有一个线程可以执行。</p>
+<p>如果将synchronized加在方法上相当于用this锁住了整个代码块，如果加在静态方法上，相当于用xxx.class锁住了整个方法内的代码块。</p>
+<h5 id="wait-notify-notifyAll"><a href="#wait-notify-notifyAll" class="headerlink" title="wait(),notify(),notifyAll()"></a>wait(),notify(),notifyAll()</h5><p>wait(),notify()/notityAll()方法是普通对象的方法(Object超类中实现),而不是线程对象的方法。这三个只能在同步方法中调用。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">while</span>(x &lt; <span class="number">100</span>)</div><div class="line">            wait();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在有两个线程都执行到t.test();方法.其中线程A获取了t的对象锁,进入test()方法内.这时x小于100,所以线程A进入等待。当一个线程调用了wait方法后,这个线程就进入了这个对象的休息室(waitset),这是一个虚拟的对象,但JVM中一定存在这样的一个数据结构用来记录当前对象中有哪些程线程在等待。当一个线程进入等待时,它就会释放锁,让其它线程来获取这个锁。所以线程B有机会获得了线程A释放的锁,进入test()方法,如果这时x还是小于100,线程B也进入了t的休息室。这两个线程只能等待其它线程调用notity[All]来唤醒。但是如果调用的是有参数的wait(time)方法,则线程A,B都会在休息室中等待这个时间后自动唤醒。</p>
+<p>在实际的编程中我们看到大量的例子都是用<code>while(x &lt; 100)</code>而不是用if,为什么呢?在多个线程同时执行时,<code>if(x&lt;100)</code>是不安全的.因为如果线程A和线程B都在t的休息室中等待,这时另一个线程使x==100了,并调用notifyAll方法,线程A继续执行下面的代码.而它执行完成后,x有可能又小于100,比如下面的程序中调用了–x,这时切换到线程B,线程B没有继续判断,直接执行go();就产生一个错误的条件,只有while才能保证线程B又继续检查一次。</p>
+<p>notify/notifyAll这两个方法都是把某个对象上休息区内的线程唤醒,notify只能唤醒一个,但究竟是哪一个不能确定,而notifyAll则唤醒这个对象上的休息室中所有的线程。一般有为了安全性,我们在绝对多数时候应该使用notifiAll(),除非你明确知道只唤醒其中的一个<br>线程.</p>
+<p>那么是否是只要调用一个对象的wait()方法,当前线程就进入了这个对象的休息室呢?事实中,要调用一个对象的wait()方法,只有当前线程获取了这个对象的锁,换句话说一定要在这个对象的同步方法或以这个对象为参数的同步块中。</p>
+<blockquote>
+<p>线程要想调用一个对象的wait()方法就要先获得该对象的监视锁,而一旦调用wait()后又立即释放该锁</p>
+</blockquote>
+<h5 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h5><p>volatile是第二种线程同步机制，一个变量如果被volatile修饰，在这种情况下，内存模型会确保所有线程都能看到一致的变量值。如volatile int a，一个线程修改了a的值，那么会立即刷新主内存的a的值。volatile只保证了内存可见性，不能保证并发有序性。这是一种很弱的同步机制。</p>
+<h5 id="join"><a href="#join" class="headerlink" title="join"></a>join</h5><p>在一个线程对象上调用join，是当前线程等待这个线程对象对应的线程结束。假如有两个工作A和B分别被不同的线程执行，A耗时比B短些，我们需要先做并行做AB两个工作，等AB做完了再做C工作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">B b = <span class="keyword">new</span> B();</div><div class="line">b.start()<span class="comment">//做工作B</span></div><div class="line">A() <span class="comment">//做工作A</span></div><div class="line">b.join()    <span class="comment">//等工作B做完</span></div><div class="line">C() <span class="comment">//开始做工作C</span></div></pre></td></tr></table></figure></p>
+<p>join是测试其它工作状态的唯一方法，在实际中不能通过使用sleep方法来休眠当前线程等待其它线程工作完成，正确的方式是调用其它线程对象的join方法。</p>
+<h5 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h5><p>一个调用yield()方法的线程告诉虚拟机它乐意让其他线程占用自己的位置，让出CPU资源。这表明该线程没有在做一些紧急的事情。但这仅是一个暗示，并不能保证不会产生任何影响。它仅能使一个线程从运行状态转到可运行状态(不能保证立即转换)，而不是等待或阻塞状态。调用这个方法不会有任何效率上的提升。</p>
+<h5 id="线程中断"><a href="#线程中断" class="headerlink" title="线程中断"></a>线程中断</h5><p>线程中断涉及到三个方法</p>
+<table>
+<thead>
+<tr>
+<th>返回值</th>
+<th>方法名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>void</td>
+<td>interrupt()</td>
+<td>中断线程</td>
+</tr>
+<tr>
+<td>static boolean</td>
+<td>interrupted()</td>
+<td>测试当前线程是否已经中断。</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>isInterrupted()</td>
+<td>测试线程是否已经中断。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>interrupt()：interrupt()从字面意思来说是中断一个线程的执行，在实际测试中，这个方法并不能起到中断执行的作用，它仅仅是给调用的线程打一个标记，设置中断状态为true。</li>
+</ul>
+<p>在中断状态为true时，如果在线程中调用Object类的wait()方法或线程类的join()、sleep()方法会受阻，并抛出一个<code>InterruptedException</code>，我们可以捕获这个异常，并做一些处理(或停止线程或恢复运行)。</p>
+<p>对于wait中等待notify/notifyAll唤醒的线程,其实这个线程已经”暂停”执行,因为<br>它正在某一对象的休息室中,这时如果它的中断状态被改变,那么它就会抛出异常.<br>这个InterruptedException异常不是线程抛出的,而是wait方法,也就是对象的wait方法内部<br>会不断检查在此对象上休息的线程的状态,如果发现哪个线程的状态被置为已中断,则会抛出<br>InterruptedException,意思就是这个线程不能再等待了,其意义就等同于唤醒它了。</p>
+<p>这里唯一的区别是,被notify/All唤醒的线程会继续执行wait下面的语句,而在wait<br>中被中断的线程则将控制权交给了catch语句.一些正常的逻辑要被放到catch中来运行。<br>但有时这是唯一手段,比如一个线程a在某一对象b的wait中等待唤醒,其它线程必须<br>获取到对象b的监视锁才能调用b.notify()[All],否则你就无法唤醒线程a,但在任何线程中可以无条件地调用a.interrupt();来达到这个目的.只是唤醒后的逻辑你要放在catch中,当然同notify/All一样,继续执行a线程的条件还是要等拿到b对象的监视锁。</p>
+<p>对于sleep中的线程,如果你调用了Thread.sleep(一年);现在你后悔了,想让它早些醒过来,调用interrupt()方法就是唯一手段,只有改变它的中断状态,让它从sleep中将控制权转到处理异常的catch语句中,然后再由catch中的处理转换到正常的逻辑.同样,地于join中的线程你也可以这样处理。</p>
+<p>在已经调用wait、sleep、join这三个方法的线程上调用interrupt()方法让它从<br>这几个方法的”暂停”状态中恢复过来.这个恢复过来就可以包含两个目的:</p>
+<ol>
+<li>[可以使线程继续执行],那就是在catch语句中执行醒来后的逻辑,或由catch语句<br>转回正常的逻辑.总之它是从wait,sleep,join的暂停状态活过来了。</li>
+<li>[可以直接停止线程的运行],当然在catch中什么也不处理,或return,那么就完成<br>了当前线程的使命,可以使在上面”暂停”的状态中立即真正的”停止”。<blockquote>
+<p>通常情况下，在明确知道线程的状态已经处于中断状态时，不要调用这三个方法，除非需要实现必要的逻辑。</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>isInterrupted()：该方法能获取到interrupt()设置的中断状态，在实际使用中可以停止一个线程的执行，如下例<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterruptTest</span> </span>&#123;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;  </div><div class="line">        MyThread t = <span class="keyword">new</span> MyThread(<span class="string">"MyThread"</span>);  </div><div class="line">        t.start();  </div><div class="line">        Thread.sleep(<span class="number">100</span>);<span class="comment">// 睡眠100毫秒  </span></div><div class="line">        t.interrupt();<span class="comment">// 中断t线程  </span></div><div class="line">    &#125;  </div><div class="line">&#125;  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;  </div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyThread</span><span class="params">(String name)</span> </span>&#123;  </div><div class="line">        <span class="keyword">super</span>(name);  </div><div class="line">    &#125;  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;  </div><div class="line">        <span class="keyword">try</span>&#123;</div><div class="line">            <span class="keyword">while</span>(!isInterrupted()) &#123;<span class="comment">// 当前线程没有被中断，则执行  </span></div><div class="line">                <span class="comment">//正常逻辑  </span></div><div class="line">            &#125;  </div><div class="line">        &#125;catche(Exception e)&#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;<span class="keyword">finally</span>&#123;</div><div class="line">            <span class="comment">//清理工作</span></div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    &#125;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面的例子中while内部包裹是正常的线程逻辑，当isInterrupted()为true时，即在其它线程里执行MyThread对象的interrupt()方法时，退出线程，但是为什么会在外面包裹一层try..catch呢？因为如果该线程正在执行wait、sleep、join方法时，调用interrupt()时，这个逻辑就不完全了。</p>
+<ul>
+<li>Thread.interrupted()：该方法是一个静态方法，他是判断当前线程的中断状态，需要注意的是，该方法会清除线程的中断状态。假如一个线程是中断状态，如果连续调用两次该方法，第一次会返回true，第二次会返回false(当前线程在两次调用间再次中断的情况除外)。</li>
+</ul>
+<h5 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h5><p>JDK 1.2的版本中提供java.lang.ThreadLocal，ThreadLocal为解决多线程程序的并发问题提供了一种新的思路。使用这个工具类可以很简洁地编写出优美的多线程程序。</p>
+<p>当使用ThreadLocal维护变量时，ThreadLocal为每个使用该变量的线程提供独立的变量副本，所以每一个线程都可以独立地改变自己的副本，而不会影响其它线程所对应的副本。</p>
+<p>从线程的角度看，目标变量就象是线程的本地变量，这也是类名中“Local”所要表达的意思。   </p>
+<p>所以，在Java中编写线程局部变量的代码相对来说要笨拙一些，因此造成线程局部变量没有在Java开发者中得到很好的普及。</p>
+<p>ThreadLocal类接口很简单，只有4个方法</p>
+<ul>
+<li>void set(Object value)设置当前线程的线程局部变量的值。</li>
+<li>public Object get()该方法返回当前线程所对应的线程局部变量。</li>
+<li>public void remove()将当前线程局部变量的值删除，目的是为了减少内存的占用，该方法是JDK 5.0新增的方法。需要指出的是，当线程结束后，对应该线程的局部变量将自动被垃圾回收，所以显式调用该方法清除线程的局部变量并不是必须的操作，但它可以加快内存回收的速度。</li>
+<li>protected Object initialValue()返回该线程局部变量的初始值，该方法是一个protected的方法，显然是为了让子类覆盖而设计的。这个方法是一个延迟调用方法，在线程第1次调用get()或set(Object)时才执行，并且仅执行1次。ThreadLocal中的缺省实现直接返回一个null。</li>
+</ul>
+<p>值得一提的是，在JDK5.0中，ThreadLocal已经支持泛型，该类的类名已经变为ThreadLocal<t>。API方法也相应进行了调整，新版本的API方法分别是void set(T value)、T get()以及T initialValue()。</t></p>
+<p>应用场景：当很多线程需要多次使用同一个对象，并且需要该对象具有相同初始化值的时候最适合使用ThreadLocal。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/多线程/">多线程</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-二/"  data-tooltip="java多线程笔记-基础(二)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-线程池/" data-tooltip="java多线程笔记--线程池">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-基础-一/"
+     data-title="java多线程笔记--基础(一)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-基础-一/" data-title="java多线程笔记--基础(一)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-基础-二/"  data-tooltip="java多线程笔记-基础(二)">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-线程池/" data-tooltip="java多线程笔记--线程池">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-基础-一/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

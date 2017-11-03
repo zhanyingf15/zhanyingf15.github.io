@@ -1,0 +1,511 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>java多线程笔记-Guava(二) - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。
+一个服务正常生命周期有：
+
+Service.State.NEW
+Service.State.STARTING
+Service.State.RUNNING
+Service.State.STOPPING
+Service.State.TERMI">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="java多线程笔记-Guava(二)">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。
+一个服务正常生命周期有：
+
+Service.State.NEW
+Service.State.STARTING
+Service.State.RUNNING
+Service.State.STOPPING
+Service.State.TERMI">
+<meta property="og:updated_time" content="2017-11-03T01:52:26.155Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java多线程笔记-Guava(二)">
+<meta name="twitter:description" content="Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。
+一个服务正常生命周期有：
+
+Service.State.NEW
+Service.State.STARTING
+Service.State.RUNNING
+Service.State.STOPPING
+Service.State.TERMI">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            java多线程笔记-Guava(二)
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:51:25+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。</p>
+<p>一个服务正常生命周期有：</p>
+<ul>
+<li>Service.State.NEW</li>
+<li>Service.State.STARTING</li>
+<li>Service.State.RUNNING</li>
+<li>Service.State.STOPPING</li>
+<li>Service.State.TERMINATED</li>
+</ul>
+<p>服务一旦被停止就无法再重新启动了。如果服务在starting、running、stopping状态出现问题、会进入Service.State.FAILED.状态。调用startAsync()方法可以异步开启一个服务,同时返回this对象形成方法调用链。注意：只有在当前服务的状态是NEW时才能调用startAsync()方法，因此最好在应用中有一个统一的地方初始化相关服务。停止一个服务也是类似的、使用异步方法stopAsync()。但是不像startAsync(),多次调用这个方法是安全的。这是为了方便处理关闭服务时候的锁竞争问题。<br><a id="more"></a><br>Service也提供了一些方法用于等待服务状态转换的完成:通过addListener()方法异步添加监听器。此方法允许你添加一个Service.Listener、它会在每次服务状态转换的时候被调用。注意：最好在服务启动之前添加Listener（这时的状态是NEW）、否则之前已发生的状态转换事件是无法在新添加的Listener上被重新触发的。</p>
+<p>同步使用awaitRunning()。这个方法不能被打断、不强制捕获异常、一旦服务启动就会返回。如果服务没有成功启动，会抛出IllegalStateException异常。同样的， awaitTerminated() 方法会等待服务达到终止状态（TERMINATED 或者 FAILED）。两个方法都有重载方法允许传入超时时间。</p>
+<p>Service 接口本身实现起来会比较复杂、且容易碰到一些捉摸不透的问题。因此我们不推荐直接实现这个接口。而是请继承Guava包里已经封装好的基础抽象类。每个基础类支持一种特定的线程模型。</p>
+<h5 id="AbstractIdleService"><a href="#AbstractIdleService" class="headerlink" title="AbstractIdleService"></a>AbstractIdleService</h5><p>可以理解为一个空实现，在服务处于running状态时，不会做执行任何动作，只是简单的实现startUp() 和 shutDown() 这两个方法即可。比如我们需要通过服务去管理一个连接池，在startUp()时初始化连接池，shutdown时关闭连接池</p>
+<h5 id="AbstractExecutionThreadService"><a href="#AbstractExecutionThreadService" class="headerlink" title="AbstractExecutionThreadService"></a>AbstractExecutionThreadService</h5><p>AbstractExecutionThreadService在单个线程中执行startup, running, and shutdown，必须实现run()方法，同时在方法中要能响应停止服务的请求。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceTest</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ServiceManager serviceManager;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        List&lt;Service&gt; services = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>;i++)&#123;</div><div class="line">            services.add(<span class="keyword">new</span> TaskService(<span class="string">"service"</span>+i));</div><div class="line">        &#125;</div><div class="line">        serviceManager = <span class="keyword">new</span> ServiceManager(services);</div><div class="line">        serviceManager.addListener(<span class="keyword">new</span> ServiceManager.Listener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">healthy</span><span class="params">()</span> </span>&#123;</div><div class="line">                Console.log(<span class="string">"healthy"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopped</span><span class="params">()</span></span>&#123;</div><div class="line">                Console.log(<span class="string">"stopped"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        serviceManager.startAsync().awaitHealthy();</div><div class="line">        Thread.sleep(<span class="number">2000</span>);</div><div class="line">        serviceManager.stopAsync();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TaskService</span> <span class="keyword">extends</span> <span class="title">AbstractExecutionThreadService</span></span>&#123;</div><div class="line">        <span class="keyword">private</span> String name;</div><div class="line">        <span class="keyword">private</span> <span class="keyword">boolean</span> isRunning = <span class="keyword">false</span>;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">TaskService</span><span class="params">(String name)</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.name = name;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">            <span class="keyword">while</span>(isRunning)&#123;</div><div class="line">                <span class="keyword">try</span>&#123;</div><div class="line">                    Console.log(<span class="string">"&#123;&#125;运行中，结果：&#123;&#125;"</span>,name,<span class="keyword">new</span> Random().nextInt(<span class="number">100</span>));</div><div class="line">                    Thread.sleep(<span class="number">1000</span>);</div><div class="line">                &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">                    <span class="comment">//处理异常，这里如果抛出异常，会使服务状态变为failed同时导致任务终止</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startUp</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.isRunning = <span class="keyword">true</span>;</div><div class="line">            Console.log(<span class="string">"&#123;&#125;启动"</span>,<span class="keyword">this</span>.name);</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">triggerShutdown</span><span class="params">()</span></span>&#123;</div><div class="line">            <span class="keyword">this</span>.isRunning = <span class="keyword">false</span>;<span class="comment">//修改状态值</span></div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">shutDown</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">            Console.log(<span class="string">"&#123;&#125;关闭"</span>,<span class="keyword">this</span>.name);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>打印结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">service0启动</div><div class="line">service1启动</div><div class="line">healthy</div><div class="line">service0运行中，结果：51</div><div class="line">service1运行中，结果：88</div><div class="line">service1运行中，结果：83</div><div class="line">service0运行中，结果：49</div><div class="line">service0关闭</div><div class="line">service1关闭</div><div class="line">stopped</div></pre></td></tr></table></figure></p>
+<p>triggerShutdown() 方法会在执行方法stopAsync调用，startUp方法会在执行startAsync方法时调用，这个类的实现都是委托给AbstractService这个方法实现的。</p>
+<h5 id="AbstractScheduledService"><a href="#AbstractScheduledService" class="headerlink" title="AbstractScheduledService"></a>AbstractScheduledService</h5><p>AbstractScheduledService类用于在运行时处理一些周期性的任务。子类可以实现 runOneIteration()方法定义一个周期执行的任务，以及相应的startUp()和shutDown()方法。为了能够描述执行周期，需要实现scheduler()方法。</p>
+<p>通常情况下，可以使用AbstractScheduledService.Scheduler类提供的两种调度器：<code>newFixedRateSchedule(initialDelay, delay, TimeUnit)</code>和<code>newFixedDelaySchedule(initialDelay, delay, TimeUnit)</code>，类似于JDK并发包中ScheduledExecutorService类提供的两种调度方式。如要自定义schedules则可以使用 CustomScheduler类来辅助实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractScheduledServiceTest</span> <span class="keyword">extends</span> <span class="title">AbstractScheduledService</span></span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">startUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Console.log(<span class="string">"start"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">shutDown</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Console.log(<span class="string">"shutDown"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">runOneIteration</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Console.log(<span class="string">"do work"</span>);</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> Scheduler <span class="title">scheduler</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> Scheduler.newFixedRateSchedule(<span class="number">2</span>,<span class="number">2</span>, TimeUnit.SECONDS);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        AbstractScheduledServiceTest service = <span class="keyword">new</span> AbstractScheduledServiceTest();</div><div class="line">        service.startAsync().awaitRunning();</div><div class="line">        Thread.sleep(<span class="number">10000</span>);</div><div class="line">        service.stopAsync().awaitTerminated();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>打印结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">start</div><div class="line">do work</div><div class="line">do work</div><div class="line">do work</div><div class="line">do work</div><div class="line">do work</div><div class="line">shutDown</div></pre></td></tr></table></figure></p>
+<p>AbstractScheduledServic默认使用java concurrent包的ScheduledExecutorService来执行的</p>
+<h5 id="AbstractService"><a href="#AbstractService" class="headerlink" title="AbstractService"></a>AbstractService</h5><p>如需要自定义的线程管理、可以通过扩展AbstractService类来实现。一般情况下、使用上面的几个实现类就已经满足需求了，但如果在服务执行过程中有一些特定的线程处理需求、则建议继承AbstractService类。<br>继承AbstractService方法必须实现两个方法.</p>
+<ul>
+<li>doStart(): 首次调用startAsync()时会同时调用doStart(),doStart()内部需要处理所有的初始化工作、如果启动成功则调用notifyStarted()方法；启动失败则调用notifyFailed()</li>
+<li>doStop(): 首次调用stopAsync()会同时调用doStop(),doStop()要做的事情就是停止服务，如果停止成功则调用 notifyStopped()方法；停止失败则调用 notifyFailed()方法。</li>
+</ul>
+<p>doStart和doStop方法的实现需要考虑下性能，尽可能的低延迟。如果初始化的开销较大，如读文件，打开网络连接，或者其他任何可能引起阻塞的操作，建议移到另外一个单独的线程去处理。</p>
+<h5 id="ServiceManager"><a href="#ServiceManager" class="headerlink" title="ServiceManager"></a>ServiceManager</h5><p>除了对Service接口提供基础的实现类，Guava还提供了ServiceManager类使得涉及到多个Service集合的操作更加容易。通过实例化ServiceManager类来创建一个Service集合，你可以通过以下方法来管理它们：</p>
+<ul>
+<li>startAsync() ： 将启动所有被管理的服务。如果当前服务的状态都是NEW的话、那么你只能调用该方法一次、这跟 Service#startAsync()是一样的。</li>
+<li>stopAsync() ：将停止所有被管理的服务。</li>
+<li>addListener ：会添加一个ServiceManager.Listener，在服务状态转换中会调用该Listener</li>
+<li>awaitHealthy() ：会等待所有的服务达到Running状态</li>
+<li>awaitStopped()：会等待所有服务达到终止状态</li>
+</ul>
+<p>检测类的方法有：</p>
+<ul>
+<li>isHealthy() ：如果所有的服务处于Running状态、会返回True</li>
+<li>servicesByState()：以状态为索引返回当前所有服务的快照</li>
+<li>startupTimes() ：返回一个Map对象，记录被管理的服务启动的耗时、以毫秒为单位，同时Map默认按启动时间排序。</li>
+</ul>
+<p>建议整个服务的生命周期都能通过ServiceManager来管理，不过即使状态转换是通过其他机制触发的、也不影响ServiceManager方法的正确执行。例如：当一个服务不是通过startAsync()、而是其他机制启动时，listeners仍然可以被正常调用、awaitHealthy()也能够正常工作。ServiceManager唯一强制的要求是当其被创建时所有的服务必须处于New状态。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/guava/">guava</a> <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a> <a class="tag tag--primary tag--small t-link" href="/tags/多线程/">多线程</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC修改接口注册映射逻辑/"  data-tooltip="springMVC修改接口注册映射逻辑">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-一/" data-tooltip="java多线程笔记-Guava(一)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-Guava-二/"
+     data-title="java多线程笔记-Guava(二)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/java多线程笔记-Guava-二/" data-title="java多线程笔记-Guava(二)" data-url="https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/springMVC修改接口注册映射逻辑/"  data-tooltip="springMVC修改接口注册映射逻辑">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/java多线程笔记-Guava-一/" data-tooltip="java多线程笔记-Guava(一)">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/java多线程笔记-Guava-二/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

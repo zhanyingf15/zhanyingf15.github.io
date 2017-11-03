@@ -180,15 +180,318 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
-                        <a class="link-unstyled" href="/2017/01/20/hello-world/">
-                            Hello World
+                        <a class="link-unstyled" href="/2017/06/14/elasticsearch安装与集成/">
+                            elasticsearch安装与集成
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-01-20T11:04:19+08:00">
+    <time itemprop="datePublished" datetime="2017-06-14T17:50:59+08:00">
 	
-		    1月 20, 2017
+		    6月 14, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p><em>elasticsearch版本 2.4.5</em></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li>下载es并解压</li>
+<li><p>修改config目录下elasticsearch.yml文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cluster.name: my-es</div><div class="line">node.name: node-1</div><div class="line">network.host: 192.168.70.128</div><div class="line">http.port: 9200</div></pre></td></tr></table></figure>
+</li>
+<li><p>在elasticsearch根目录下创建data目录</p>
+</li>
+</ul>
+<p>elasticsearch不允许使用root账户启动，需要添加一个新账户<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">useradd esroot #创建用户</div><div class="line">passwd esroot #设置密码，连续输入两次</div><div class="line">groupadd es #添加分组</div><div class="line">usermod -G esroot es #如果报用户“es”不存在，是因为服务器版本问题，改成usermod -G es esroot</div><div class="line">chown -R esroot.es * #在elasticsearch根目录下执行，给用户赋权</div><div class="line">su esroot #切换用户</div></pre></td></tr></table></figure></p>
+                    
+                        <a href="/2017/06/14/elasticsearch安装与集成/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/05/21/hadoop一些问题记录/">
+                            hadoop一些问题记录
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-05-21T17:12:55+08:00">
+	
+		    5月 21, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <h3 id="升级Hadoop后无法启动namenode"><a href="#升级Hadoop后无法启动namenode" class="headerlink" title="升级Hadoop后无法启动namenode"></a>升级Hadoop后无法启动namenode</h3><p>namenode 默认在/tmp下建立临时文件，但关机后，/tmp下文档自动删除，再次启动Master造成文件不匹配，所以namenode启动失败。<br>在core-site.xml中指定临时文件位置，然后清空该目录，再运行hadoop namenode -format重新格式化<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>/usr/local/hadoop/hadooptemp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>value中的路径只要不是/tmp 就行。</p>
+                    
+                        <a href="/2017/05/21/hadoop一些问题记录/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/05/19/hive笔记/">
+                            hive笔记
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-05-19T17:48:07+08:00">
+	
+		    5月 19, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/hive/">hive</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <h2 id="HIVE笔记"><a href="#HIVE笔记" class="headerlink" title="HIVE笔记"></a>HIVE笔记</h2><blockquote>
+<p>启动hive和内置derby：<code>hive --service hiveserver2</code></p>
+</blockquote>
+<p>测试连接：</p>
+<ol>
+<li>bin/beeline  </li>
+<li>!connect jdbc:hive2://192.168.70.128:10000/test</li>
+</ol>
+<blockquote>
+<p>停止hive:hive&gt;exit;</p>
+<h3 id="一些重要的配置"><a href="#一些重要的配置" class="headerlink" title="一些重要的配置"></a>一些重要的配置</h3><ul>
+<li>hive-site.xml<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionUserName<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Username to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>javax.jdo.option.ConnectionPassword<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>root<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>password to use against metastore database<span class="tag">&lt;/<span class="name">description</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+                    
+                        <a href="/2017/05/19/hive笔记/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/05/14/vim笔记/">
+                            vim笔记
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-05-14T17:10:02+08:00">
+	
+		    5月 14, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/linux/">linux</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>vim常用命令记录</p>
+<ul>
+<li>查询： ?xxx</li>
+<li>查询上/下一个：N/n</li>
+<li>删除一行：连续输入dd</li>
+<li>撤销操作：u</li>
+<li>保存并退出：wq或x</li>
+<li>回退修改到某个时间点：earlier xxx。如earlier 1m：回退到一分钟前</li>
+<li>前进修改到某个时间点：later xxx</li>
+<li>跳转到上一个修改的位置：ctrl+o</li>
+<li>跳转到下一个修改的位置:ctrl+i
+                    
+                        <a href="/2017/05/14/vim笔记/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/04/18/datax任务示例/">
+                            datax任务示例
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-04-18T17:22:58+08:00">
+	
+		    4月 18, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>oracle导出数据到hdfs，oracle导出数据到hbase的基本使用方法<br>
+                    
+                        <a href="/2017/04/18/datax任务示例/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/04/15/hbase笔记/">
+                            hbase笔记
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-04-15T17:14:12+08:00">
+	
+		    4月 15, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/hbase/">hbase</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>记录hbase的基本概念、命令和操作</p>
+<!-- toc -->
+<h2 id="HBase-笔记"><a href="#HBase-笔记" class="headerlink" title="HBase 笔记"></a>HBase 笔记</h2><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><ul>
+<li>bin/start-hbase.sh<h3 id="Shell-命令"><a href="#Shell-命令" class="headerlink" title="Shell 命令"></a>Shell 命令</h3><blockquote>
+<p>进入shell：<code>hbase shell</code></p>
+<h4 id="通用命令"><a href="#通用命令" class="headerlink" title="通用命令"></a>通用命令</h4></blockquote>
+</li>
+<li>status: 提供HBase的状态，例如，服务器的数量</li>
+<li>version: 提供正在使用HBase版本</li>
+<li>table_help: 表的一些命令帮助</li>
+<li>whoami: 提供有关用户的信息</li>
+</ul>
+                    
+                        <a href="/2017/04/15/hbase笔记/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/">
+                            regeneratorRuntime is not defined 错误
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-03-15T17:17:46+08:00">
+	
+		    3月 15, 2017
     	
     </time>
     
@@ -196,10 +499,155 @@
 
             </div>
             
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>记录一些markdown语法和一些hexo特有的标签和语法</p>
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>在react中使用es6中使用generator等新特性时，浏览器爆出regeneratorRuntime is not defined 错误，解决方法如下</p>
+<ul>
+<li><p>1、安装babel-polyfill</p>
+<p>npm install babel-polyfill –save-dev</p>
+</li>
+<li><p>2、安装babel-plugin-transform-runtime：</p>
+<p>npm install babel-plugin-transform-runtime –save-dev</p>
+</li>
+<li><p>3、修改.bablerc文件</p>
+<p>添加”plugins”:[“transform-runtime”],如果有plugins属性就追加</p>
+</li>
+</ul>
+
                     
-                        <a href="/2017/01/20/hello-world/" class="postShorten-excerpt_link link">
+                        
+                    
+                    
+                        <p>
+                            <a href="/2017/03/15/regeneratorRuntime-is-not-defined-错误/#post-footer" class="postShorten-excerpt_link link">
+                                注释和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/02/06/thunk与Generator函数实现自动流程管理/">
+                            thunk与Generator函数实现自动流程管理
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-02-06T14:15:16+08:00">
+	
+		    2月 06, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/es6/">es6</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>只接受回调函数作为参数的单参数函数叫做 Thunk 函数。<br>Thunk 函数可以用于 Generator 函数的自动流程管理。使Generator 函数可以自动执行<br>
+                    
+                        <a href="/2017/02/06/thunk与Generator函数实现自动流程管理/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/01/24/sui的一些问题/">
+                            sui的一些问题
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-01-24T15:59:34+08:00">
+	
+		    1月 24, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端/">前端</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>记录一些sui使用过程中遇到的一些问题</p>
+                    
+                        <a href="/2017/01/24/sui的一些问题/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/01/24/一些CSS技巧/">
+                            一些CSS技巧
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-01-24T15:43:13+08:00">
+	
+		    1月 24, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/前端/">前端</a>, <a class="category-link" href="/categories/前端/CSS/">CSS</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>记录一些CSS技巧，以备后查</p>
+                    
+                        <a href="/2017/01/24/一些CSS技巧/" class="postShorten-excerpt_link link">
                             阅读全文
                         </a>
                         
@@ -223,7 +671,14 @@
         </li>
         
         
-        <li class="pagination-number">第 3 页 共 3 页</li>
+        <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="/archives/page/4/">
+                    <span>下一页</span>
+                <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+        </li>
+        
+        <li class="pagination-number">第 3 页 共 4 页</li>
     </ul>
 </div>
 

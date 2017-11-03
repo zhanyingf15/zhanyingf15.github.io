@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>datax-elasticsearch说明 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="DataX 是一个异构数据源离线同步工具，致力于实现包括关系型数据库(MySQL、Oracle等)、HDFS、Hive、MaxCompute(原ODPS)、HBase、FTP等各种异构数据源之间稳定高效的数据同步功能。
+datax-elasticsearch是datax的一个支持elasticsearch的插件，包含elasticsearchreader和elasticsearchwriter两部">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="datax-elasticsearch说明">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="DataX 是一个异构数据源离线同步工具，致力于实现包括关系型数据库(MySQL、Oracle等)、HDFS、Hive、MaxCompute(原ODPS)、HBase、FTP等各种异构数据源之间稳定高效的数据同步功能。
+datax-elasticsearch是datax的一个支持elasticsearch的插件，包含elasticsearchreader和elasticsearchwriter两部">
+<meta property="og:updated_time" content="2017-11-03T02:04:31.010Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="datax-elasticsearch说明">
+<meta name="twitter:description" content="DataX 是一个异构数据源离线同步工具，致力于实现包括关系型数据库(MySQL、Oracle等)、HDFS、Hive、MaxCompute(原ODPS)、HBase、FTP等各种异构数据源之间稳定高效的数据同步功能。
+datax-elasticsearch是datax的一个支持elasticsearch的插件，包含elasticsearchreader和elasticsearchwriter两部">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            datax-elasticsearch说明
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:30:39+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>DataX 是一个异构数据源离线同步工具，致力于实现包括关系型数据库(MySQL、Oracle等)、HDFS、Hive、MaxCompute(原ODPS)、HBase、FTP等各种异构数据源之间稳定高效的数据同步功能。</p>
+<p><code>datax-elasticsearch</code>是datax的一个支持elasticsearch的插件，包含<code>elasticsearchreader</code>和<code>elasticsearchwriter</code>两部分。借助于datax体系，能够高效的在elasticsearch与oracle、mysql、HDFS等异构数据源间同步数据。<br><a id="more"></a><br><strong>插件安装</strong></p>
+<p>方式一：将下载的插件解压，elasticsearchreader拷贝到<code>${DATAX_HOME}\plugin\reader</code>目录，elasticsearchwriter拷贝到<code>${DATAX_HOME}\plugin\writer</code>目录。</p>
+<p>方式二：clone源码，使用maven编译打包，将打包后的资源放到如下结构中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">$&#123;DATAX_HOME&#125;</div><div class="line">|-- bin       </div><div class="line">|   `-- datax.py</div><div class="line">|-- conf</div><div class="line">|   |-- core.json</div><div class="line">|   `-- logback.xml</div><div class="line">|-- lib</div><div class="line">|   `-- datax-core-dependencies.jar</div><div class="line">`-- plugin</div><div class="line">    |-- reader</div><div class="line">    |   `-- elasticsearchreader</div><div class="line">    |       |-- libs</div><div class="line">    |       |   `-- elasticsearchreader-plugin-dependencies.jar</div><div class="line">    |       |-- elasticsearchreader-0.0.1.jar</div><div class="line">    |       `-- plugin.json</div><div class="line">    `-- writer</div><div class="line">        |-- elasticsearchwriter</div><div class="line">        |   |-- libs</div><div class="line">        |   |   `--elasticsearchwriter-plugin-dependencies.jar</div><div class="line">        |   |-- elasticsearchwriter-0.0.1.jar</div><div class="line">        |   `-- plugin.json</div><div class="line">        |-- oceanbasewriter</div><div class="line">        `-- odpswriter</div></pre></td></tr></table></figure>
+<p>elasticsearchreader和elasticsearchwriter都是同一个jar包，只是入口不同，datax通过plugin.json中定义的入口反射得到实例。elasticsearchreader和elasticsearchwriter的plugin.json内容在源码的resources文件夹中，分别是plugin_reader_template.json和plugin_writer_template.json。修改命名再放到datax对应文件夹中即可。</p>
+<p><strong>elasticsearchreader</strong></p>
+<p>elasticsearchreader任务配置如下<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="attr">"name"</span>: <span class="string">"elasticsearchreader"</span>,</div><div class="line">	<span class="attr">"parameter"</span>: &#123;</div><div class="line">		<span class="attr">"connection"</span>: [</div><div class="line">			<span class="string">"10.43.164.113:9300"</span></div><div class="line">		],</div><div class="line">		<span class="attr">"index"</span>:<span class="string">"test2"</span>,</div><div class="line">		<span class="attr">"type"</span>:<span class="string">"game"</span>,</div><div class="line">		<span class="attr">"pageSize"</span>:<span class="number">100</span>,</div><div class="line">		<span class="attr">"column"</span>: [<span class="string">"_id"</span>,<span class="string">"contact_order_id"</span>]//可以配置成[<span class="string">"*"</span>]表示取所有列</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>connection：TransportClient客户端连接地址，可以配置多个地址。</li>
+<li>index：索引</li>
+<li>type：类型</li>
+<li>pageSize：一次请求时每个分片返回的数量。</li>
+<li>column：读取的字段名，可以指定具体的列名也可以配置成[“*“]。指定具体列名时，如果需要读取文档id，列名指定为<code>&quot;_id&quot;</code>，如果配置的是[“*“]，文档id放在record的第一个位置。</li>
+</ul>
+<p><strong>elasticsearchwriter</strong></p>
+<p>elasticsearchwriter任务配置如下：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	<span class="attr">"name"</span>: <span class="string">"elasticsearchwriter"</span>,</div><div class="line">	<span class="attr">"parameter"</span>: &#123;</div><div class="line">		<span class="attr">"connection"</span>: [</div><div class="line">			<span class="string">"10.43.164.113:9300"</span></div><div class="line">		],</div><div class="line">		<span class="attr">"index"</span>:<span class="string">"test2"</span>,</div><div class="line">		<span class="attr">"type"</span>:<span class="string">"game"</span>,</div><div class="line">		<span class="attr">"bulkNum"</span>:<span class="number">1000</span>,</div><div class="line">		<span class="attr">"refresh"</span>:<span class="literal">false</span>,</div><div class="line">		<span class="attr">"idField"</span>:<span class="string">"_id"</span>,</div><div class="line">		<span class="attr">"column"</span>: [<span class="string">"_id"</span>,<span class="string">"contact_order_id"</span>,<span class="string">"name"</span>]</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>connection、index、type、column同上。</p>
+<ul>
+<li>bulkNum：批处理缓冲数量，读取的记录达到一定数量时再一次性写入elasticsearch，适当的bulkNum值能提高性能。</li>
+<li>refresh：是否在一次批处理完成后立即刷新，如果为true，插入的数据能立即被检索到，如果为false，需要等到elasticsearch自动刷新后(约3s)才能被检索到。</li>
+<li>idField：使用指定字段值(不能有重复值)作为es的文档id，不设置或空时默认使用自增长id，如果如上例使用<code>&quot;_id&quot;</code>列值作为文档id,<code>&quot;_id&quot;</code>列本身不会成为文档的一个字段。如果使用非<code>&quot;_id&quot;</code>列如<code>contact_order_id</code>作为文档id，<code>contact_order_id</code>仍然会成为文档的一个字段(只有<code>&quot;_id&quot;</code>才会被特殊处理)。<blockquote>
+<p>注意：如果不指定idField配置或为空，column中不允许出现elasticsearch的内置字段名</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>完整示例</strong></p>
+<p>向elasticsearch写入数据时一定要根据elasticsearch运行环境控制写入速度。否则可能会报一下错误操作写入失败<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">org.elasticsearch.common.util.concurrent.EsRejectedExecutionException: rejected execution of org.elasticsearch.transport.TransportService$4@12748abb on EsThreadPoolExecutor[bulk, queue capacity = 50, org.elasticsearch.common.util.concurrent.EsThreadPoolExecutor@29b145ab[Running, pool size = 4, active threads = 4, queued tasks = 50, completed tasks = 31817]]</div></pre></td></tr></table></figure></p>
+<ul>
+<li><p>oracle =&gt; elasticsearch</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   <span class="attr">"job"</span>: &#123;</div><div class="line">       <span class="attr">"setting"</span>: &#123;</div><div class="line">           <span class="attr">"speed"</span>: &#123;</div><div class="line">               <span class="attr">"channel"</span>: <span class="number">5</span>,</div><div class="line">               <span class="attr">"record"</span>: <span class="number">10000</span></div><div class="line">           &#125;</div><div class="line">       &#125;,</div><div class="line">       <span class="attr">"content"</span>: [</div><div class="line">           &#123;</div><div class="line">               <span class="attr">"reader"</span>: &#123;</div><div class="line">                   <span class="attr">"name"</span>: <span class="string">"oraclereader"</span>,</div><div class="line">                   <span class="attr">"parameter"</span>: &#123;</div><div class="line">                        <span class="attr">"username"</span>: <span class="string">"root"</span>,</div><div class="line">                        <span class="attr">"password"</span>: <span class="string">"1234567890"</span>,</div><div class="line">                        <span class="attr">"splitPk"</span>: <span class="string">"game_id"</span>,</div><div class="line">                        <span class="attr">"column"</span>: [</div><div class="line">                            <span class="string">"game_id"</span>,<span class="string">"play_time"</span>,<span class="string">"game_name"</span>,<span class="string">"col1"</span></div><div class="line">                        ],</div><div class="line">                        <span class="attr">"connection"</span>: [</div><div class="line">                            &#123;</div><div class="line">                                <span class="attr">"table"</span>: [</div><div class="line">                                    <span class="string">"record"</span></div><div class="line">                                ],</div><div class="line">                                <span class="attr">"jdbcUrl"</span>: [</div><div class="line">                                    <span class="string">"jdbc:oracle:thin:@ip:port:db"</span></div><div class="line">                                ]</div><div class="line">                            &#125;</div><div class="line">                        ]</div><div class="line">                   &#125;</div><div class="line">               &#125;,</div><div class="line">               <span class="attr">"writer"</span>: &#123;</div><div class="line">                    <span class="attr">"name"</span>: <span class="string">"elasticsearchwriter"</span>,</div><div class="line">                    <span class="attr">"parameter"</span>: &#123;</div><div class="line">                        <span class="attr">"connection"</span>: [<span class="string">"ip:9300"</span>],</div><div class="line">                        <span class="attr">"index"</span>:<span class="string">"test2"</span>,</div><div class="line">                        <span class="attr">"type"</span>:<span class="string">"record2"</span>,</div><div class="line">                        <span class="attr">"bulkNum"</span>:<span class="number">10000</span>,</div><div class="line">                        <span class="attr">"idField"</span>:<span class="string">"game_id"</span>,</div><div class="line">                        <span class="attr">"column"</span>: [<span class="string">"game_id"</span>,<span class="string">"play_time"</span>,<span class="string">"filed3"</span>,<span class="string">"filed4"</span>]</div><div class="line">                    &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       ]</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>elasticsearch =&gt; elasticsearch</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;job&quot;: &#123;</div><div class="line">       &quot;setting&quot;: &#123;</div><div class="line">           &quot;speed&quot;: &#123;</div><div class="line">               &quot;channel&quot;: 5,</div><div class="line">               &quot;record&quot;: 10000</div><div class="line">           &#125;</div><div class="line">       &#125;,</div><div class="line">       &quot;content&quot;: [</div><div class="line">           &#123;</div><div class="line">               &quot;reader&quot;: &#123;</div><div class="line">                   &quot;name&quot;: &quot;elasticsearchreader&quot;,</div><div class="line">                   &quot;parameter&quot;: &#123;</div><div class="line">                        &quot;connection&quot;: [&quot;ip1:9300&quot;],</div><div class="line">                        &quot;index&quot;:&quot;test2&quot;,</div><div class="line">                        &quot;type&quot;:&quot;record&quot;,</div><div class="line">                        &quot;pageSize&quot;:100,</div><div class="line">                        &quot;column&quot;: [&quot;_id&quot;,&quot;game_id&quot;,&quot;play_time&quot;,&quot;filed3&quot;,&quot;filed4&quot;]</div><div class="line">                   &#125;</div><div class="line">               &#125;,</div><div class="line">               &quot;writer&quot;: &#123;</div><div class="line">                    &quot;name&quot;: &quot;elasticsearchwriter&quot;,</div><div class="line">                    &quot;parameter&quot;: &#123;</div><div class="line">                        &quot;connection&quot;: [&quot;ip2:9300&quot;],</div><div class="line">                        &quot;index&quot;:&quot;test2&quot;,</div><div class="line">                        &quot;type&quot;:&quot;record2&quot;,</div><div class="line">                        &quot;idField&quot;:&quot;_id&quot;,</div><div class="line">                        &quot;column&quot;: [&quot;_id&quot;,&quot;game_id&quot;,&quot;play_time&quot;,&quot;filed3&quot;,&quot;filed4&quot;]</div><div class="line">                    &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       ]</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/datax/">datax</a> <a class="tag tag--primary tag--small t-link" href="/tags/elasticsearch/">elasticsearch</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/log4j-1-x自定义日志级别并输出到指定文件/"  data-tooltip="log4j 1.x自定义日志级别并输出到指定文件">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/" data-tooltip="elasticsearch rest api和mybatis整合记录">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/03/datax-elasticsearch说明明/"
+     data-title="datax-elasticsearch说明" data-url="https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/03/datax-elasticsearch说明明/" data-title="datax-elasticsearch说明" data-url="https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2017 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/log4j-1-x自定义日志级别并输出到指定文件/"  data-tooltip="log4j 1.x自定义日志级别并输出到指定文件">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/" data-tooltip="elasticsearch rest api和mybatis整合记录">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/03/datax-elasticsearch说明明/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
