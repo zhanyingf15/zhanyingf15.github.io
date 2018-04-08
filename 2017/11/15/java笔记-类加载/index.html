@@ -13,37 +13,19 @@
         <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
     
     
-    <meta name="description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
-关于类的加载机制的详细解释可以参考下面几篇文章
-
-Java类加载机制。
-深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
-装载（Load）
-链接">
+    <meta name="description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="java笔记-类加载">
 <meta property="og:url" content="https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/index.html">
 <meta property="og:site_name" content="忘语的个人博客">
-<meta property="og:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
-关于类的加载机制的详细解释可以参考下面几篇文章
-
-Java类加载机制。
-深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
-装载（Load）
-链接">
+<meta property="og:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。">
 <meta property="og:image" content="https://pic4.zhimg.com/v2-5473646d79609214433ee7a66e594603_b.png">
 <meta property="og:image" content="https://pic4.zhimg.com/v2-4b379b6a26ae8567dedae02295805cf3_b.png">
 <meta property="og:image" content="https://www.ibm.com/developerworks/cn/java/j-lo-classloader/image001.jpg">
-<meta property="og:updated_time" content="2018-04-08T02:47:33.537Z">
+<meta property="og:updated_time" content="2018-04-08T06:10:03.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java笔记-类加载">
-<meta name="twitter:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
-关于类的加载机制的详细解释可以参考下面几篇文章
-
-Java类加载机制。
-深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
-装载（Load）
-链接">
+<meta name="twitter:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。">
 <meta name="twitter:image" content="https://pic4.zhimg.com/v2-5473646d79609214433ee7a66e594603_b.png">
     
     
@@ -221,6 +203,7 @@ Java类加载机制。
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <p>Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。</p>
+<a id="more"></a>
 <p>关于类的加载机制的详细解释可以参考下面几篇文章</p>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/25228545" target="_blank" rel="external">Java类加载机制</a>。</li>

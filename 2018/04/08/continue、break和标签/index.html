@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="忘语的个人博客">
 <meta property="og:description" content="在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。
 在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分">
-<meta property="og:updated_time" content="2018-04-08T02:50:17.386Z">
+<meta property="og:updated_time" content="2018-04-08T06:11:27.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="continue、break和标签">
 <meta name="twitter:description" content="在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。
@@ -204,6 +204,7 @@
             <p>在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。</p>
 <p>在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分情况下不推荐使用goto，但是在极少情况下，goto是控制流程的极佳手段。</p>
 <p>java中没有goto，但是java中提供了同样的机制：标签。大部分情况下我们都是直接使用continue或break控制循环，continue和break可以和标签一起使用，从而达到goto的效果。</p>
+<a id="more"></a>
 <p>标签是后面跟有冒号的标识符，如<code>lable1:</code>。在java中，标签起作用的唯一地方是在迭代语句之前。意思是在标签和迭代之间不能置入任何语句，这是因为continue和break关键字通常只能中断当前循环，但若随标签一起使用，它们就会中断循环，回到标签所在的地方。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">label1:</div><div class="line">outer-iteration&#123;</div><div class="line">    inner-iteration&#123;</div><div class="line">        <span class="keyword">break</span>;<span class="comment">//(1)</span></div><div class="line">        ....</div><div class="line">        <span class="keyword">continue</span>;<span class="comment">//(2)</span></div><div class="line">        ...</div><div class="line">        <span class="keyword">continue</span> label1;<span class="comment">//(3)</span></div><div class="line">        ...</div><div class="line">        <span class="keyword">break</span> label1;<span class="comment">//(4)</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//执行其他语句(5)</span></div></pre></td></tr></table></figure></p>
 <ul>
 <li>(1):中断内部迭代，回到外部迭代，开始外部的下一次迭代</li>
