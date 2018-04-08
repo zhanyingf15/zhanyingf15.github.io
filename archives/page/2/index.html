@@ -180,6 +180,189 @@
             <div class="postShorten-header">
                 <h1 class="postShorten-title" itemprop="headline">
                     
+                        <a class="link-unstyled" href="/2017/11/03/springMVC实现多版本接口/">
+                            springMVC实现多版本接口
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:57:31+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。</p>
+<p>在前一篇博文 <em>springMVC修改接口注册映射逻辑</em> 中，用修改springMVC注册和映射接口的逻辑实现了该功能，但缺点也很明显，客户端传入的版本号必须在服务端存在，如传入v2.0，则服务端必须存在v2.0版本的接口，否则会抛出404，无法实现降级调用最新接口或默认接口的功能。<br>
+                    
+                        <a href="/2017/11/03/springMVC实现多版本接口/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/springMVC修改接口注册映射逻辑/">
+                            springMVC修改接口注册映射逻辑
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:53:10+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/spring/">spring</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>最近的一个需求，在现有的系统上实现同一接口的多版本访问，便于以后的接口升级，客户端不改变请求地址，在参数中传递一个version字段指定访问哪个版本的接口。</p>
+<p>因为现系统已经在运行，所以改造不能影响已在使用的接口，最开始的设想是建立一个新接口，然后用拦截器拦截请求，组装请求地址+版本号，重定向到新接口，如下：<br>
+                    
+                        <a href="/2017/11/03/springMVC修改接口注册映射逻辑/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-Guava-二/">
+                            java多线程笔记-Guava(二)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:51:25+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>Goolge-Guava Concurrent中的Service，一般翻译作服务，个人感觉这个太宽泛了，我在学习中就直接把它当做一种特殊的线程托管对象来理解的。</p>
+<p>一个服务正常生命周期有：</p>
+<ul>
+<li>Service.State.NEW</li>
+<li>Service.State.STARTING</li>
+<li>Service.State.RUNNING</li>
+<li>Service.State.STOPPING</li>
+<li>Service.State.TERMINATED</li>
+</ul>
+<p>服务一旦被停止就无法再重新启动了。如果服务在starting、running、stopping状态出现问题、会进入Service.State.FAILED.状态。调用startAsync()方法可以异步开启一个服务,同时返回this对象形成方法调用链。注意：只有在当前服务的状态是NEW时才能调用startAsync()方法，因此最好在应用中有一个统一的地方初始化相关服务。停止一个服务也是类似的、使用异步方法stopAsync()。但是不像startAsync(),多次调用这个方法是安全的。这是为了方便处理关闭服务时候的锁竞争问题。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-Guava-二/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2017/11/03/java多线程笔记-Guava-一/">
+                            java多线程笔记-Guava(一)
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2017-11-03T09:49:35+08:00">
+	
+		    11月 03, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>, <a class="category-link" href="/categories/java/多线程/">多线程</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <h5 id="ListenableFuture"><a href="#ListenableFuture" class="headerlink" title="ListenableFuture"></a>ListenableFuture</h5><p>ListenableFuture是可以监听的Future，它是对java原生Future的扩展增强。Future表示一个异步计算任务，当任务完成时可以得到计算结果。如果希望计算完成时马上就拿到结果展示给用户或者做另外的计算，就必须使用另一个线程不断的查询计算状态。这样做会使得代码复杂，且效率低下。如果使用ListenableFuture，Guava会帮助检测Future是否完成了，如果完成就自动调用回调函数，这样可以减少并发程序的复杂度。<br>
+                    
+                        <a href="/2017/11/03/java多线程笔记-Guava-一/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
+                        
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
                         <a class="link-unstyled" href="/2017/11/03/java多线程笔记-基础-二/">
                             java多线程笔记-基础(二)
                         </a>
@@ -435,196 +618,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/">
-                            elasticsearch rest api和mybatis整合记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-07-16T18:03:00+08:00">
-	
-		    7月 16, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <!-- toc -->
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>官方提供了完整的Java API和Rest API（<a href="https://www.elastic.co/guide/en/elasticsearch/reference/2.4/docs-index_.html">文档地址</a>）,并提供了<code>TransportClient</code>客户端实现了Java API，Rest API因为使用http协议调用，并没有提供相应的客户端。</p>
-<p>在前文 “<a href="https://zhanyingf15.github.io/2017/07/15/elasticserch-sql%E5%92%8Cmybatis%E6%95%B4%E5%90%88%E8%AE%B0%E5%BD%95/">elasticserch-sql和mybatis整合记录</a>” 实现了elasticsearch-sql和mybatis的整合，但是elasticsearch-sql提供的功能相当有限，仅支持极其简单的查询，不支持增加、删除和修改。Rest API功能强大，在实际应用中可能会因前台参数的不同而组合不同的条件，拼接字符串又太麻烦，如果实现Rest API和mybatis整合，让mybatis强大的动态条件功能组合rest API，会让代码更简单更容易维护。</p>
-<p>Rest API客户端使用<code>Jest</code>，具体详情和文档参考<a href="https://github.com/searchbox-io/Jest">GitHub Jest主页</a>。在之前的基础上修改整合。</p>
-<blockquote>
-<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc">elasticsearch-jdbc</a>，欢迎fork</p>
-</blockquote>
-                    
-                        <a href="/2017/07/16/elasticsearch-rest-api和mybatis整合记录/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/07/15/elasticserch-sql和mybatis整合记录/">
-                            elasticserch-sql和mybatis整合记录
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-07-15T18:03:00+08:00">
-	
-		    7月 15, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <!-- toc -->
-<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>elasticearch即es本身没有JDBC驱动，是无法像mybatis管理数据库连接池进行数据库操作的。在<a href="https://github.com/NLPchina/elasticsearch-sql">GitHub</a>上有个elasticsearch-sql的项目，作为es的插件后能够使用sql对es进行数据检索，项目提供了一个支持JDBC的实验特性，在druid的基础上实现了部分JDBC的功能。GitHub上目前仅给出了一个使用用例</p>
-<blockquote>
-<p>2017-8-12修改：<br>重写了该项目，分离了Druid连接池，不再限制使用Druid，添加了Driver，项目已共享至GitHub <a href="https://github.com/zhanyingf15/elasticsearch-jdbc">elasticsearch-jdbc</a>，欢迎fork</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Properties properties = <span class="keyword">new</span> Properties();</div><div class="line">properties.put(<span class="string">"url"</span>, <span class="string">"jdbc:elasticsearch://192.168.70.128:9300/"</span>);</div><div class="line">DruidDataSource dds = (DruidDataSource) ElasticSearchDruidDataSourceFactory.createDataSource(properties);</div><div class="line">Connection connection = dds.getConnection();</div><div class="line">PreparedStatement ps = connection.prepareStatement(<span class="string">"SELECT  * from  radiott"</span>);</div><div class="line">ResultSet resultSet = ps.executeQuery();</div><div class="line">List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line"><span class="keyword">while</span> (resultSet.next()) &#123;</div><div class="line">    System.out.println(resultSet.getString(<span class="string">"id"</span>) + <span class="string">","</span> + resultSet.getString(<span class="string">"name"</span>));</div><div class="line">&#125;</div><div class="line">ps.close();</div><div class="line">connection.close();</div><div class="line">dds.close();</div></pre></td></tr></table></figure>
-                    
-                        <a href="/2017/07/15/elasticserch-sql和mybatis整合记录/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/06/16/elasticsearh文档整理-查询/">
-                            elasticsearh文档整理-查询
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-06-16T18:03:11+08:00">
-	
-		    6月 16, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
-<!-- toc -->
-<blockquote>
-<p>elasticsearch版本：2.4.5</p>
-<h3 id="Docment-API"><a href="#Docment-API" class="headerlink" title="Docment API"></a>Docment API</h3><p>基础的CRUD API<br><a href="https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html">https://www.elastic.co/guide/en/elasticsearch/client/java-api/2.4/java-docs.html</a></p>
-</blockquote>
-                    
-                        <a href="/2017/06/16/elasticsearh文档整理-查询/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-right" itemscope itemType="http://schema.org/BlogPosting">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title" itemprop="headline">
-                    
-                        <a class="link-unstyled" href="/2017/06/16/elasticsearh文档整理-聚合/">
-                            elasticsearh文档整理-聚合
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time itemprop="datePublished" datetime="2017-06-16T17:53:19+08:00">
-	
-		    6月 16, 2017
-    	
-    </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/大数据/">大数据</a>, <a class="category-link" href="/categories/大数据/elasticsearch/">elasticsearch</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt" itemprop="articleBody">
-                    <p>翻译自elasticsearch官方文档，整理了java api和rest api的文档部分，仅仅是整理翻译，不是逐字逐句，某些遗漏部分请移步官方文档。</p>
-<!-- toc -->
-<h2 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h2><p>基础使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">SearchResponse sr = client.prepareSearch()</div><div class="line">    .setQuery(QueryBuilders.matchAllQuery())</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.terms(<span class="string">"agg1"</span>).field(<span class="string">"field"</span>)</div><div class="line">    )</div><div class="line">    .addAggregation(</div><div class="line">            AggregationBuilders.dateHistogram(<span class="string">"agg2"</span>)</div><div class="line">                    .field(<span class="string">"birth"</span>)</div><div class="line">                    .interval(DateHistogramInterval.YEAR)</div><div class="line">    )</div><div class="line">    .execute().actionGet();</div><div class="line">Terms agg1 = sr.getAggregations().get(<span class="string">"agg1"</span>);</div><div class="line">DateHistogram agg2 = sr.getAggregations().get(<span class="string">"agg2"</span>);</div></pre></td></tr></table></figure></p>
-                    
-                        <a href="/2017/06/16/elasticsearh文档整理-聚合/" class="postShorten-excerpt_link link">
-                            阅读全文
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -645,7 +638,7 @@
             </a>
         </li>
         
-        <li class="pagination-number">第 2 页 共 4 页</li>
+        <li class="pagination-number">第 2 页 共 5 页</li>
     </ul>
 </div>
 
@@ -655,7 +648,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2017 忘语. All Rights Reserved.
+        Copyrights &copy; 2018 忘语. All Rights Reserved.
     </span>
 </footer>
 

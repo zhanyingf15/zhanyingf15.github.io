@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>continue、break和标签 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。
+在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="continue、break和标签">
+<meta property="og:url" content="https://zhanyingf15.github.io/2018/04/08/continue、break和标签/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。
+在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分">
+<meta property="og:updated_time" content="2018-04-08T02:50:17.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="continue、break和标签">
+<meta name="twitter:description" content="在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。
+在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            continue、break和标签
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-04-08T10:49:22+08:00">
+	
+		    4月 08, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>在任何迭代的主体部分都可以使用continue和break控制循环的流程，其中，break用于强行退出循环，不在执行循环中剩余的语句。continue则停止当前的迭代，然后退回循环起始处，开始下一次迭代。</p>
+<p>在很多编程语言中，存在goto关键字，其含义是“如条件A成立，则跳到这里，否则跳到那里”。goto语句是在源码级上的跳转，若程序总是从一个地方跳到另外一个地方，程序的流程控制将很难识别，在大部分情况下不推荐使用goto，但是在极少情况下，goto是控制流程的极佳手段。</p>
+<p>java中没有goto，但是java中提供了同样的机制：标签。大部分情况下我们都是直接使用continue或break控制循环，continue和break可以和标签一起使用，从而达到goto的效果。</p>
+<p>标签是后面跟有冒号的标识符，如<code>lable1:</code>。在java中，标签起作用的唯一地方是在迭代语句之前。意思是在标签和迭代之间不能置入任何语句，这是因为continue和break关键字通常只能中断当前循环，但若随标签一起使用，它们就会中断循环，回到标签所在的地方。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">label1:</div><div class="line">outer-iteration&#123;</div><div class="line">    inner-iteration&#123;</div><div class="line">        <span class="keyword">break</span>;<span class="comment">//(1)</span></div><div class="line">        ....</div><div class="line">        <span class="keyword">continue</span>;<span class="comment">//(2)</span></div><div class="line">        ...</div><div class="line">        <span class="keyword">continue</span> label1;<span class="comment">//(3)</span></div><div class="line">        ...</div><div class="line">        <span class="keyword">break</span> label1;<span class="comment">//(4)</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//执行其他语句(5)</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>(1):中断内部迭代，回到外部迭代，开始外部的下一次迭代</li>
+<li>(2):continue中断当前迭代，开始内部的下一次迭代</li>
+<li>(3):continue label1同时中断内部迭代和外部迭代，直接转到label1处，随后继续开始外部迭代。比如外部for(int i=0;i&lt;10;i+++)循环，迭代到i=5了，continue label1后，中断内外部迭代，回到label1处继续执行迭代，但是i从6开始。</li>
+<li>(4):break label1也会同时中断内外部迭代，但是并不重新进入迭代，直接执行(5)后面的代码，也就是说它实际是完全中止了两个迭代<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        outer:</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</div><div class="line">            System.out.println(<span class="string">"i="</span>+i);</div><div class="line">            inner:</div><div class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;<span class="number">10</span>;j++)&#123;</div><div class="line">                System.out.println(<span class="string">"j="</span>+j);</div><div class="line">                <span class="keyword">if</span>(j==<span class="number">3</span>)&#123;</div><div class="line">                    <span class="keyword">continue</span> inner;</div><div class="line">                &#125;</div><div class="line">                <span class="comment">/*if(j==4)&#123;</span></div><div class="line">                    continue outer;</div><div class="line">                &#125;*/</div><div class="line">                <span class="keyword">if</span>(j==<span class="number">5</span>)&#123;</div><div class="line">                    <span class="keyword">break</span> outer;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.println(<span class="string">"执行结束"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>执行上面的代码，打印结果如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">i=<span class="number">0</span></div><div class="line">j=<span class="number">0</span></div><div class="line">j=<span class="number">1</span></div><div class="line">j=<span class="number">2</span></div><div class="line">j=<span class="number">3</span></div><div class="line">j=<span class="number">4</span></div><div class="line">j=<span class="number">5</span></div><div class="line">执行结束</div></pre></td></tr></table></figure></p>
+<p>从上面的打印可以看出，j=3时continue inner实际和continue没有差别，都是中止当前迭代，继续下一个迭代。当j=5时，break outer;直接中止了两个迭代，执行了“执行结束”打印，程序结束</p>
+<p>解开上面代码中的注释部分，再次执行，打印结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">i=0</div><div class="line">j=0</div><div class="line">j=1</div><div class="line">j=2</div><div class="line">j=3</div><div class="line">j=4</div><div class="line">i=1</div><div class="line">j=0</div><div class="line">j=1</div><div class="line">j=2</div><div class="line">j=3</div><div class="line">j=4</div><div class="line">i=2</div><div class="line">j=0</div><div class="line">j=1</div><div class="line">j=2</div><div class="line">j=3</div><div class="line">j=4</div><div class="line">i=3</div><div class="line">j=0</div><div class="line">j=1</div><div class="line">j=2</div><div class="line">j=3</div><div class="line">j=4</div><div class="line">i=4</div><div class="line">j=0</div><div class="line">j=1</div><div class="line">j=2</div><div class="line">j=3</div><div class="line">j=4</div><div class="line">执行结束</div></pre></td></tr></table></figure></p>
+<p>从上面的打印可以看出，j=5永远都执行不到，因为j=4是就中止了当前迭代，跳到outer标签处，开始外层的下一次迭代，所以外层迭代是执行完成了的，最终i=4。</p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/04/Spring-AOP实现缓存/" data-tooltip="Spring AOP实现缓存">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2018/04/08/continue、break和标签/"
+     data-title="continue、break和标签" data-url="https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2018/04/08/continue、break和标签/" data-title="continue、break和标签" data-url="https://zhanyingf15.github.io/2018/04/08/continue、break和标签/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/04/04/Spring-AOP实现缓存/" data-tooltip="Spring AOP实现缓存">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2018/04/08/continue、break和标签/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>

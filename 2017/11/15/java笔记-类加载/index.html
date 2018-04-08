@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="忘语的个人博客">
+    <title>java笔记-类加载 - 忘语的个人博客</title>
+    <meta name="author" content="忘语">
+    
+    
+        <link rel="icon" href="https://zhanyingf15.github.io/assets/images/favicon.png">
+    
+    
+    <meta name="description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
+关于类的加载机制的详细解释可以参考下面几篇文章
+
+Java类加载机制。
+深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
+装载（Load）
+链接">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="java笔记-类加载">
+<meta property="og:url" content="https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/index.html">
+<meta property="og:site_name" content="忘语的个人博客">
+<meta property="og:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
+关于类的加载机制的详细解释可以参考下面几篇文章
+
+Java类加载机制。
+深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
+装载（Load）
+链接">
+<meta property="og:image" content="https://pic4.zhimg.com/v2-5473646d79609214433ee7a66e594603_b.png">
+<meta property="og:image" content="https://pic4.zhimg.com/v2-4b379b6a26ae8567dedae02295805cf3_b.png">
+<meta property="og:image" content="https://www.ibm.com/developerworks/cn/java/j-lo-classloader/image001.jpg">
+<meta property="og:updated_time" content="2018-04-08T02:47:33.537Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java笔记-类加载">
+<meta name="twitter:description" content="Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。
+关于类的加载机制的详细解释可以参考下面几篇文章
+
+Java类加载机制。
+深入探讨 Java 类加载器类的加载JVM将类的加载分为3个步骤：
+装载（Load）
+链接">
+<meta name="twitter:image" content="https://pic4.zhimg.com/v2-5473646d79609214433ee7a66e594603_b.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://zhanyingf15.github.io/assets/images/me.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-nuvue6sithwirecbhvw3dkaobiojqvtadsnhguwi7k04xklybw5djl1smadp.min.css">
+    <!--STYLES END-->
+    
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="3">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <h1 class="header-title">
+        <a class="header-title-link" href="/ ">忘语的个人博客</a>
+    </h1>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/me.jpg"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="3">
+    
+        <div class="sidebar-profile">
+            <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/me.jpg"/>
+            </a>
+            <span class="sidebar-profile-name">忘语</span>
+        </div>
+    
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/ "
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">首页</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-categories"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">分类</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-tags"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">标签</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="/all-archives"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">归档</span>
+                </a>
+        </li>
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link "
+                         href="#about"
+                        
+                    >
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">关于</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+        <ul class="sidebar-buttons">
+        
+            <li class="sidebar-button">
+                
+                    <a  class="sidebar-button-link " href="https://github.com/zhanyingf15" target="_blank">
+                
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+        </li>
+        
+    </ul>
+    
+</nav>
+
+            
+            <div id="main" data-behavior="3"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            java笔记-类加载
+        </h1>
+    
+    <div class="post-meta">
+    <time itemprop="datePublished" datetime="2017-11-15T10:40:07+08:00">
+	
+		    11月 15, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/java/">java</a>
+
+
+    
+</div>
+
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。</p>
+<p>关于类的加载机制的详细解释可以参考下面几篇文章</p>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/25228545" target="_blank" rel="external">Java类加载机制</a>。</li>
+<li><a href="https://www.ibm.com/developerworks/cn/java/j-lo-classloader/" target="_blank" rel="external">深入探讨 Java 类加载器</a><h4 id="类的加载"><a href="#类的加载" class="headerlink" title="类的加载"></a>类的加载</h4>JVM将类的加载分为3个步骤：</li>
+<li>装载（Load）</li>
+<li>链接（Link）</li>
+<li>初始化（Initialize）</li>
+</ul>
+<p>其中链接又分三个步骤,如下图所示   </p>
+<p><img src="https://pic4.zhimg.com/v2-5473646d79609214433ee7a66e594603_b.png" alt="image"></p>
+<p><strong>装载</strong></p>
+<p>装载是类加载的第一个阶段，主要是查找并加载类的二进制数据（查找和导入Class文件），通过类的全限定名获取二进制字节流，这个字节流所代表的静态存储结构转化为方法区的运行时数据结构，然后在Java堆中生成一个代表这个类的java.lang.Class对象，作为对方法区中这些数据的访问入口</p>
+<p><strong>链接</strong></p>
+<p>分为三个步骤：</p>
+<ul>
+<li>1、验证：确保被加载类的正确性。</li>
+<li>2、准备：为类的静态变量准备内存，并将其初始化为默认值。这时候进行内存分配的仅仅是static的类变量，而不是实例变量，而所设置的初始值是数据类型默认的零值(0、0L、null、false等)。加入<code>public static int a = 3</code>，这里在准备阶段赋的初始值是0而不是3，，在初始化阶段才会把3赋值给a。</li>
+<li>3、解析：把类的符合引用转换成直接引用。符号引用就是一组符号来描述目标，可以是任何字面量，直接引用就是直接指向目标的指针、相对偏移量或者一个间接定位到目标的句柄。</li>
+</ul>
+<p><strong>初始化</strong></p>
+<p>初始化是对类的静态变量，静态代码块执行初始化操作。为类的静态变量赋予正确的初始值，如上面的<code>a=3</code>。在java中对static类变量进行初始值设定有两种方式。1、声明类变量是指定初始值。2、使用静态代码块为类变量指定初始值。  </p>
+<p>只有当一个类被主动使用时，JVM才会对其初始化，如下面6中情况为主动使用</p>
+<ol>
+<li>创建类的实例，也就是new一个对象</li>
+<li>访问某个类或接口的静态变量或对该静态变量赋值。</li>
+<li>调用类的静态方法</li>
+<li>反射</li>
+<li>初始化一个类的子类(会首先初始化子类的父类)</li>
+<li>JVM启动时明确标明的启动类(即包含main方法的那个类)</li>
+</ol>
+<h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p>类加载器主要完成类的加载过程，JVM的类加载是通过ClassLoader及其子类来完成的，类加载器可以从本地系统、网络、zip或jar等归档文件、数据库、源文件动态编译、Class.forName()、ClassLoader.loadClass()等加载class文件。类的层次关系和加载顺序可以由下图来描述：</p>
+<p><img src="https://pic4.zhimg.com/v2-4b379b6a26ae8567dedae02295805cf3_b.png" alt="image"></p>
+<ul>
+<li><strong>Bootstrap ClassLoader(引导类加载器)</strong>：负责加载$JAVA_HOME中 jre/lib/rt.jar 里所有的class或Xbootclassoath选项指定的jar包。由C++实现，不是ClassLoader子类</li>
+<li><strong>Extension ClassLoader(扩展类加载器)</strong>：负责加载java平台中扩展功能的一些jar包，包括$JAVA_HOME中jre/lib/*.jar 或 -Djava.ext.dirs指定目录下的jar包</li>
+<li><strong>App ClassLoader或system class loader(系统类加载器)</strong>：负责加载classpath中指定的jar包及 Djava.class.path 所指定目录下的类和jar包。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它</li>
+<li><strong>Custom ClassLoader</strong>：通过java.lang.ClassLoader的子类自定义加载class，属于应用程序根据自身需要自定义的ClassLoader，如tomcat、jboss都会根据j2ee规范自行实现ClassLoader</li>
+</ul>
+<p>加载过程中会先检查类是否被已加载，检查顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader逐层检查，只要某个classloader已加载，就视为已加载此类，保证此类只所有ClassLoader加载一次。而加载的顺序是自顶向下，也就是由上层来逐层尝试加载此类。</p>
+<h4 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h4><h5 id="java-lang-ClassLoader类介绍"><a href="#java-lang-ClassLoader类介绍" class="headerlink" title="java.lang.ClassLoader类介绍"></a>java.lang.ClassLoader类介绍</h5><p>java.lang.ClassLoader类的基本职责就是根据一个指定的类的名称，找到或者生成其对应的字节代码，然后从这些字节代码中定义出一个 Java 类，即 java.lang.Class类的一个实例。除此之外，ClassLoader还负责加载 Java 应用所需的资源，如图像文件和配置文件等。开发人员可以通过继承java.lang.ClassLoader类的方式实现自己的类加载器，以满足一些特殊的需求</p>
+<p>类加载器树状组织结构示意图</p>
+<p><img src="https://www.ibm.com/developerworks/cn/java/j-lo-classloader/image001.jpg" alt="image"></p>
+<p>ClassLoader 中与加载类相关的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getParent()</td>
+<td>返回该类加载器的父类加载器</td>
+</tr>
+<tr>
+<td>loadClass(String name)</td>
+<td>加载名称为 name的类，返回的结果是 java.lang.Class类的实例</td>
+</tr>
+<tr>
+<td>findClass(String name)</td>
+<td>查找名称为 name的类，返回的结果是 java.lang.Class类的实例</td>
+</tr>
+<tr>
+<td>findLoadedClass(String name)</td>
+<td>查找名称为 name的已经被加载过的类，返回的结果是 java.lang.Class类的实例</td>
+</tr>
+<tr>
+<td>defineClass(String name, byte[] b, int off, int len)</td>
+<td>把字节数组 b中的内容转换成 Java 类，返回的结果是 java.lang.Class类的实例。这个方法被声明为 final的</td>
+</tr>
+<tr>
+<td>resolveClass(Class&lt;?&gt; c)</td>
+<td>链接指定的 Java 类</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对于上面中给出的方法，表示类名称的 name参数的值是类的二进制名称。需要注意的是内部类的表示，如 com.example.Sample$1和 com.example.Sample$Inner等表示方式。</p>
+</blockquote>
+<p>类加载器的树状组织结构示例如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassLoaderTree</span> </span>&#123; </div><div class="line"> </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123; </div><div class="line">       ClassLoader loader = ClassLoaderTree.class.getClassLoader(); </div><div class="line">       <span class="keyword">while</span> (loader != <span class="keyword">null</span>) &#123; </div><div class="line">           System.out.println(loader.toString()); </div><div class="line">           loader = loader.getParent(); </div><div class="line">       &#125; </div><div class="line">   &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sun.misc.Launcher$AppClassLoader@9304b1 </div><div class="line">sun.misc.Launcher$ExtClassLoader@190d11</div></pre></td></tr></table></figure></p>
+<p>第一个输出的是 ClassLoaderTree类的类加载器，即系统类加载器。它是sun.misc.Launcher$AppClassLoader类的实例；第二个输出的是扩展类加载器，是 sun.misc.Launcher$ExtClassLoader类的实例。需要注意的是这里并没有输出引导类加载器，这是由于有些 JDK 的实现对于父类加载器是引导类加载器的情况，getParent()方法返回 null。</p>
+<p>类加载器在尝试自己去查找某个类的字节代码并定义它时，会先代理给其父类加载器，由父类加载器先去尝试加载这个类，依次类推。在介绍代理模式背后的动机之前，首先需要说明一下Java虚拟机是如何判定两个Java类是相同的。Java虚拟机不仅要看类的全名是否相同，还要看加载此类的类加载器是否一样。只有两者都相同的情况，才认为两个类是相同的。即便是同样的字节代码，被不同的类加载器加载之后所得到的类，也是不同的。比如一个Java类com.example.Sample，编译之后生成了字节代码文件 Sample.class。两个不同的类加载器 ClassLoaderA和 ClassLoaderB分别读取了这个 Sample.class文件，并定义出两个 java.lang.Class类的实例来表示这个类。这两个实例是不相同的。对于 Java 虚拟机来说，它们是不同的类。试图对这两个类的对象进行相互赋值，会抛出运行时异常 ClassCastException。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.example; </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123; </div><div class="line">   <span class="keyword">private</span> Sample instance; </div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSample</span><span class="params">(Object instance)</span> </span>&#123; </div><div class="line">       <span class="keyword">this</span>.instance = (Sample) instance; </div><div class="line">   &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>测试Java 类是否相同<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testClassIdentity</span><span class="params">()</span> </span>&#123; </div><div class="line">   String classDataRootPath = <span class="string">"C:\\workspace\\Classloader\\classData"</span>; </div><div class="line">   FileSystemClassLoader fscl1 = <span class="keyword">new</span> FileSystemClassLoader(classDataRootPath); </div><div class="line">   FileSystemClassLoader fscl2 = <span class="keyword">new</span> FileSystemClassLoader(classDataRootPath); </div><div class="line">   String className = <span class="string">"com.example.Sample"</span>;    </div><div class="line">   <span class="keyword">try</span> &#123; </div><div class="line">       Class&lt;?&gt; class1 = fscl1.loadClass(className); </div><div class="line">       Object obj1 = class1.newInstance(); </div><div class="line">       Class&lt;?&gt; class2 = fscl2.loadClass(className); </div><div class="line">       Object obj2 = class2.newInstance(); </div><div class="line">       Method setSampleMethod = class1.getMethod(<span class="string">"setSample"</span>, java.lang.Object.class); </div><div class="line">       setSampleMethod.invoke(obj1, obj2); </div><div class="line">   &#125; <span class="keyword">catch</span> (Exception e) &#123; </div><div class="line">       e.printStackTrace(); </div><div class="line">   &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上例中使用了类 FileSystemClassLoader的两个不同实例来分别加载类 com.example.Sample，得到了两个不同的 java.lang.Class的实例，接着通过 newInstance()方法分别生成了两个类的对象 obj1和 obj2，最后通过 Java 的反射 API 在对象 obj1上调用方法 setSample，试图把对象 obj2赋值给 obj1内部的 instance对象，结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">java.lang.reflect.InvocationTargetException </div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) </div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39) </div><div class="line">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)</div><div class="line">at java.lang.reflect.Method.invoke(Method.java:597) </div><div class="line">at classloader.ClassIdentity.testClassIdentity(ClassIdentity.java:26) </div><div class="line">at classloader.ClassIdentity.main(ClassIdentity.java:9) </div><div class="line">Caused by: java.lang.ClassCastException: com.example.Sample </div><div class="line">cannot be cast to com.example.Sample </div><div class="line">at com.example.Sample.setSample(Sample.java:7) </div><div class="line">... 6 more</div></pre></td></tr></table></figure></p>
+<p>从上面运行结果可以看到，运行时抛出了java.lang.ClassCastException异常。虽然两个对象obj1和obj2的类的名字相同，但是这两个类是由不同的类加载器实例来加载的，因此不被 Java 虚拟机认为是相同的。</p>
+<p><strong>代理模式</strong></p>
+<p>在类的加载过程中，，类加载器会首先代理给其它类加载器来尝试加载某个类。这就意味着真正完成类的加载工作的类加载器和启动这个加载过程的类加载器，有可能不是同一个。真正完成类的加载工作是通过调用defineClass来实现的（称为一个类的定义加载器defining loader）；而启动类的加载过程是通过调用loadClass来实现的（称为初始加载器initiating loader）。</p>
+<p>在 Java 虚拟机判断两个类是否相同的时候，使用的是类的定义加载器。也就是说，哪个类加载器启动类的加载过程并不重要，重要的是最终定义这个类的加载器。两种类加载器的关联之处在于：一个类的定义加载器是它引用的其它类的初始加载器。如类 com.example.Outer引用了类com.example.Inner，则由类com.example.Outer的定义加载器负责启动类com.example.Inner的加载过程。</p>
+<p><strong>Class.forName</strong></p>
+<p>Class.forName是一个静态方法，同样可以用来加载类。该方法有两种形式：Class.forName(String name, boolean initialize, ClassLoader loader)和 Class.forName(String className)。第一种形式的参数 name表示的是类的全名；initialize表示是否初始化类；loader表示加载时使用的类加载器。第二种形式则相当于设置了参数 initialize的值为 true，loader的值为当前类的类加载器。Class.forName的一个很常见的用法是在加载数据库驱动的时候</p>
+<h5 id="开发自定义类加载器"><a href="#开发自定义类加载器" class="headerlink" title="开发自定义类加载器"></a>开发自定义类加载器</h5><p><strong>文件系统类加载器</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileSystemClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String rootDir;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileSystemClassLoader</span><span class="params">(String rootDir)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.rootDir = rootDir;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String className) <span class="keyword">throws</span> ClassNotFoundException&#123;</div><div class="line">        <span class="keyword">byte</span>[] classData = getClassData(className);</div><div class="line">        <span class="keyword">if</span>(classData == <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException();</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> defineClass(className,classData,<span class="number">0</span>,classData.length);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">byte</span>[] getClassData(String className)&#123;</div><div class="line">        String path = <span class="keyword">this</span>.rootDir+ File.separator+className.replace(<span class="string">'.'</span>,File.separatorChar)+<span class="string">".class"</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            InputStream in = <span class="keyword">new</span> FileInputStream(path);</div><div class="line">            <span class="keyword">return</span> IOUtils.toByteArray(in);</div><div class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>类 FileSystemClassLoader继承自类java.lang.ClassLoader。在前面表中列出的java.lang.ClassLoader类的常用方法中，一般来说，自己开发的类加载器只需要覆写findClass(Stringname)方法即可。java.lang.ClassLoader类的方法loadClass()封装了前面提到的代理模式的实现。该方法会首先调用findLoadedClass()方法来检查该类是否已经被加载过；如果没有加载过的话，会调用父类加载器的 loadClass()方法来尝试加载该类；如果父类加载器无法加载该类的话，就调用findClass()法来查找该类。因此，为了保证类加载器都正确实现代理模式，在开发自己的类加载器时，最好不要覆写loadClass()方法，而是覆写 findClass()方法。</p>
+<p><strong>网络加载器</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetworkClassLoader</span> <span class="keyword">extends</span> <span class="title">ClassLoader</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String networkUrl;</div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; loadHistory = <span class="keyword">new</span> ArrayList&lt;&gt;();<span class="comment">//对加载过的class或jar做一个记录</span></div><div class="line">    <span class="keyword">private</span> URLClassLoader urlClassLoader;<span class="comment">//内置一个URLClassLoader用于加载解析jar包</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NetworkClassLoader</span><span class="params">(String networkUrl)</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">        <span class="keyword">this</span>(networkUrl,<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">NetworkClassLoader</span><span class="params">(String networkUrl,String className)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">super</span>();</div><div class="line">        loadHistory.add(networkUrl);</div><div class="line">        <span class="keyword">this</span>.networkUrl = networkUrl;</div><div class="line">        <span class="comment">//如果构建地址是jar，初始化URLClassLoader并解析jar</span></div><div class="line">        <span class="keyword">if</span>(StringUtils.equals(getExtension(networkUrl),<span class="string">"jar"</span>))&#123;</div><div class="line">            URL[] urls = <span class="keyword">new</span> URL[]&#123; <span class="keyword">new</span> URL(networkUrl)&#125;;</div><div class="line">            urlClassLoader = <span class="keyword">new</span> URLClassLoader(urls,Thread.currentThread().getContextClassLoader());</div><div class="line">            <span class="keyword">if</span>(StringUtils.isNotBlank(className))&#123;</div><div class="line">                urlClassLoader.loadClass(className);</div><div class="line">            &#125;</div><div class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(StringUtils.equals(getExtension(networkUrl),<span class="string">"class"</span>)&amp;&amp;StringUtils.isNotBlank(className))&#123;</div><div class="line">            createClass(networkUrl,className);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String className) <span class="keyword">throws</span> ClassNotFoundException&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            Class&lt;?&gt; cls = <span class="keyword">this</span>.findLoadedClass(className);<span class="comment">//从当前loader查找是否已经加载过该类</span></div><div class="line">            <span class="keyword">if</span>(cls!=<span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span> cls;</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="keyword">if</span>(urlClassLoader!=<span class="keyword">null</span>)&#123;</div><div class="line">                    cls = urlClassLoader.loadClass(className);<span class="comment">//尝试从内置的URLClassLoader加载该类</span></div><div class="line">                    <span class="keyword">if</span>(cls!=<span class="keyword">null</span>)&#123;</div><div class="line">                        <span class="keyword">return</span> cls;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span>(StringUtils.equals(getExtension(networkUrl),<span class="string">"class"</span>))&#123;</div><div class="line">                    <span class="keyword">return</span> createClass(networkUrl,className);<span class="comment">//从网络地址加载类</span></div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(e.getMessage());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加一个class文件地址，并指定className名称</div><div class="line">     * <span class="doctag">@param</span> classUrl</div><div class="line">     * <span class="doctag">@param</span> className</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     * <span class="doctag">@throws</span> Exception</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> Class&lt;?&gt; addClassUrl(String classUrl,String className) <span class="keyword">throws</span> Exception&#123;</div><div class="line">        <span class="keyword">if</span>(!StringUtils.equals(getExtension(classUrl),<span class="string">"class"</span>))&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"只能是class文件"</span>);</div><div class="line">        &#125;</div><div class="line">        Class&lt;?&gt; cls = <span class="keyword">this</span>.findLoadedClass(className);</div><div class="line">        <span class="keyword">if</span>(cls!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> cls;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            cls = urlClassLoader.loadClass(className);</div><div class="line">            <span class="keyword">if</span>(cls!=<span class="keyword">null</span>)&#123;</div><div class="line">                <span class="keyword">return</span> cls;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        networkUrl = classUrl;</div><div class="line">        loadHistory.add(classUrl);</div><div class="line">        <span class="keyword">return</span> createClass(classUrl,className);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 添加一个jar文件地址</div><div class="line">     * <span class="doctag">@param</span> url</div><div class="line">     * <span class="doctag">@throws</span> Exception</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addJarUrl</span><span class="params">(URL url)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span>(url==<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"url 不能为空"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(!StringUtils.equals(getExtension(url.getPath()),<span class="string">"jar"</span>))&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"addJarUrl方法只能加载jar包"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(urlClassLoader==<span class="keyword">null</span>)&#123;</div><div class="line">            URL[] urls = <span class="keyword">new</span> URL[]&#123; <span class="keyword">new</span> URL(networkUrl)&#125;;</div><div class="line">            urlClassLoader = <span class="keyword">new</span> URLClassLoader(urls,Thread.currentThread().getContextClassLoader());</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//调用URLClassLoader的addURL方法，自动下载并解析jar</span></div><div class="line">        Method addURLMethod = urlClassLoader.getClass().getDeclaredMethod(<span class="string">"addURL"</span>,URL.class);</div><div class="line">        addURLMethod.setAccessible(<span class="keyword">true</span>);</div><div class="line">        addURLMethod.invoke(urlClassLoader,url);</div><div class="line">        networkUrl = url.toString();</div><div class="line">        loadHistory.add(url.toString());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 从网络class地址下载字节码并加载类</div><div class="line">     * <span class="doctag">@param</span> classUrl</div><div class="line">     * <span class="doctag">@param</span> className</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     * <span class="doctag">@throws</span> Exception</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> Class&lt;?&gt; createClass(String classUrl,String className) <span class="keyword">throws</span> Exception &#123;</div><div class="line">        URL url = <span class="keyword">new</span> URL(classUrl);</div><div class="line">        InputStream is = url.openStream();</div><div class="line">        <span class="keyword">byte</span>[] bytes = IOUtils.toByteArray(is);</div><div class="line">        <span class="keyword">if</span>(bytes!=<span class="keyword">null</span>)&#123;</div><div class="line">            <span class="keyword">return</span> defineClass(className,bytes,<span class="number">0</span>,bytes.length);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getExtension</span><span class="params">(String url)</span></span>&#123;</div><div class="line">        <span class="keyword">int</span> index = url.indexOf(<span class="string">"?"</span>);</div><div class="line">        <span class="keyword">if</span>(index&gt;<span class="number">0</span>)&#123;</div><div class="line">            url = url.substring(<span class="number">0</span>,index);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> dotIndex = url.lastIndexOf(<span class="string">"."</span>);</div><div class="line">        <span class="keyword">return</span> url.substring(dotIndex+<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        NetworkClassLoader loader = <span class="keyword">new</span> NetworkClassLoader(<span class="string">"http://localhost:8080/test/GameType.class"</span>);</div><div class="line"></div><div class="line">        Object gameTypeObj = loader.loadClass(<span class="string">"test.GameType"</span>).newInstance();</div><div class="line">        Method getGameType = gameTypeObj.getClass().getMethod(<span class="string">"getGameType"</span>);</div><div class="line">        System.out.println(getGameType.invoke(gameTypeObj));</div><div class="line">        System.out.println(<span class="string">"加载器："</span>+gameTypeObj.getClass().getClassLoader().toString());</div><div class="line"></div><div class="line">        loader.addJarUrl(<span class="keyword">new</span> URL(<span class="string">"http://localhost:8080/test/game.jar"</span>));</div><div class="line">        Object gameObj =loader.loadClass(<span class="string">"test.Game"</span>).newInstance();</div><div class="line">        Method getName = gameObj.getClass().getMethod(<span class="string">"getName"</span>);</div><div class="line">        System.out.println(getName.invoke(gameObj));</div><div class="line">        System.out.println(<span class="string">"加载器："</span>+gameObj.getClass().getClassLoader().toString());</div><div class="line"></div><div class="line">        Class gameObj2Class = loader.loadClass(<span class="string">"test.Game"</span>);</div><div class="line">        Object gameObj2 = gameObj2Class.newInstance();</div><div class="line">        Method getName2 = gameObj2.getClass().getMethod(<span class="string">"getName"</span>);</div><div class="line">        System.out.println(getName2.invoke(gameObj2));</div><div class="line">        System.out.println(<span class="string">"加载器："</span>+gameObj2.getClass().getClassLoader().toString());</div><div class="line"></div><div class="line">        Object gameTypeObj2 = loader.loadClass(<span class="string">"test.GameType"</span>).newInstance();</div><div class="line">        Method getGameType2 = gameTypeObj2.getClass().getMethod(<span class="string">"getGameType"</span>);</div><div class="line">        System.out.println(getGameType2.invoke(gameTypeObj));</div><div class="line">        System.out.println(<span class="string">"加载器："</span>+gameTypeObj2.getClass().getClassLoader().toString());</div><div class="line"></div><div class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试时在一个<code>${TOMCATE_HOME}/webapp/test/</code>下放了一个game.jar,一个Game.class和一个GameType.class文件。<br>Game.java和GameType.java如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Game</span></span>&#123;</div><div class="line">    String name;</div><div class="line">    GameType type;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getName</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"test game Name,"</span>+type.getGameType());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">GameType</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getGameType</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"test game Type"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">test game Type</div><div class="line">加载器：com.basic.loader.NetworkClassLoader@59f99ea</div><div class="line">test game Name,test game Type</div><div class="line">加载器：java.net.URLClassLoader@6ebc05a6</div><div class="line">test game Name,test game Type</div><div class="line">加载器：java.net.URLClassLoader@6ebc05a6</div><div class="line">test game Type</div><div class="line">加载器：com.basic.loader.NetworkClassLoader@59f99ea</div></pre></td></tr></table></figure></p>
+
+            
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/java/">java</a>
+
+            </div>
+        
+        <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/01/23/spring-boot整合websocket/"  data-tooltip="spring boot整合websocket">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/使用GitHub搭建个人maven仓库/" data-tooltip="使用GitHub搭建个人maven仓库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+            
+                <!--
+<div id="ds-thread" class="ds-thread" data-thread-key="2017/11/15/java笔记-类加载/"
+     data-title="java笔记-类加载" data-url="https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+</div>
+-->
+<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="2017/11/15/java笔记-类加载/" data-title="java笔记-类加载" data-url="https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"wangyu1992"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 忘语. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/01/23/spring-boot整合websocket/"  data-tooltip="spring boot整合websocket">
+                
+                    <i class="fa fa-angle-left"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/11/03/使用GitHub搭建个人maven仓库/" data-tooltip="使用GitHub搭建个人maven仓库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions"  href="#btn-open-shareoptions">
+                <i class="fa fa-share-alt"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-google-plus"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-facebook-official"></i>
+            </a>
+        </li>
+        <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-twitter"></i>
+            </a>
+        </li>
+        
+            <li class="post-action">
+                <a class="post-action-btn btn btn--default" href="#ds-thread">
+                    <i class="fa fa-comment-o"></i>
+                </a>
+            </li>
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#">
+            
+                <i class="fa fa-list"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+    <ul class="share-options">
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-google-plus"></i><span class="">分享到 Google+</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+            </a>
+        </li>
+        <li class="share-option">
+            <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https://zhanyingf15.github.io/2017/11/15/java笔记-类加载/">
+                <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/me.jpg"/>
+        
+            <h4 id="about-card-name">忘语</h4>
+        
+            <h5 id="about-card-bio"><h3 id="热爱生活-享受code"><a href="#热爱生活-享受code" class="headerlink" title="热爱生活,享受code"></a>热爱生活,享受code</h3></h5>
+        
+        
+            <h5 id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <h4 id="一名虔诚的程序猿"><a href="#一名虔诚的程序猿" class="headerlink" title="一名虔诚的程序猿"></a>一名虔诚的程序猿</h4>
+            </h5>
+        
+        
+    </div>
+</div>
+
+        
+<div id="cover" style="background-image:url('http://ww1.sinaimg.cn/large/86135ceagy1fc0pkcjc5oj21hc0u0gun.jpg');"></div>
+    </body>
+    <!--SCRIPTS-->
+<script src="/assets/js/script-i4qo6jx6jji9fg0dftpya6ivemizsbow4fhow76d8dwpm7m1wbvi378ssumx.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            var duoshuoQuery = {short_name:'wangyu1992'};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        </script>
+    
+
+
+
+</html>
